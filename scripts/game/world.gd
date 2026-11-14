@@ -12,7 +12,8 @@ const BOT_NAMES := ["Bot Zé", "Bot Bia", "Bot Caio", "Bot Duda", "Bot Léo", "B
 const BOT_SHIRTS := [Color(0.8, 0.2, 0.2), Color(0.2, 0.7, 0.3), Color(0.9, 0.6, 0.1), Color(0.5, 0.3, 0.8), Color(0.1, 0.6, 0.7), Color(0.85, 0.85, 0.85)]
 const BOT_ID_BASE := 1000
 
-@onready var map: GameMap = $Map
+## Mapa da partida, escolhido pelo servidor (Net.server_info.map) e criado em _ready.
+var map: GameMap
 @onready var players: Node3D = $Players
 @onready var effects: Node3D = $Effects
 @onready var combat: Combat = $Combat
@@ -26,6 +27,9 @@ var autoplay := "--autoplay" in OS.get_cmdline_user_args()
 
 
 func _ready() -> void:
+	map = MapDB.instantiate(int(Net.server_info.get("map", 0)))
+	add_child(map)
+	move_child(map, 0)
 	hud.world = self
 	if multiplayer.is_server():
 		multiplayer.peer_disconnected.connect(func(id): remove_player.rpc(id))

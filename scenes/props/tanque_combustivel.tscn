@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_x5phr"]
+
+[node name="TanqueCombustivel" type="Node3D" unique_id=2020184973]
+
+[node name="Tanque" type="Node3D" parent="." unique_id=1800509854]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 1.6, 0)
+script = ExtResource("1_x5phr")
+shape = 1
+size = Vector3(2.4, 6, 2.4)
+color = Color(0.88, 0.88, 0.85, 1)
+metallic = 0.4
+roughness = 0.4
+
+[node name="Faixa" type="Node3D" parent="." unique_id=1981978956]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 1.6, 0)
+script = ExtResource("1_x5phr")
+shape = 1
+size = Vector3(2.45, 0.6, 2.45)
+color = Color(0.75, 0.15, 0.12, 1)
+collide = false
+
+[node name="Suporte" type="Node3D" parent="." unique_id=1049152238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.3, 0)
+script = ExtResource("1_x5phr")
+size = Vector3(0.4, 0.6, 2.2)
+color = Color(0.3, 0.3, 0.32, 1)
+metallic = 0.6
+
+[node name="Suporte2" type="Node3D" parent="." unique_id=633927066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.3, 0)
+script = ExtResource("1_x5phr")
+size = Vector3(0.4, 0.6, 2.2)
+color = Color(0.3, 0.3, 0.32, 1)
+metallic = 0.6
+
+[node name="Valvula" type="Node3D" parent="." unique_id=1280883448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.95, 0)
+script = ExtResource("1_x5phr")
+shape = 1
+size = Vector3(0.5, 0.3, 0.5)
+color = Color(0.3, 0.3, 0.32, 1)
+collide = false
+
+[node name="Neve" type="Node3D" parent="." unique_id=1313525557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.83, 0)
+script = ExtResource("1_x5phr")
+size = Vector3(5.4, 0.1, 1.4)
+color = Color(0.93, 0.95, 0.98, 1)
+collide = false

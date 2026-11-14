@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_uleyf"]
+
+[node name="SacosDeAreia" type="Node3D" unique_id=111118630]
+
+[node name="Saco" type="Node3D" parent="." unique_id=2003252484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.17, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.61526823, 0.54288375, 0.3800186, 1)
+collide = false
+
+[node name="Saco2" type="Node3D" parent="." unique_id=2076596161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.17, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.6240363, 0.5506203, 0.38543418, 1)
+collide = false
+
+[node name="Saco3" type="Node3D" parent="." unique_id=411390368]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.6243071, 0.5508592, 0.3856014, 1)
+collide = false
+
+[node name="Saco4" type="Node3D" parent="." unique_id=725111362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.17, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.65942067, 0.58184177, 0.40728924, 1)
+collide = false
+
+[node name="Saco5" type="Node3D" parent="." unique_id=807643360]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.17, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.6302087, 0.5560665, 0.38924652, 1)
+collide = false
+
+[node name="Saco6" type="Node3D" parent="." unique_id=1124294558]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0.47, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.637618, 0.5626042, 0.39382288, 1)
+collide = false
+
+[node name="Saco7" type="Node3D" parent="." unique_id=325615559]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.47, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.63700294, 0.5620615, 0.393443, 1)
+collide = false
+
+[node name="Saco8" type="Node3D" parent="." unique_id=391008856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.47, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.67668396, 0.5970741, 0.41795182, 1)
+collide = false
+
+[node name="Saco9" type="Node3D" parent="." unique_id=2087327171]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.47, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.6795598, 0.5996116, 0.4197281, 1)
+collide = false
+
+[node name="Saco10" type="Node3D" parent="." unique_id=1224858467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.77, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.66427994, 0.58612937, 0.4102905, 1)
+collide = false
+
+[node name="Saco11" type="Node3D" parent="." unique_id=955379014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.77, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.67711425, 0.5974538, 0.4182176, 1)
+collide = false
+
+[node name="Saco12" type="Node3D" parent="." unique_id=2062791508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.77, 0)
+script = ExtResource("1_uleyf")
+size = Vector3(0.78, 0.3, 0.5)
+color = Color(0.6358684, 0.56106037, 0.39274222, 1)
+collide = false
+
+[node name="ColisaoSacos" type="Node3D" parent="." unique_id=537433968]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+visible = false
+script = ExtResource("1_uleyf")
+size = Vector3(4, 0.9, 0.5)
+color = Color(0.68, 0.6, 0.42, 1)

@@ -1,0 +1,43 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_crld3"]
+
+[node name="Radar" type="Node3D" unique_id=1368804383]
+
+[node name="Base" type="Node3D" parent="." unique_id=736516238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+script = ExtResource("1_crld3")
+size = Vector3(2.4, 1.2, 2.4)
+color = Color(0.55, 0.57, 0.58, 1)
+
+[node name="Mastro" type="Node3D" parent="." unique_id=1380178096]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+script = ExtResource("1_crld3")
+shape = 1
+size = Vector3(0.3, 2.8, 0.3)
+color = Color(0.35, 0.37, 0.4, 1)
+metallic = 0.7
+
+[node name="Prato" type="Node3D" parent="." unique_id=1985474767]
+transform = Transform3D(1, 0, 0, 0, 0.49999997, -0.86602545, 0, 0.86602545, 0.49999997, 0, 4.2, -0.3)
+script = ExtResource("1_crld3")
+shape = 1
+size = Vector3(3, 0.2, 3)
+color = Color(0.85, 0.87, 0.9, 1)
+metallic = 0.5
+collide = false
+
+[node name="Antena" type="Node3D" parent="." unique_id=1828586877]
+transform = Transform3D(1, 0, 0, 0, 0.49999997, -0.86602545, 0, 0.86602545, 0.49999997, 0, 4.5, -0.9)
+script = ExtResource("1_crld3")
+size = Vector3(0.1, 1.2, 0.1)
+color = Color(0.35, 0.37, 0.4, 1)
+collide = false
+
+[node name="Painel" type="Node3D" parent="." unique_id=1304002984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 1.21)
+script = ExtResource("1_crld3")
+size = Vector3(0.6, 0.3, 0.02)
+color = Color(0.2, 0.9, 0.4, 1)
+emission = 1.5
+collide = false

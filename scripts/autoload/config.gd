@@ -66,13 +66,34 @@ func apply() -> void:
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
 
 
+## Até onde o mapa e os jogadores são desenhados (metros), por qualidade.
+const DRAW_DISTANCE := [55.0, 80.0, 120.0]
+## Até onde os detalhes pequenos aparecem (metros), por qualidade.
+const DETAIL_DISTANCE := [22.0, 38.0, 60.0]
+
+
+func draw_distance() -> float:
+	return DRAW_DISTANCE[clampi(quality, 0, 2)]
+
+
+func detail_distance() -> float:
+	return DETAIL_DISTANCE[clampi(quality, 0, 2)]
+
+
 ## Ajusta o custo gráfico de um mapa conforme a qualidade escolhida.
 func apply_quality(sun: DirectionalLight3D, env: Environment, vp: Viewport) -> void:
 	if sun:
 		sun.shadow_enabled = quality >= Quality.MEDIUM
 		sun.directional_shadow_max_distance = 25.0 if quality == Quality.MEDIUM else 45.0
 	if env:
-		env.fog_enabled = quality >= Quality.MEDIUM
+		# Névoa por profundidade: limpa de perto e total na distância de desenho,
+		# então o que deixa de ser desenhado some dentro dela, sem "pular".
+		env.fog_enabled = true
+		env.fog_mode = Environment.FOG_MODE_DEPTH
+		env.fog_depth_begin = draw_distance() * 0.45
+		env.fog_depth_end = draw_distance()
+		env.fog_depth_curve = 1.4
+		env.fog_density = 1.0
 	if vp:
 		vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
 		vp.scaling_3d_scale = [0.6, 0.8, 1.0][clampi(quality, 0, 2)]

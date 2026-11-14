@@ -26,6 +26,7 @@ var alive := true
 var hp := 100
 var pitch := 0.0
 var crouching := false
+var sprinting := false
 
 @onready var collision: CollisionShape3D = $Collision
 @onready var avatar: Avatar = $Avatar
@@ -44,8 +45,17 @@ var _net_pitch := 0.0
 var _sync_t := 0.0
 var _last_pos := Vector3.ZERO
 var _speed := 0.0
+var _local_vel := Vector3.ZERO
 var _step_t := 0.0
 var _bob_t := 0.0
+var _sway := Vector2.ZERO
+var _land := 0.0
+var _was_on_floor := true
+var _net_on_floor := true
+var _net_reloading := false
+var _net_reload_t := 0.0
+var _anim := Avatar.AnimState.new()
+var _anim_accum := 0.0
 
 
 func _ready() -> void:
@@ -55,12 +65,24 @@ func _ready() -> void:
 	avatar.setup(info.get("shirt", Color.GRAY), info.get("pants", Color.DIM_GRAY), info.get("skin", Color.BISQUE))
 	weapons.setup(self)
 	brain.player = self
+	# Jogadores longe não são desenhados; o nome some antes.
+	for mi in avatar.find_children("*", "GeometryInstance3D", true, false):
+		(mi as GeometryInstance3D).visibility_range_end = Config.draw_distance()
+	name_tag.visibility_range_end = 40.0
 	if local:
 		camera.fov = Config.fov
+		# A câmera não enxerga além da distância de desenho (menos trabalho).
+		camera.far = Config.draw_distance() + 5.0
 		camera.current = true
 		avatar.set_render_layer(2)
 		name_tag.visible = false
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		if "--thirdperson" in OS.get_cmdline_user_args():
+			# Teste: câmera atrás do ombro para ver as animações do boneco.
+			camera.position = Vector3(0.9, 0.3, 3.4)
+			camera.cull_mask = 1 | 2
+			view_model.visible = false
+			set_meta("third_person", true)
 	else:
 		camera.queue_free()
 		name_tag.text = str(info.get("name", "?"))
@@ -127,22 +149,45 @@ func respawn(pos: Vector3, yaw: float) -> void:
 
 # ------------------------------------------------------------------ rede
 
+const FLAG_CROUCH := 1
+const FLAG_FLOOR := 2
+const FLAG_SPRINT := 4
+const FLAG_RELOAD := 8
+
+
+## Estado enviado 30x/s por quem controla o jogador. `flags` leva o que as
+## animações precisam (agachado, no chão, correndo, recarregando).
 @rpc("authority", "call_remote", "unreliable_ordered")
-func sync_state(pos: Vector3, yaw: float, p: float, crouch: bool, widx: int) -> void:
+func sync_state(pos: Vector3, yaw: float, p: float, flags: int, widx: int) -> void:
 	_net_pos = pos
 	_net_yaw = yaw
 	_net_pitch = p
-	crouching = crouch
+	crouching = flags & FLAG_CROUCH != 0
+	_net_on_floor = flags & FLAG_FLOOR != 0
+	sprinting = flags & FLAG_SPRINT != 0
+	var reloading := flags & FLAG_RELOAD != 0
+	if reloading and not _net_reloading:
+		_net_reload_t = 0.0
+	_net_reloading = reloading
 	if widx != weapons.index:
 		weapons.equip(widx, false)
 
 
 func _send_state() -> void:
+	var flags := 0
+	if crouching:
+		flags |= FLAG_CROUCH
+	if is_on_floor():
+		flags |= FLAG_FLOOR
+	if sprinting:
+		flags |= FLAG_SPRINT
+	if weapons.is_reloading():
+		flags |= FLAG_RELOAD
 	var me := multiplayer.get_unique_id()
 	for id in Net.players:
 		var other: Dictionary = Net.players[id]
 		if id != me and not other.get("bot", false) and other.get("ready", false):
-			sync_state.rpc_id(id, global_position, rotation.y, pitch, crouching, weapons.index)
+			sync_state.rpc_id(id, global_position, rotation.y, pitch, flags, weapons.index)
 
 
 # ------------------------------------------------------------------ laço
@@ -154,6 +199,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		var s := Config.sensitivity * 0.01 * (0.25 if weapons.scoped else 1.0)
 		rotate_y(-event.relative.x * s)
 		pitch = clampf(pitch - event.relative.y * s, -1.5, 1.5)
+		# A arma em primeira pessoa "atrasa" um pouco atrás do mouse.
+		_sway += event.relative * 0.0012
 	elif event.is_action_pressed("next_weapon"):
 		weapons.cycle(1)
 	elif event.is_action_pressed("previous_weapon"):
@@ -178,7 +225,29 @@ func _physics_process(delta: float) -> void:
 		global_position = global_position.lerp(_net_pos, k)
 		rotation.y = lerp_angle(rotation.y, _net_yaw, k)
 		pitch = lerpf(pitch, _net_pitch, k)
-	_animate(delta)
+
+
+## Animação no quadro de desenho, só para quem aparece na tela. Bonecos longe
+## são animados menos vezes por segundo; fora da tela ou além da distância de
+## desenho, nem são animados.
+func _process(delta: float) -> void:
+	_anim_accum += delta
+	if local:
+		_animate(_anim_accum)
+		_anim_accum = 0.0
+		return
+	var cam := get_viewport().get_camera_3d()
+	if cam == null:
+		return
+	var d := cam.global_position.distance_to(global_position)
+	if d > Config.draw_distance() or not cam.is_position_in_frustum(global_position + Vector3.UP):
+		_anim_accum = minf(_anim_accum, 0.1)
+		return
+	var interval := 0.0 if d < 20.0 else (1.0 / 30.0 if d < 40.0 else 1.0 / 15.0)
+	if _anim_accum < interval:
+		return
+	_animate(_anim_accum)
+	_anim_accum = 0.0
 
 
 func _read_input() -> Dictionary:
@@ -209,6 +278,7 @@ func _move(delta: float) -> void:
 	if alive and world.match_manager.phase == "play":
 		input = _read_input()
 	crouching = input.get("crouch", false)
+	sprinting = input.get("sprint", false) and not crouching and not weapons.scoped
 	var cap := collision.shape as CapsuleShape3D
 	cap.height = 1.4 if crouching else 2.0
 	collision.position.y = cap.height / 2.0
@@ -238,27 +308,87 @@ func _move(delta: float) -> void:
 
 
 func _animate(delta: float) -> void:
+	# Velocidade e direção: pela física de quem controla, ou pelo deslocamento
+	# recebido da rede para os outros.
 	var moved := global_position - _last_pos
 	_last_pos = global_position
-	_speed = lerpf(_speed, Vector2(moved.x, moved.z).length() / maxf(delta, 0.001), minf(1.0, delta * 10.0))
-	avatar.animate(delta, _speed, pitch, crouching, alive, weapons.swing)
+	var vel := velocity if controlled() else moved / maxf(delta, 0.001)
+	vel.y = 0.0
+	_local_vel = _local_vel.lerp(global_basis.inverse() * vel, minf(1.0, delta * 10.0))
+	_speed = _local_vel.length()
+	var on_floor := is_on_floor() if controlled() else _net_on_floor
+	var w := weapons.data()
+	var reload := -1.0
+	if controlled() and weapons.is_reloading():
+		reload = clampf(1.0 - weapons.reload_left / w.reload_time, 0.0, 1.0)
+	elif not controlled() and _net_reloading:
+		_net_reload_t += delta
+		reload = clampf(_net_reload_t / maxf(w.reload_time, 0.1), 0.0, 1.0)
+
+	_anim.speed = _speed
+	_anim.move = Vector2(_local_vel.x, -_local_vel.z) / maxf(_speed, 0.001)
+	_anim.pitch = pitch
+	_anim.on_floor = on_floor
+	_anim.crouching = crouching
+	_anim.sprinting = sprinting and _speed > 1.0
+	_anim.alive = alive
+	_anim.two_handed = w.two_handed
+	_anim.reload = reload
+	_anim.draw = weapons.draw
+	_anim.kick = weapons.kick
+	_anim.swing = weapons.swing
+	avatar.animate(delta, _anim)
+
 	if not local:
 		return
-	head.rotation.x = pitch
+	_animate_first_person(delta, w, on_floor, reload)
+
+
+## Câmera e arma em primeira pessoa: balanço do passo, atraso do mouse, pose de
+## corrida, aterrissagem, saque e recarga.
+func _animate_first_person(delta: float, w: WeaponData, on_floor: bool, reload: float) -> void:
+	var k := minf(1.0, delta * 12.0)
+	if on_floor and not _was_on_floor:
+		_land = 1.0
+	_was_on_floor = on_floor
+	_land = maxf(0.0, _land - delta * 3.5)
+	var moving := clampf(_speed / WALK, 0.0, 1.4) if on_floor else 0.0
+	_bob_t += delta * _speed * (1.25 if sprinting else 1.45)
+
+	# Câmera: altura do olho, balanço suave, aterrissagem e inclinação lateral.
 	var eye := eye_height_crouched if crouching else eye_height
 	if not alive:
 		eye = 0.5
 		head.rotation.z = lerpf(head.rotation.z, 0.6, minf(1.0, delta * 4.0))
-	head.position.y = lerpf(head.position.y, eye, minf(1.0, delta * 12.0))
-	var w := weapons.data()
-	camera.fov = lerpf(camera.fov, w.scope_fov if weapons.scoped else Config.fov, minf(1.0, delta * 14.0))
-	view_model.visible = alive and not weapons.scoped
-	_bob_t += delta * _speed * 1.4
-	var bob := sin(_bob_t) * 0.012 * clampf(_speed / WALK, 0.0, 1.0)
-	var dip := 0.0
-	if weapons.is_reloading():
-		dip = sin(clampf(1.0 - weapons.reload_left / w.reload_time, 0.0, 1.0) * PI)
-	var kick := weapons.kick
-	var swing := weapons.swing
-	view_model.position = w.view_position + Vector3(bob, absf(bob) - dip * 0.15, kick * 0.05)
-	view_model.rotation = Vector3(kick * 0.12 - dip * 0.6 - swing * 0.9, swing * 0.6, dip * 0.3)
+	else:
+		head.rotation.z = lerpf(head.rotation.z, -_local_vel.x / walk_speed * 0.02, k)
+	var cam_bob := absf(sin(_bob_t)) * 0.035 * moving
+	head.position.y = lerpf(head.position.y, eye + cam_bob - _land * 0.12, k)
+	head.rotation.x = pitch
+	var target_fov := w.scope_fov if weapons.scoped else Config.fov + (6.0 if sprinting and _speed > 1.0 else 0.0)
+	camera.fov = lerpf(camera.fov, target_fov, minf(1.0, delta * 10.0))
+
+	# Arma: passo em "8", atraso do mouse, corrida, saque, recarga, coice e golpe.
+	view_model.visible = alive and not weapons.scoped and not has_meta("third_person")
+	_sway = _sway.lerp(Vector2.ZERO, minf(1.0, delta * 8.0)).limit_length(0.12)
+	var bob := Vector3(sin(_bob_t) * 0.014, -absf(cos(_bob_t)) * 0.012, 0) * moving
+	var pos := w.view_position + bob
+	var rot := Vector3(-_sway.y * 0.6, -_sway.x * 0.8, -_sway.x * 0.5)
+	if sprinting and _speed > 1.0:
+		pos += Vector3(-0.05, -0.06, 0.03)
+		rot += Vector3(-0.25, 0.7, 0.2)
+	if crouching:
+		pos += Vector3(-0.015, 0.01, 0)
+		rot.z += 0.05
+	var draw := 1.0 - weapons.draw
+	pos.y -= draw * 0.3 + _land * 0.04
+	rot.x -= draw * 0.9
+	if reload >= 0.0:
+		var r := sin(reload * PI)
+		pos.y -= r * 0.12
+		rot += Vector3(-r * 0.5, r * 0.25, r * 0.45)
+	pos.z += weapons.kick * 0.05
+	rot.x += weapons.kick * 0.12
+	rot += Vector3(-weapons.swing * 0.9, weapons.swing * 0.6, 0)
+	view_model.position = view_model.position.lerp(pos, minf(1.0, delta * 18.0))
+	view_model.rotation = view_model.rotation.lerp(rot, minf(1.0, delta * 18.0))

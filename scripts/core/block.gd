@@ -9,6 +9,9 @@ extends Node3D
 ## bloco, ele se desenha sozinho (e cria a própria colisão) no quadro seguinte.
 
 enum Shape { BOX, CYLINDER, SPHERE }
+## AUTO: peças pequenas e sem colisão viram "detalhe" (só aparecem de perto e
+## não fazem sombra). ALWAYS: sempre na distância normal. DETAIL: sempre detalhe.
+enum Lod { AUTO, ALWAYS, DETAIL }
 ## Cor trocada pela roupa/pele do jogador (usado pelo [Avatar]).
 enum Tint { NONE, SHIRT, PANTS, SKIN }
 
@@ -40,6 +43,8 @@ enum Tint { NONE, SHIRT, PANTS, SKIN }
 ## Cria colisão (camada "mundo") quando faz parte do mapa.
 @export var collide := true
 @export var tint: Tint = Tint.NONE
+## Nível de detalhe nos mapas (veja [enum Lod]).
+@export var lod: Lod = Lod.AUTO
 
 var _preview: MeshInstance3D
 
@@ -59,6 +64,16 @@ func _changed() -> void:
 		add_child(_preview, false, Node.INTERNAL_MODE_FRONT)
 	_preview.mesh = make_mesh()
 	_preview.material_override = make_material()
+
+
+## Peça pequena que pode sumir de longe sem ninguém perceber.
+func is_detail() -> bool:
+	match lod:
+		Lod.ALWAYS:
+			return false
+		Lod.DETAIL:
+			return true
+	return not collide and size.x * size.y * size.z < 0.3
 
 
 func make_mesh() -> PrimitiveMesh:

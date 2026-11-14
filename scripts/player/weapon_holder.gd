@@ -14,6 +14,10 @@ var reload_left := 0.0
 var scoped := false
 var kick := 0.0
 var swing := 0.0
+## 0 logo depois de trocar de arma, 1 quando a arma está pronta (animação de saque).
+var draw := 1.0
+## Segundos para sacar uma arma.
+const DRAW_TIME := 0.35
 
 var _world_model: BakedModel
 var _view_model: Node3D
@@ -50,7 +54,8 @@ func equip(idx: int, sound := true) -> void:
 	index = clampi(idx, 0, WeaponDB.count() - 1)
 	scoped = false
 	reload_left = 0.0
-	cooldown = maxf(cooldown, 0.25)
+	cooldown = maxf(cooldown, DRAW_TIME)
+	draw = 0.0
 	_build_models()
 	if sound and player.local:
 		Sfx.play("switch", -6.0)
@@ -120,6 +125,7 @@ func tick(delta: float) -> void:
 	cooldown = maxf(0.0, cooldown - delta)
 	kick = maxf(0.0, kick - delta * 8.0)
 	swing = maxf(0.0, swing - delta * 4.0)
+	draw = minf(1.0, draw + delta / DRAW_TIME)
 	if reload_left > 0.0:
 		reload_left -= delta
 		if reload_left <= 0.0:

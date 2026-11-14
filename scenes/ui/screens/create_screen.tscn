@@ -27,9 +27,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -320.0
-offset_top = -205.0
+offset_top = -250.0
 offset_right = 320.0
-offset_bottom = 265.0
+offset_bottom = 300.0
 theme_type_variation = &"Card"
 
 [node name="Content" type="VBoxContainer" parent="Card" unique_id=171723981]
@@ -51,6 +51,30 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(260, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="MapRow" type="HBoxContainer" parent="Card/Content"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Card/Content/MapRow"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"FieldLabel"
+text = "Mapa"
+
+[node name="Map" type="OptionButton" parent="Card/Content/MapRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MapDescription" type="Label" parent="Card/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"HintLabel"
+text = "Descrição do mapa"
 
 [node name="BotsRow" type="HBoxContainer" parent="Card/Content" unique_id=1728851065]
 layout_mode = 2

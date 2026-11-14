@@ -1,0 +1,56 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_yumyv"]
+
+[node name="Barris" type="Node3D" unique_id=1603031756]
+
+[node name="Barril" type="Node3D" parent="." unique_id=1899750526]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+script = ExtResource("1_yumyv")
+shape = 1
+size = Vector3(0.6, 0.9, 0.6)
+color = Color(0.15, 0.35, 0.6, 1)
+metallic = 0.5
+roughness = 0.5
+
+[node name="Aro" type="Node3D" parent="." unique_id=554796494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+script = ExtResource("1_yumyv")
+shape = 1
+size = Vector3(0.62, 0.04, 0.62)
+color = Color(0.105000004, 0.24499999, 0.42000002, 1)
+collide = false
+
+[node name="Barril2" type="Node3D" parent="." unique_id=2040587241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.45, 0.2)
+script = ExtResource("1_yumyv")
+shape = 1
+size = Vector3(0.6, 0.9, 0.6)
+color = Color(0.7, 0.2, 0.15, 1)
+metallic = 0.5
+roughness = 0.5
+
+[node name="Aro2" type="Node3D" parent="." unique_id=1985146363]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.6, 0.2)
+script = ExtResource("1_yumyv")
+shape = 1
+size = Vector3(0.62, 0.04, 0.62)
+color = Color(0.48999998, 0.14, 0.105000004, 1)
+collide = false
+
+[node name="Barril3" type="Node3D" parent="." unique_id=1807742011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.45, 0.75)
+script = ExtResource("1_yumyv")
+shape = 1
+size = Vector3(0.6, 0.9, 0.6)
+color = Color(0.15, 0.35, 0.6, 1)
+metallic = 0.5
+roughness = 0.5
+
+[node name="Aro3" type="Node3D" parent="." unique_id=1365973689]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.6, 0.75)
+script = ExtResource("1_yumyv")
+shape = 1
+size = Vector3(0.62, 0.04, 0.62)
+color = Color(0.105000004, 0.24499999, 0.42000002, 1)
+collide = false

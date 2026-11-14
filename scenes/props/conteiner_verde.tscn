@@ -1,0 +1,169 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_h36oe"]
+
+[node name="ConteinerVerde" type="Node3D" unique_id=1145284004]
+
+[node name="Caixa" type="Node3D" parent="." unique_id=937586619]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+script = ExtResource("1_h36oe")
+size = Vector3(6.1, 2.6, 2.44)
+color = Color(0.2, 0.5, 0.3, 1)
+metallic = 0.4
+roughness = 0.6
+
+[node name="Nervura" type="Node3D" parent="." unique_id=1994734803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.3, 1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura2" type="Node3D" parent="." unique_id=1169695523]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.3, -1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura3" type="Node3D" parent="." unique_id=46115904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.3, 1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura4" type="Node3D" parent="." unique_id=1438692552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.3, -1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura5" type="Node3D" parent="." unique_id=2000729594]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.3, 1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura6" type="Node3D" parent="." unique_id=941068073]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.3, -1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura7" type="Node3D" parent="." unique_id=657321905]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1.3, 1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura8" type="Node3D" parent="." unique_id=867042651]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1.3, -1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura9" type="Node3D" parent="." unique_id=721063934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura10" type="Node3D" parent="." unique_id=1906575586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura11" type="Node3D" parent="." unique_id=578140978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 1.3, 1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura12" type="Node3D" parent="." unique_id=1766998741]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 1.3, -1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura13" type="Node3D" parent="." unique_id=495741919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.3, 1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura14" type="Node3D" parent="." unique_id=1080634583]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.3, -1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura15" type="Node3D" parent="." unique_id=91826041]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.3, 1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura16" type="Node3D" parent="." unique_id=539982277]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.3, -1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura17" type="Node3D" parent="." unique_id=1820313632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.3, 1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Nervura18" type="Node3D" parent="." unique_id=1056888882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.3, -1.24)
+script = ExtResource("1_h36oe")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Fresta" type="Node3D" parent="." unique_id=1418202852]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.07, 1.3, 0)
+script = ExtResource("1_h36oe")
+size = Vector3(0.04, 2.5, 0.04)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false
+
+[node name="Trava" type="Node3D" parent="." unique_id=133672259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.08, 1.3, -0.6)
+script = ExtResource("1_h36oe")
+size = Vector3(0.05, 2.3, 0.05)
+color = Color(0.6, 0.6, 0.6, 1)
+metallic = 0.8
+collide = false
+
+[node name="Trava2" type="Node3D" parent="." unique_id=1584363297]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.08, 1.3, 0.6)
+script = ExtResource("1_h36oe")
+size = Vector3(0.05, 2.3, 0.05)
+color = Color(0.6, 0.6, 0.6, 1)
+metallic = 0.8
+collide = false
+
+[node name="Teto" type="Node3D" parent="." unique_id=1501220094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62, 0)
+script = ExtResource("1_h36oe")
+size = Vector3(6.1, 0.04, 2.44)
+color = Color(0.15, 0.375, 0.22500001, 1)
+collide = false

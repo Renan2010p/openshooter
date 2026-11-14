@@ -2,7 +2,6 @@
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="gen_script_0"]
 
 
-[ext_resource type="PackedScene" path="res://scenes/maps/bairro.tscn" id="1_q85j6"]
 [ext_resource type="PackedScene" path="res://scenes/ui/screens/home_screen.tscn" id="2_8g5eo"]
 [ext_resource type="PackedScene" path="res://scenes/ui/screens/modes_screen.tscn" id="3_7suek"]
 [ext_resource type="PackedScene" path="res://scenes/ui/screens/browser_screen.tscn" id="4_otr3d"]
@@ -14,8 +13,6 @@
 
 [node name="MainMenu" type="Node3D" unique_id=1554030990]
 script = ExtResource("gen_script_0")
-
-[node name="Map" parent="." unique_id=1540288054 instance=ExtResource("1_q85j6")]
 
 [node name="Camera" type="Camera3D" parent="." unique_id=627803409]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 30)

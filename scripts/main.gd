@@ -35,7 +35,7 @@ func _ready() -> void:
 
 	if _args.has("host"):
 		var mode: String = _args["host"]
-		host({"name": "Teste", "mode": mode, "private": mode == "private", "code": "12345" if mode == "private" else "",
+		host({"name": "Teste", "mode": mode, "map": int(_args.get("map", "0")), "private": mode == "private", "code": "12345" if mode == "private" else "",
 			"bots": int(_args.get("bots", "3")), "minutes": 5, "max": 10})
 	else:
 		show_menu()
@@ -100,7 +100,12 @@ func _capture(path: String, wait: float) -> void:
 
 func _bench(seconds: float) -> void:
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	var vp_rid := get_viewport().get_viewport_rid()
+	RenderingServer.viewport_set_measure_render_time(vp_rid, true)
 	await get_tree().create_timer(3.0).timeout
+	var t_physics := 0.0
+	var t_cpu := 0.0
+	var t_gpu := 0.0
 	var frames := 0
 	var worst := 0.0
 	var start := Time.get_ticks_usec()
@@ -111,7 +116,12 @@ func _bench(seconds: float) -> void:
 		worst = maxf(worst, (now - last) / 1000.0)
 		last = now
 		frames += 1
+		t_physics += Performance.get_monitor(Performance.TIME_PHYSICS_PROCESS) * 1000.0
+		t_cpu += RenderingServer.viewport_get_measured_render_time_cpu(vp_rid)
+		t_gpu += RenderingServer.viewport_get_measured_render_time_gpu(vp_rid)
 	var secs := (Time.get_ticks_usec() - start) / 1e6
+	print("BENCH ms_por_quadro: fisica=%.2f render_cpu=%.2f render_gpu=%.2f total=%.2f" % [
+		t_physics / frames, t_cpu / frames, t_gpu / frames, secs * 1000.0 / frames])
 	print("BENCH fps_medio=%.1f pior_quadro_ms=%.1f draw_calls=%d objetos=%d" % [
 		frames / secs, worst,
 		RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),

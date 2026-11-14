@@ -176,6 +176,7 @@ func _process(delta: float) -> void:
 				"mode": server_info.get("mode", "normal"), "private": server_info.get("private", false),
 				"hash": code_hash(server_info.get("code", "")), "players": humans(),
 				"max": server_info.get("max", 12), "bots": server_info.get("bots", 0),
+				"map": MapDB.display_name(int(server_info.get("map", 0))),
 			}
 			var data := JSON.stringify(msg).to_utf8_buffer()
 			for addr in ["255.255.255.255", "127.0.0.1"]:

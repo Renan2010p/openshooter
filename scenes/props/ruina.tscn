@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_ctdct"]
+
+[node name="Ruina" type="Node3D" unique_id=1294593643]
+
+[node name="Muro" type="Node3D" parent="." unique_id=1022199809]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.2, 0)
+script = ExtResource("1_ctdct")
+size = Vector3(3, 2.4, 0.4)
+color = Color(0.75, 0.58, 0.4, 1)
+
+[node name="Muro2" type="Node3D" parent="." unique_id=110862196]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.7, 0)
+script = ExtResource("1_ctdct")
+size = Vector3(2.4, 1.4, 0.4)
+color = Color(0.75, 0.58, 0.4, 1)
+
+[node name="Entulho" type="Node3D" parent="." unique_id=1265775973]
+transform = Transform3D(0.8528685, -0.15038373, 0.5, 0.17364818, 0.9848077, 0, -0.49240386, 0.08682409, 0.8660254, 2.6, 0.35, 0.6)
+script = ExtResource("1_ctdct")
+size = Vector3(0.8, 0.5, 0.6)
+color = Color(0.67499995, 0.52199996, 0.35999998, 1)
+
+[node name="Entulho2" type="Node3D" parent="." unique_id=661259855]
+transform = Transform3D(0.9396926, 0, -0.34202012, 0, 1, 0, 0.34202012, 0, 0.9396926, -3.2, 0.25, -0.5)
+script = ExtResource("1_ctdct")
+size = Vector3(0.6, 0.4, 0.5)
+color = Color(0.63750005, 0.493, 0.34, 1)

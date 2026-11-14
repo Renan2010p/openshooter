@@ -120,6 +120,7 @@ func on_hit(vid: int, hp: int, attacker: int) -> void:
 	if v == null:
 		return
 	v.hp = hp
+	v.avatar.flinch()
 	if v.local:
 		world.hud.damage()
 		Sfx.play("hurt", -6.0)

@@ -96,6 +96,47 @@ BigButton, HotbarSlot...).
 - `MineManager`: raio e dano das minas
 - `MatchManager`: abates para vencer o duelo
 
+## Mapas
+
+Os mapas ficam em `scenes/maps/` e são listados em `scripts/game/map_db.gd`:
+Bairro, Porto, Vila do Deserto e Base Ártica. Quem cria o servidor escolhe o
+mapa, e o índice vai para os clientes em `Net.server_info.map`. O `World`
+carrega o mapa ao começar a partida, e o menu sorteia um de fundo.
+
+Para criar um mapa:
+1. Duplique um `.tscn` de `scenes/maps/` (raiz com o script `GameMap`).
+2. Monte com Blocks e props dentro de `Geometry`.
+3. Ajuste `Spawns` e `Waypoints`.
+4. Coloque o mapa em `MapDB.MAPS`.
+
+Deixe livre a área perto de x=-2, z=18, onde o Armário mostra o boneco.
+
+## Desempenho: só desenhar o que importa
+
+- **Mapa em pedaços:** o `GameMap` junta os blocos em células de `chunk_size`
+  metros (16 por padrão). Pedaços fora da tela não são desenhados, e pedaços
+  além da **distância de desenho** também não.
+
+  | Qualidade | Distância de desenho | Detalhes até |
+  |---|---|---|
+  | Baixa | 55 m | 22 m |
+  | Média | 80 m | 38 m |
+  | Alta | 120 m | 60 m |
+
+- **Névoa por profundidade:** chega a 100% exatamente na distância de desenho.
+  Por isso o que some fica escondido nela.
+- **Detalhes:** blocos pequenos e sem colisão (faixas, molduras, nervuras,
+  folhas) vão para um mesh de detalhes, que some antes e não faz sombra. Dá
+  para forçar no Inspetor do Block com `lod` (Auto, Always, Detail).
+- **Jogadores:**
+  - o boneco não é desenhado além da distância de desenho;
+  - o nome some a 40 m;
+  - a animação só roda para quem está na tela, e com menos frequência para
+    quem está longe (30×/s a partir de 20 m, 15×/s a partir de 40 m).
+- **Câmera:** o plano distante (`far`) é a distância de desenho.
+- **Oclusão:** desligada por padrão (`GameMap.use_occluders`). Na Intel HD
+  4400 não ganhou FPS e causou travadas.
+
 ## Rede
 
 - Quem cria a partida é o **servidor** (ENet, porta 24540/UDP).

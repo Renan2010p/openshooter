@@ -25,10 +25,15 @@ var message := ""
 @onready var status_label: Label = %Status
 
 var _current: MenuScreen
+var _avatar: Avatar
 var _t := 0.0
 
 
 func _ready() -> void:
+	# Um mapa diferente de fundo a cada vez que o menu abre.
+	var map := MapDB.instantiate(MapDB.random_index())
+	add_child(map)
+	move_child(map, 0)
 	for s in screens.get_children():
 		if s is MenuScreen:
 			s.menu = self
@@ -84,12 +89,14 @@ func rebuild_avatar() -> void:
 	var a: Avatar = AVATAR_SCENE.instantiate()
 	avatar_preview.add_child(a)
 	a.setup(Config.shirt, Config.pants, Config.skin)
-	a.hold_pose()
+	_avatar = a
 	a.hand.add_child(WeaponDB.get_data(WeaponDB.RIFLE).model.instantiate())
 
 
 func _process(delta: float) -> void:
 	_t += delta
+	if is_instance_valid(_avatar):
+		_avatar.idle_preview(delta)
 	if current_screen() == "Locker":
 		camera.global_position = camera.global_position.lerp(locker_camera, minf(1.0, delta * 3.0))
 		camera.look_at(locker_target)
