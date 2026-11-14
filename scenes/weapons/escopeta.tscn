@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/baked_model.gd" id="1_5mdrl"]
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="2_1r06s"]
+
+[node name="Escopeta" type="Node3D" unique_id=1621322384]
+script = ExtResource("1_5mdrl")
+
+[node name="Cano" type="Node3D" parent="." unique_id=2135571866]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.09, -0.32)
+script = ExtResource("2_1r06s")
+shape = 1
+size = Vector3(0.05, 0.75, 0.05)
+color = Color(0.1, 0.1, 0.11, 1)
+metallic = 0.7
+roughness = 0.4
+collide = false
+
+[node name="Tubo" type="Node3D" parent="." unique_id=924176825]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.04, -0.32)
+script = ExtResource("2_1r06s")
+shape = 1
+size = Vector3(0.045, 0.6, 0.045)
+color = Color(0.1, 0.1, 0.11, 1)
+metallic = 0.7
+roughness = 0.4
+collide = false
+
+[node name="Bomba" type="Node3D" parent="." unique_id=1376435291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.035, -0.36)
+script = ExtResource("2_1r06s")
+size = Vector3(0.075, 0.07, 0.22)
+color = Color(0.45, 0.27, 0.13, 1)
+collide = false
+
+[node name="Receptor" type="Node3D" parent="." unique_id=631915136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -0.02)
+script = ExtResource("2_1r06s")
+size = Vector3(0.07, 0.11, 0.22)
+color = Color(0.32, 0.33, 0.35, 1)
+metallic = 0.7
+roughness = 0.4
+collide = false
+
+[node name="Coronha" type="Node3D" parent="." unique_id=1928405450]
+transform = Transform3D(1, 0, 0, 0, 0.99026805, 0.1391731, 0, -0.1391731, 0.99026805, 0, 0.02, 0.24)
+script = ExtResource("2_1r06s")
+size = Vector3(0.065, 0.12, 0.32)
+color = Color(0.45, 0.27, 0.13, 1)
+collide = false
+
+[node name="Empunhadura" type="Node3D" parent="." unique_id=596177046]
+transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, -0.04, 0.07)
+script = ExtResource("2_1r06s")
+size = Vector3(0.045, 0.1, 0.06)
+color = Color(0.45, 0.27, 0.13, 1)
+collide = false
+
+[node name="Mira" type="Node3D" parent="." unique_id=1446993665]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, -0.66)
+script = ExtResource("2_1r06s")
+size = Vector3(0.012, 0.02, 0.012)
+color = Color(0.8, 0.82, 0.85, 1)
+collide = false
+
+[node name="Muzzle" type="Marker3D" parent="." unique_id=795575186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09, -0.7)

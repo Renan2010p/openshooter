@@ -1,0 +1,119 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/screens/locker_screen.gd" id="gen_script_0"]
+
+
+[node name="Locker" type="Control" unique_id=36384331]
+script = ExtResource("gen_script_0")
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="." unique_id=559392055]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+offset_top = 36.0
+offset_bottom = 106.0
+theme_type_variation = &"TitleLabel"
+text = "ARMÁRIO"
+horizontal_alignment = 1
+
+[node name="Card" type="PanelContainer" parent="." unique_id=1075774293]
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 60.0
+offset_top = -200.0
+offset_right = 560.0
+offset_bottom = 200.0
+theme_type_variation = &"Card"
+
+[node name="Content" type="VBoxContainer" parent="Card" unique_id=896698299]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="NameRow" type="HBoxContainer" parent="Card/Content" unique_id=72654049]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Card/Content/NameRow" unique_id=38902323]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_type_variation = &"FieldLabel"
+text = "Nome"
+
+[node name="PlayerName" type="LineEdit" parent="Card/Content/NameRow" unique_id=667542293]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+max_length = 20
+
+[node name="ShirtRow" type="HBoxContainer" parent="Card/Content" unique_id=1706567104]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Card/Content/ShirtRow" unique_id=1222309572]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_type_variation = &"FieldLabel"
+text = "Camisa"
+
+[node name="Shirt" type="ColorPickerButton" parent="Card/Content/ShirtRow" unique_id=1466590112]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PantsRow" type="HBoxContainer" parent="Card/Content" unique_id=254058519]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Card/Content/PantsRow" unique_id=1453870513]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_type_variation = &"FieldLabel"
+text = "Calça"
+
+[node name="Pants" type="ColorPickerButton" parent="Card/Content/PantsRow" unique_id=1346556806]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SkinRow" type="HBoxContainer" parent="Card/Content" unique_id=271235003]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Card/Content/SkinRow" unique_id=1499806178]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_type_variation = &"FieldLabel"
+text = "Pele"
+
+[node name="Skin" type="ColorPickerButton" parent="Card/Content/SkinRow" unique_id=1313054110]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Actions" type="HBoxContainer" parent="Card/Content" unique_id=1152794928]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Save" type="Button" parent="Card/Content/Actions" unique_id=637221533]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+text = "Salvar"
+
+[node name="Back" type="Button" parent="Card/Content/Actions" unique_id=437962760]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 52)
+layout_mode = 2
+focus_mode = 0
+text = "Voltar"

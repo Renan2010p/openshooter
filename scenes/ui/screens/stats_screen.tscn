@@ -1,0 +1,129 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/screens/stats_screen.gd" id="gen_script_0"]
+
+
+[node name="Stats" type="Control" unique_id=1773158599]
+script = ExtResource("gen_script_0")
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="." unique_id=1016912427]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+offset_top = 36.0
+offset_bottom = 106.0
+theme_type_variation = &"TitleLabel"
+text = "ESTATÍSTICAS"
+horizontal_alignment = 1
+
+[node name="Card" type="PanelContainer" parent="." unique_id=364840353]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -170.0
+offset_right = 220.0
+offset_bottom = 230.0
+theme_type_variation = &"Card"
+
+[node name="Content" type="VBoxContainer" parent="Card" unique_id=948398297]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Grid" type="GridContainer" parent="Card/Content" unique_id=1814588046]
+layout_mode = 2
+theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="KillsLabel" type="Label" parent="Card/Content/Grid" unique_id=1678251304]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"FieldLabel"
+text = "Abates"
+
+[node name="Kills" type="Label" parent="Card/Content/Grid" unique_id=185407280]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "0"
+horizontal_alignment = 2
+
+[node name="DeathsLabel" type="Label" parent="Card/Content/Grid" unique_id=1114652966]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"FieldLabel"
+text = "Mortes"
+
+[node name="Deaths" type="Label" parent="Card/Content/Grid" unique_id=1728882187]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "0"
+horizontal_alignment = 2
+
+[node name="RatioLabel" type="Label" parent="Card/Content/Grid" unique_id=1215701790]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"FieldLabel"
+text = "Abates/Mortes"
+
+[node name="Ratio" type="Label" parent="Card/Content/Grid" unique_id=520820999]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "0"
+horizontal_alignment = 2
+
+[node name="HeadshotsLabel" type="Label" parent="Card/Content/Grid" unique_id=2122197913]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"FieldLabel"
+text = "Tiros na cabeça"
+
+[node name="Headshots" type="Label" parent="Card/Content/Grid" unique_id=1746129630]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "0"
+horizontal_alignment = 2
+
+[node name="MatchesLabel" type="Label" parent="Card/Content/Grid" unique_id=204535276]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"FieldLabel"
+text = "Partidas"
+
+[node name="Matches" type="Label" parent="Card/Content/Grid" unique_id=254674541]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "0"
+horizontal_alignment = 2
+
+[node name="WinsLabel" type="Label" parent="Card/Content/Grid" unique_id=84101580]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"FieldLabel"
+text = "Vitórias"
+
+[node name="Wins" type="Label" parent="Card/Content/Grid" unique_id=268138692]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "0"
+horizontal_alignment = 2
+
+[node name="Back" type="Button" parent="Card/Content" unique_id=1452230985]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 46)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+text = "Voltar"

@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_qm7fs"]
+
+[node name="PilhaDeCaixas" type="Node3D" unique_id=1787998161]
+
+[node name="Caixa" type="Node3D" parent="." unique_id=1961206505]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+script = ExtResource("1_qm7fs")
+size = Vector3(1.2, 1.2, 1.2)
+color = Color(0.62, 0.45, 0.25, 1)
+
+[node name="Caixa2" type="Node3D" parent="." unique_id=1563280245]
+transform = Transform3D(0.9781476, 0, 0.2079117, 0, 1, 0, -0.2079117, 0, 0.9781476, 1.25, 0.6, 0.1)
+script = ExtResource("1_qm7fs")
+size = Vector3(1.2, 1.2, 1.2)
+color = Color(0.62, 0.45, 0.25, 1)
+
+[node name="Caixa3" type="Node3D" parent="." unique_id=442661821]
+transform = Transform3D(0.99026805, 0, -0.1391731, 0, 1, 0, 0.1391731, 0, 0.99026805, 0.6, 1.8, 0.05)
+script = ExtResource("1_qm7fs")
+size = Vector3(1.2, 1.2, 1.2)
+color = Color(0.55799997, 0.40499997, 0.225, 1)

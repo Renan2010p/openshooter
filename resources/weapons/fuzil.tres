@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="AudioStream" path="res://audio/shot_sniper.wav" id="1_wcr1t"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/fuzil.tscn" id="2_qe5xf"]
+[ext_resource type="Script" path="res://scripts/weapons/weapon_data.gd" id="3_8jb7t"]
+
+[resource]
+script = ExtResource("3_8jb7t")
+id = "fuzil"
+display_name = "Fuzil"
+model = ExtResource("2_qe5xf")
+fire_sound = ExtResource("1_wcr1t")
+damage = 80.0
+max_range = 300.0
+fire_interval = 1.25
+spread = 0.06
+recoil = 0.09
+has_scope = true
+magazine = 5
+reserve = 20
+reload_time = 2.8
+two_handed = true

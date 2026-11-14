@@ -1,0 +1,72 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="gen_script_0"]
+[ext_resource type="Script" path="res://scripts/player/weapon_holder.gd" id="gen_script_1"]
+[ext_resource type="Script" path="res://scripts/player/bot_brain.gd" id="gen_script_2"]
+
+
+[ext_resource type="PackedScene" path="res://scenes/player/avatar.tscn" id="1_8afob"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dovo2"]
+resource_local_to_scene = true
+radius = 0.4
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gmlin"]
+size = Vector3(0.8, 1.62, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lvxji"]
+size = Vector3(0.56, 0.56, 0.56)
+
+[node name="Player" type="CharacterBody3D" unique_id=92067135]
+script = ExtResource("gen_script_0")
+collision_layer = 2
+floor_max_angle = 0.80285144
+floor_snap_length = 0.3
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=1933360237]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_dovo2")
+
+[node name="Avatar" parent="." unique_id=342032858 instance=ExtResource("1_8afob")]
+
+[node name="Hitbox" type="StaticBody3D" parent="." unique_id=1317619877]
+collision_layer = 4
+collision_mask = 0
+
+[node name="Body" type="CollisionShape3D" parent="Hitbox" unique_id=1230744922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.81, 0)
+shape = SubResource("BoxShape3D_gmlin")
+
+[node name="Head" type="CollisionShape3D" parent="Hitbox" unique_id=1129675311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+shape = SubResource("BoxShape3D_lvxji")
+
+[node name="Head" type="Node3D" parent="." unique_id=264756915]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, 0)
+
+[node name="Camera" type="Camera3D" parent="Head" unique_id=1389345129]
+cull_mask = 5
+fov = 80.0
+near = 0.03
+
+[node name="ViewModel" type="Node3D" parent="Head/Camera" unique_id=1650078189]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.2, -0.21, -0.36)
+
+[node name="MuzzleFlash" type="OmniLight3D" parent="." unique_id=1594588351]
+visible = false
+light_color = Color(1, 0.8, 0.4, 1)
+light_energy = 0.0
+omni_range = 4.0
+
+[node name="NameTag" type="Label3D" parent="." unique_id=5676857]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45, 0)
+pixel_size = 0.006
+billboard = 1
+text = "Jogador"
+font_size = 40
+outline_size = 10
+
+[node name="Weapons" type="Node" parent="." unique_id=618655369]
+script = ExtResource("gen_script_1")
+
+[node name="BotBrain" type="Node" parent="." unique_id=13833890]
+script = ExtResource("gen_script_2")

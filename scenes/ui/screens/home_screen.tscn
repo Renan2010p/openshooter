@@ -1,0 +1,90 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/screens/home_screen.gd" id="gen_script_0"]
+
+
+[node name="Home" type="Control" unique_id=1238015931]
+script = ExtResource("gen_script_0")
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Hero" type="Label" parent="." unique_id=1541962883]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 700.0
+offset_bottom = 140.0
+theme_type_variation = &"HeroLabel"
+text = "LINHA DE FOGO"
+
+[node name="Subtitle" type="Label" parent="." unique_id=859646636]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 138.0
+offset_right = 500.0
+offset_bottom = 170.0
+theme_type_variation = &"SubtitleLabel"
+text = "tiroteio em LAN"
+
+[node name="Buttons" type="VBoxContainer" parent="." unique_id=499907207]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 220.0
+offset_right = 360.0
+offset_bottom = 560.0
+theme_override_constants/separation = 10
+
+[node name="Play" type="Button" parent="Buttons" unique_id=1694685758]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 56)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+text = "▶  Jogar"
+
+[node name="Locker" type="Button" parent="Buttons" unique_id=1101086580]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 56)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+text = "▣  Armário"
+
+[node name="Settings" type="Button" parent="Buttons" unique_id=1073311170]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 56)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+text = "⚙  Configurações"
+
+[node name="Stats" type="Button" parent="Buttons" unique_id=496366077]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 56)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+text = "ℹ  Estatísticas"
+
+[node name="Quit" type="Button" parent="Buttons" unique_id=1699351642]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 56)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+text = "✕  Sair"
+
+[node name="PlayerName" type="Label" parent="." unique_id=1499086727]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -320.0
+offset_top = 20.0
+offset_right = -24.0
+offset_bottom = 50.0
+theme_type_variation = &"HudLabel"
+text = "Jogador"
+horizontal_alignment = 2

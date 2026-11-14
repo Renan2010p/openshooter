@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="AudioStream" path="res://audio/shot_shotgun.wav" id="1_kh15n"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/escopeta.tscn" id="2_vbyvo"]
+[ext_resource type="Script" path="res://scripts/weapons/weapon_data.gd" id="3_d13rg"]
+
+[resource]
+script = ExtResource("3_d13rg")
+id = "escopeta"
+display_name = "Escopeta"
+model = ExtResource("2_vbyvo")
+fire_sound = ExtResource("1_kh15n")
+damage = 13.0
+headshot_multiplier = 1.5
+max_range = 45.0
+damage_falloff = true
+pellets = 9
+fire_interval = 0.85
+spread = 0.065
+recoil = 0.06
+magazine = 6
+reserve = 24
+reload_time = 2.4
+two_handed = true

@@ -76,6 +76,13 @@ Benchmark com 8 bots em Intel HD 4400: `--host=normal --bots=8 --autoplay --benc
 - Cada jogador manda a própria posição 30 vezes por segundo.
 - O servidor anuncia a partida por broadcast UDP a cada segundo. Partidas privadas só mostram um hash do código.
 
+## Estrutura
+
+O jogo é todo em cenas editáveis no editor do Godot: mapa, props, armas, boneco,
+jogador, HUD e cada tela do menu. A geometria é feita de nós **Block**, que no
+jogo são juntados num mesh só. Veja **[docs/ARQUITETURA.md](docs/ARQUITETURA.md)**
+para saber onde fica cada coisa e como mexer.
+
 ## Testes
 
 ```sh
@@ -85,4 +92,6 @@ godot-fedora --path . -- --join=127.0.0.1 --autoplay
 ```
 
 Outras opções: `--host=normal|private|duel --bots=N`, `--join=IP --code=12345`,
-`--name=Nome`, `--browse=normal|duel|locker`, `--shot=arquivo.png --wait=segundos`.
+`--name=Nome`, `--quality=0|1|2`, `--screen=Browser:normal` (ou Locker, Settings...),
+`--shot=arquivo.png --wait=segundos`, `--bench=segundos`.
+Execuções com opções de teste não gravam configurações nem estatísticas.

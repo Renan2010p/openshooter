@@ -1,0 +1,74 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/screens/private_screen.gd" id="gen_script_0"]
+
+
+[node name="Private" type="Control" unique_id=1358314270]
+script = ExtResource("gen_script_0")
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="." unique_id=1508425966]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+offset_top = 36.0
+offset_bottom = 106.0
+theme_type_variation = &"TitleLabel"
+text = "JOGO PRIVADO"
+horizontal_alignment = 1
+
+[node name="Card" type="PanelContainer" parent="." unique_id=1138429014]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -185.0
+offset_right = 210.0
+offset_bottom = 245.0
+theme_type_variation = &"Card"
+
+[node name="Content" type="VBoxContainer" parent="Card" unique_id=475595804]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Code" type="LineEdit" parent="Card/Content" unique_id=1233563580]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 70)
+layout_mode = 2
+theme_type_variation = &"CodeEdit5"
+placeholder_text = "00000"
+alignment = 1
+max_length = 5
+
+[node name="Join" type="Button" parent="Card/Content" unique_id=188911072]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 60)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+text = "Entrar no Servidor"
+
+[node name="Spacer" type="Control" parent="Card/Content" unique_id=580741529]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Create" type="Button" parent="Card/Content" unique_id=1512826122]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 60)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+text = "Criar Servidor Privado"
+
+[node name="Back" type="Button" parent="Card/Content" unique_id=1116796254]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 46)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+text = "Voltar"

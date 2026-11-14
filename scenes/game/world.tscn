@@ -1,0 +1,29 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/game/world.gd" id="gen_script_0"]
+[ext_resource type="Script" path="res://scripts/game/combat.gd" id="gen_script_1"]
+[ext_resource type="Script" path="res://scripts/game/mine_manager.gd" id="gen_script_2"]
+[ext_resource type="Script" path="res://scripts/game/match_manager.gd" id="gen_script_3"]
+
+
+[ext_resource type="PackedScene" path="res://scenes/maps/bairro.tscn" id="1_g5t8f"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_d8brc"]
+
+[node name="World" type="Node3D" unique_id=1376322131]
+script = ExtResource("gen_script_0")
+
+[node name="Map" parent="." unique_id=1540288054 instance=ExtResource("1_g5t8f")]
+
+[node name="Players" type="Node3D" parent="." unique_id=1550699453]
+
+[node name="Effects" type="Node3D" parent="." unique_id=1731834020]
+
+[node name="Combat" type="Node" parent="." unique_id=2111090273]
+script = ExtResource("gen_script_1")
+
+[node name="Mines" type="Node3D" parent="." unique_id=477134016]
+script = ExtResource("gen_script_2")
+
+[node name="Match" type="Node" parent="." unique_id=286398091]
+script = ExtResource("gen_script_3")
+
+[node name="HUD" parent="." unique_id=42742378 instance=ExtResource("2_d8brc")]

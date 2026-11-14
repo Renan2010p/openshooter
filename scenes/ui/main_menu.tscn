@@ -1,0 +1,92 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="gen_script_0"]
+
+
+[ext_resource type="PackedScene" path="res://scenes/maps/bairro.tscn" id="1_q85j6"]
+[ext_resource type="PackedScene" path="res://scenes/ui/screens/home_screen.tscn" id="2_8g5eo"]
+[ext_resource type="PackedScene" path="res://scenes/ui/screens/modes_screen.tscn" id="3_7suek"]
+[ext_resource type="PackedScene" path="res://scenes/ui/screens/browser_screen.tscn" id="4_otr3d"]
+[ext_resource type="PackedScene" path="res://scenes/ui/screens/private_screen.tscn" id="5_8ekit"]
+[ext_resource type="PackedScene" path="res://scenes/ui/screens/create_screen.tscn" id="6_n4uci"]
+[ext_resource type="PackedScene" path="res://scenes/ui/screens/locker_screen.tscn" id="7_877pj"]
+[ext_resource type="PackedScene" path="res://scenes/ui/screens/settings_screen.tscn" id="8_ayp64"]
+[ext_resource type="PackedScene" path="res://scenes/ui/screens/stats_screen.tscn" id="9_y2j7i"]
+
+[node name="MainMenu" type="Node3D" unique_id=1554030990]
+script = ExtResource("gen_script_0")
+
+[node name="Map" parent="." unique_id=1540288054 instance=ExtResource("1_q85j6")]
+
+[node name="Camera" type="Camera3D" parent="." unique_id=627803409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 30)
+current = true
+fov = 65.0
+
+[node name="AvatarPreview" type="Node3D" parent="." unique_id=2064998115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=870267514]
+
+[node name="Root" type="Control" parent="UI" unique_id=298865231]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Screens" type="Control" parent="UI/Root" unique_id=1525214983]
+unique_name_in_owner = true
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Home" parent="UI/Root/Screens" unique_id=1238015931 instance=ExtResource("2_8g5eo")]
+layout_mode = 1
+anchors_preset = 15
+
+[node name="Modes" parent="UI/Root/Screens" unique_id=1064835256 instance=ExtResource("3_7suek")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+
+[node name="Browser" parent="UI/Root/Screens" unique_id=1938164888 instance=ExtResource("4_otr3d")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+
+[node name="Private" parent="UI/Root/Screens" unique_id=1358314270 instance=ExtResource("5_8ekit")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+
+[node name="Create" parent="UI/Root/Screens" unique_id=1540711362 instance=ExtResource("6_n4uci")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+
+[node name="Locker" parent="UI/Root/Screens" unique_id=36384331 instance=ExtResource("7_877pj")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+
+[node name="Settings" parent="UI/Root/Screens" unique_id=551390996 instance=ExtResource("8_ayp64")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+
+[node name="Stats" parent="UI/Root/Screens" unique_id=1773158599 instance=ExtResource("9_y2j7i")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+
+[node name="Status" type="Label" parent="UI/Root" unique_id=64805908]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -44.0
+offset_bottom = -14.0
+theme_type_variation = &"StatusError"
+horizontal_alignment = 1

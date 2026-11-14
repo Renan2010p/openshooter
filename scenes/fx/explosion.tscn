@@ -1,0 +1,26 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/fx/explosion.gd" id="gen_script_0"]
+
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k66mv"]
+albedo_color = Color(1, 0.55, 0.15, 1)
+emission_enabled = true
+emission = Color(1, 0.55, 0.15, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_0os1l"]
+radial_segments = 12
+rings = 6
+
+[node name="Explosion" type="Node3D" unique_id=1263915848]
+script = ExtResource("gen_script_0")
+
+[node name="Fireball" type="MeshInstance3D" parent="." unique_id=732579212]
+material_override = SubResource("StandardMaterial3D_k66mv")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_0os1l")
+
+[node name="Light" type="OmniLight3D" parent="." unique_id=1868780228]
+light_color = Color(1, 0.6, 0.2, 1)
+light_energy = 6.0
+omni_range = 10.0

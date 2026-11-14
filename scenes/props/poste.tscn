@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_flch5"]
+
+[node name="Poste" type="Node3D" unique_id=1894200377]
+
+[node name="Haste" type="Node3D" parent="." unique_id=1351063004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("1_flch5")
+shape = 1
+size = Vector3(0.14, 4, 0.14)
+color = Color(0.2, 0.2, 0.22, 1)
+metallic = 0.6
+roughness = 0.5
+
+[node name="Braco" type="Node3D" parent="." unique_id=1067743002]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 3.95, 0)
+script = ExtResource("1_flch5")
+size = Vector3(1, 0.08, 0.08)
+color = Color(0.2, 0.2, 0.22, 1)
+metallic = 0.6
+collide = false
+
+[node name="Lampada" type="Node3D" parent="." unique_id=1775356516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 3.85, 0)
+script = ExtResource("1_flch5")
+size = Vector3(0.35, 0.12, 0.22)
+color = Color(1, 0.95, 0.75, 1)
+emission = 1.5
+collide = false

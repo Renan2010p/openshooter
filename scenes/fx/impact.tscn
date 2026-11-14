@@ -1,0 +1,15 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/fx/impact.gd" id="gen_script_0"]
+
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p8puc"]
+albedo_color = Color(0.75, 0.7, 0.6, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_iyqup"]
+size = Vector3(0.12, 0.12, 0.12)
+
+[node name="Impact" type="MeshInstance3D" unique_id=683405888]
+script = ExtResource("gen_script_0")
+material_override = SubResource("StandardMaterial3D_p8puc")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_iyqup")

@@ -1,0 +1,223 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_jfhu7"]
+
+[node name="CasaAzul" type="Node3D" unique_id=2117876961]
+
+[node name="Paredes" type="Node3D" parent="." unique_id=1283116821]
+
+[node name="Parede" type="Node3D" parent="Paredes" unique_id=1448660776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.25, 1.7, -4)
+script = ExtResource("1_jfhu7")
+size = Vector3(4.5, 3.4, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede2" type="Node3D" parent="Paredes" unique_id=1540369393]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -4)
+script = ExtResource("1_jfhu7")
+size = Vector3(2, 1, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede3" type="Node3D" parent="Paredes" unique_id=1490179425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -4)
+script = ExtResource("1_jfhu7")
+size = Vector3(2, 1.3, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede4" type="Node3D" parent="Paredes" unique_id=1188992310]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.25, 1.7, -4)
+script = ExtResource("1_jfhu7")
+size = Vector3(4.5, 3.4, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede5" type="Node3D" parent="Paredes" unique_id=1211788373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.85, 1.7, 4)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.3, 3.4, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede6" type="Node3D" parent="Paredes" unique_id=1695486586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.5, 4)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.4, 1, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede7" type="Node3D" parent="Paredes" unique_id=314182790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.75, 4)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.4, 1.3, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede8" type="Node3D" parent="Paredes" unique_id=385616462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 1.7, 4)
+script = ExtResource("1_jfhu7")
+size = Vector3(2, 3.4, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede9" type="Node3D" parent="Paredes" unique_id=79873719]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85, 4)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.6, 1.1, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede10" type="Node3D" parent="Paredes" unique_id=1672877353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 1.7, 4)
+script = ExtResource("1_jfhu7")
+size = Vector3(2, 3.4, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede11" type="Node3D" parent="Paredes" unique_id=1480372215]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.5, 4)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.4, 1, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede12" type="Node3D" parent="Paredes" unique_id=1116721847]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2.75, 4)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.4, 1.3, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede13" type="Node3D" parent="Paredes" unique_id=236710920]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.85, 1.7, 4)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.3, 3.4, 0.3)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede14" type="Node3D" parent="Paredes" unique_id=1304820088]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.7, -2.4)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.3, 3.4, 3.2)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede15" type="Node3D" parent="Paredes" unique_id=1619787855]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.5, 0)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.3, 1, 1.6)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede16" type="Node3D" parent="Paredes" unique_id=441189119]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2.75, 0)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.3, 1.3, 1.6)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede17" type="Node3D" parent="Paredes" unique_id=387739317]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.7, 2.4)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.3, 3.4, 3.2)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede18" type="Node3D" parent="Paredes" unique_id=904415901]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 1.7, -1.6)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.3, 3.4, 4.8)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede19" type="Node3D" parent="Paredes" unique_id=80326609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.85, 1.5)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.3, 1.1, 1.4)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Parede20" type="Node3D" parent="Paredes" unique_id=502684814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 1.7, 3.1)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.3, 3.4, 1.8)
+color = Color(0.55, 0.7, 0.9, 1)
+
+[node name="Peitoril" type="Node3D" parent="Paredes" unique_id=497387364]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.95, 4.18)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.6, 0.1, 0.12)
+color = Color(0.775, 0.85, 0.95, 1)
+collide = false
+
+[node name="Peitoril2" type="Node3D" parent="Paredes" unique_id=89799049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.95, 4.18)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.6, 0.1, 0.12)
+color = Color(0.775, 0.85, 0.95, 1)
+collide = false
+
+[node name="Peitoril3" type="Node3D" parent="Paredes" unique_id=1792074014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, -4.18)
+script = ExtResource("1_jfhu7")
+size = Vector3(2.2, 0.1, 0.12)
+color = Color(0.775, 0.85, 0.95, 1)
+collide = false
+
+[node name="Peitoril4" type="Node3D" parent="Paredes" unique_id=306105995]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.68, 0.95, 0)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.12, 0.1, 1.8)
+color = Color(0.775, 0.85, 0.95, 1)
+collide = false
+
+[node name="Telhado" type="Node3D" parent="." unique_id=1659705664]
+
+[node name="Laje" type="Node3D" parent="Telhado" unique_id=1558994389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.55, 0)
+script = ExtResource("1_jfhu7")
+size = Vector3(11.6, 0.3, 8.6)
+color = Color(0.3025, 0.385, 0.495, 1)
+
+[node name="CaixaDagua" type="Node3D" parent="Telhado" unique_id=1001394019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
+script = ExtResource("1_jfhu7")
+size = Vector3(3.3, 0.2, 2.4)
+color = Color(0.55, 0.55, 0.58, 1)
+
+[node name="Interior" type="Node3D" parent="." unique_id=255459920]
+
+[node name="Piso" type="Node3D" parent="Interior" unique_id=1660220586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+script = ExtResource("1_jfhu7")
+size = Vector3(10.6, 0.02, 7.6)
+color = Color(0.5, 0.38, 0.28, 1)
+collide = false
+
+[node name="Sofa" type="Node3D" parent="Interior" unique_id=1715944899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75, 0.45, 0)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.6, 0.9, 0.8)
+color = Color(0.4, 0.28, 0.2, 1)
+
+[node name="Encosto" type="Node3D" parent="Interior" unique_id=1685670124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75, 0.95, 0.3)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.6, 0.5, 0.2)
+color = Color(0.4, 0.28, 0.2, 1)
+
+[node name="Armario" type="Node3D" parent="Interior" unique_id=246543126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75, 0.9, -3.4)
+script = ExtResource("1_jfhu7")
+size = Vector3(1.4, 1.8, 0.6)
+color = Color(0.35, 0.3, 0.3, 1)
+
+[node name="Mesa" type="Node3D" parent="Interior" unique_id=3411568]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75, 0.4, 2)
+script = ExtResource("1_jfhu7")
+size = Vector3(1, 0.06, 1)
+color = Color(0.5, 0.35, 0.22, 1)
+collide = false
+
+[node name="PeMesa" type="Node3D" parent="Interior" unique_id=279574670]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75, 0.2, 2)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.12, 0.4, 0.12)
+color = Color(0.3, 0.2, 0.12, 1)
+
+[node name="Degrau" type="Node3D" parent="." unique_id=992867479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 4.5)
+script = ExtResource("1_jfhu7")
+size = Vector3(2, 0.12, 0.8)
+color = Color(0.6, 0.6, 0.6, 1)
+collide = false
+
+[node name="Degrau2" type="Node3D" parent="." unique_id=1026950050]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.06, 1.5)
+script = ExtResource("1_jfhu7")
+size = Vector3(0.8, 0.12, 1.8)
+color = Color(0.6, 0.6, 0.6, 1)
+collide = false

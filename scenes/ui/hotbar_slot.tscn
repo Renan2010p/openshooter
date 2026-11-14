@@ -1,0 +1,28 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/hotbar_slot.gd" id="gen_script_0"]
+
+
+[node name="HotbarSlot" type="PanelContainer" unique_id=1895848403]
+script = ExtResource("gen_script_0")
+custom_minimum_size = Vector2(78, 46)
+mouse_filter = 2
+theme_type_variation = &"HotbarSlot"
+
+[node name="Content" type="VBoxContainer" parent="." unique_id=1439714677]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Number" type="Label" parent="Content" unique_id=1570091592]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudSmall"
+text = "1"
+horizontal_alignment = 1
+
+[node name="WeaponName" type="Label" parent="Content" unique_id=1591656415]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudSmall"
+text = "Arma"
+horizontal_alignment = 1

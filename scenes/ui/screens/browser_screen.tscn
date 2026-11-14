@@ -1,0 +1,88 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/screens/browser_screen.gd" id="gen_script_0"]
+
+
+[node name="Browser" type="Control" unique_id=1938164888]
+script = ExtResource("gen_script_0")
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="." unique_id=603917522]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+offset_top = 36.0
+offset_bottom = 106.0
+theme_type_variation = &"TitleLabel"
+text = "SERVIDORES NA REDE"
+horizontal_alignment = 1
+
+[node name="Card" type="PanelContainer" parent="." unique_id=220345014]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -410.0
+offset_top = -230.0
+offset_right = 410.0
+offset_bottom = 290.0
+theme_type_variation = &"Card"
+
+[node name="Content" type="VBoxContainer" parent="Card" unique_id=1807609316]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Empty" type="Label" parent="Card/Content" unique_id=1211989773]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Procurando servidores na rede local...
+Nenhum encontrado ainda. Crie um ou conecte por IP."
+autowrap_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Card/Content" unique_id=1889370035]
+custom_minimum_size = Vector2(780, 270)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="ServerList" type="VBoxContainer" parent="Card/Content/Scroll" unique_id=598537120]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Actions" type="HBoxContainer" parent="Card/Content" unique_id=702982664]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Create" type="Button" parent="Card/Content/Actions" unique_id=481013124]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 50)
+layout_mode = 2
+focus_mode = 0
+text = "Criar servidor"
+
+[node name="DirectIp" type="LineEdit" parent="Card/Content/Actions" unique_id=1666434112]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 50)
+layout_mode = 2
+placeholder_text = "IP direto (ex.: 192.168.0.10)"
+
+[node name="Connect" type="Button" parent="Card/Content/Actions" unique_id=918584380]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 50)
+layout_mode = 2
+focus_mode = 0
+text = "Conectar"
+
+[node name="Back" type="Button" parent="Card/Content" unique_id=1754428144]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 46)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+text = "Voltar"
