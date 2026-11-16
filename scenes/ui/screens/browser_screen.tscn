@@ -1,88 +1,180 @@
 [gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/screens/browser_screen.gd" id="gen_script_0"]
 
+[ext_resource type="Script" path="res://scripts/ui/screens/browser_screen.gd" id="gen_script_0"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/plus.svg" id="3_plus"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/server.svg" id="4_server"]
+
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
 
 [node name="Browser" type="Control" unique_id=1938164888]
 script = ExtResource("gen_script_0")
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="." unique_id=603917522]
-unique_name_in_owner = true
+[node name="Content" type="VBoxContainer" parent="." unique_id=1938164001]
 layout_mode = 0
 anchor_right = 1.0
-offset_top = 36.0
-offset_bottom = 106.0
-theme_type_variation = &"TitleLabel"
-text = "SERVIDORES NA REDE"
-horizontal_alignment = 1
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 48.0
+offset_right = -56.0
+offset_bottom = -56.0
+theme_override_constants/separation = 0
 
-[node name="Card" type="PanelContainer" parent="." unique_id=220345014]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -410.0
-offset_top = -230.0
-offset_right = 410.0
-offset_bottom = 290.0
-theme_type_variation = &"Card"
-
-[node name="Content" type="VBoxContainer" parent="Card" unique_id=1807609316]
+[node name="Eyebrow" type="Label" parent="Content" unique_id=1938164002]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_type_variation = &"SectionLabel"
+text = "MULTIPLAYER"
 
-[node name="Empty" type="Label" parent="Card/Content" unique_id=1211989773]
-unique_name_in_owner = true
+[node name="Header" type="HBoxContainer" parent="Content" unique_id=1938164003]
 layout_mode = 2
-theme_type_variation = &"HintLabel"
-text = "Procurando servidores na rede local...
-Nenhum encontrado ainda. Crie um ou conecte por IP."
-autowrap_mode = 2
+theme_override_constants/separation = 16
 
-[node name="Scroll" type="ScrollContainer" parent="Card/Content" unique_id=1889370035]
-custom_minimum_size = Vector2(780, 270)
-layout_mode = 2
-horizontal_scroll_mode = 0
-
-[node name="ServerList" type="VBoxContainer" parent="Card/Content/Scroll" unique_id=598537120]
-unique_name_in_owner = true
+[node name="Titles" type="VBoxContainer" parent="Content/Header" unique_id=1938164004]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 6
+theme_override_constants/separation = 0
 
-[node name="Actions" type="HBoxContainer" parent="Card/Content" unique_id=702982664]
+[node name="Title" type="Label" parent="Content/Header/Titles" unique_id=603917522]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "SERVERS ON THE NETWORK"
+
+[node name="Subtitle" type="Label" parent="Content/Header/Titles" unique_id=1938164005]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Servers announce themselves automatically. Refresh by waiting a moment, or connect directly by IP."
+
+[node name="Back" type="Button" parent="Content/Header" unique_id=1754428144]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 44)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"GhostButton"
+text = "Back"
+icon = ExtResource("2_back")
+
+[node name="Gap" type="Control" parent="Content" unique_id=1938164006]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+
+[node name="Card" type="PanelContainer" parent="Content" unique_id=220345014]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"Card"
+
+[node name="Box" type="VBoxContainer" parent="Content/Card" unique_id=1938164007]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ListHeader" type="HBoxContainer" parent="Content/Card/Box" unique_id=1938164008]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Create" type="Button" parent="Card/Content/Actions" unique_id=481013124]
+[node name="Icon" type="TextureRect" parent="Content/Card/Box/ListHeader" unique_id=1938164009]
+script = ExtResource("9_animicon")
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_server")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.96, 0.65, 0.14, 1)
+
+[node name="Heading" type="Label" parent="Content/Card/Box/ListHeader" unique_id=1938164010]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HudLabel"
+text = "AVAILABLE SERVERS"
+
+[node name="Hint" type="Label" parent="Content/Card/Box/ListHeader" unique_id=1938164011]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "AUTO-REFRESH  ·  LAN"
+
+[node name="EmptyState" type="CenterContainer" parent="Content/Card/Box" unique_id=1211989774]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(230, 50)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EmptyBox" type="VBoxContainer" parent="Content/Card/Box/EmptyState" unique_id=1211989775]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Content/Card/Box/EmptyState/EmptyBox" unique_id=1211989776]
+script = ExtResource("9_animicon")
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("4_server")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.3, 0.35, 0.42, 1)
+
+[node name="Empty" type="Label" parent="Content/Card/Box/EmptyState/EmptyBox" unique_id=1211989773]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+text = "NO SERVERS FOUND"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Content/Card/Box/EmptyState/EmptyBox" unique_id=1211989777]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Searching the local network... Create a server, or connect directly by IP below."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Content/Card/Box" unique_id=1889370035]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(680, 240)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ServerList" type="VBoxContainer" parent="Content/Card/Box/Scroll" unique_id=598537120]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Sep" type="HSeparator" parent="Content/Card/Box" unique_id=1938164012]
+layout_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="Content/Card/Box" unique_id=702982664]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Create" type="Button" parent="Content/Card/Box/Actions" unique_id=481013124]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 50)
 layout_mode = 2
 focus_mode = 0
-text = "Criar servidor"
+theme_type_variation = &"PrimaryButton"
+text = "Create server"
+icon = ExtResource("3_plus")
 
-[node name="DirectIp" type="LineEdit" parent="Card/Content/Actions" unique_id=1666434112]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 50)
+[node name="Gap" type="Control" parent="Content/Card/Box/Actions" unique_id=1938164013]
 layout_mode = 2
-placeholder_text = "IP direto (ex.: 192.168.0.10)"
+size_flags_horizontal = 3
 
-[node name="Connect" type="Button" parent="Card/Content/Actions" unique_id=918584380]
+[node name="DirectIp" type="LineEdit" parent="Content/Card/Box/Actions" unique_id=1666434112]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 50)
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+placeholder_text = "Direct IP (e.g. 192.168.0.10)"
+
+[node name="Connect" type="Button" parent="Content/Card/Box/Actions" unique_id=918584380]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
 focus_mode = 0
-text = "Conectar"
-
-[node name="Back" type="Button" parent="Card/Content" unique_id=1754428144]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 46)
-layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 0
-text = "Voltar"
+text = "Connect"

@@ -1,20 +1,20 @@
 class_name MapDB
-## Lista de mapas. O índice viaja pela rede (server_info.map), então todos os
-## jogadores precisam da mesma lista. Para adicionar um mapa: crie a cena em
-## scenes/maps/ (raiz com o script GameMap) e coloque-a aqui.
+## Map list. The index travels over the network (server_info.map), so every
+## player needs the same list. To add a map: create a scene in scenes/maps/
+## (root with the GameMap script) and add it here.
 
 const MAPS := [
-	{"id": "bairro", "name": "Bairro", "scene": "res://scenes/maps/bairro.tscn",
-		"description": "Casas, galpão com telhado e ruas abertas."},
-	{"id": "porto", "name": "Porto", "scene": "res://scenes/maps/porto.tscn",
-		"description": "Labirinto de contêineres no pôr do sol."},
-	{"id": "deserto", "name": "Vila do Deserto", "scene": "res://scenes/maps/deserto.tscn",
-		"description": "Casas de adobe, feira e telhados para atiradores."},
-	{"id": "artico", "name": "Base Ártica", "scene": "res://scenes/maps/artico.tscn",
-		"description": "Bunkers, torre de vigia e neblina."},
+	{"id": "neighborhood", "name": "Neighborhood", "scene": "res://scenes/maps/neighborhood.tscn",
+		"description": "Houses, a warehouse with a roof, and open streets."},
+	{"id": "harbor", "name": "Harbor", "scene": "res://scenes/maps/harbor.tscn",
+		"description": "A maze of shipping containers at sunset."},
+	{"id": "desert", "name": "Desert Village", "scene": "res://scenes/maps/desert.tscn",
+		"description": "Adobe houses, a market, and rooftops for snipers."},
+	{"id": "arctic", "name": "Arctic Base", "scene": "res://scenes/maps/arctic.tscn",
+		"description": "Bunkers, a watchtower, and fog."},
 ]
 
-## Valor de "map" que significa sortear um mapa.
+## Value of "map" that means "pick a random map".
 const RANDOM := -1
 
 

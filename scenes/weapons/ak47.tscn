@@ -6,7 +6,7 @@
 [node name="AK47" type="Node3D" unique_id=1499078226]
 script = ExtResource("1_t4pfi")
 
-[node name="Corpo" type="Node3D" parent="." unique_id=970937882]
+[node name="BodyMesh" type="Node3D" parent="." unique_id=970937882]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -0.12)
 script = ExtResource("2_efuf3")
 size = Vector3(0.07, 0.1, 0.45)
@@ -15,7 +15,7 @@ metallic = 0.7
 roughness = 0.4
 collide = false
 
-[node name="Tampa" type="Node3D" parent="." unique_id=2136479723]
+[node name="Lid" type="Node3D" parent="." unique_id=2136479723]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.11, -0.1)
 script = ExtResource("2_efuf3")
 size = Vector3(0.06, 0.02, 0.3)
@@ -24,49 +24,49 @@ metallic = 0.7
 roughness = 0.4
 collide = false
 
-[node name="Coronha" type="Node3D" parent="." unique_id=1953171513]
+[node name="Stock" type="Node3D" parent="." unique_id=1953171513]
 transform = Transform3D(1, 0, 0, 0, 0.9945219, 0.104528464, 0, -0.104528464, 0.9945219, 0, 0.03, 0.24)
 script = ExtResource("2_efuf3")
 size = Vector3(0.06, 0.1, 0.3)
 color = Color(0.45, 0.27, 0.13, 1)
 collide = false
 
-[node name="Guarda-mao" type="Node3D" parent="." unique_id=2060058578]
+[node name="Handguard" type="Node3D" parent="." unique_id=2060058578]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -0.37)
 script = ExtResource("2_efuf3")
 size = Vector3(0.075, 0.07, 0.22)
 color = Color(0.45, 0.27, 0.13, 1)
 collide = false
 
-[node name="Tubo-gas" type="Node3D" parent="." unique_id=1657923358]
+[node name="GasPipe" type="Node3D" parent="." unique_id=1657923358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.37)
 script = ExtResource("2_efuf3")
 size = Vector3(0.04, 0.03, 0.2)
 color = Color(0.45, 0.27, 0.13, 1)
 collide = false
 
-[node name="Pente-1" type="Node3D" parent="." unique_id=2132399973]
+[node name="Magazine-1" type="Node3D" parent="." unique_id=2132399973]
 transform = Transform3D(1, 0, 0, 0, 0.9781476, -0.2079117, 0, 0.2079117, 0.9781476, 0, -0.08, -0.1)
 script = ExtResource("2_efuf3")
 size = Vector3(0.045, 0.14, 0.07)
 color = Color(0.1, 0.1, 0.11, 1)
 collide = false
 
-[node name="Pente-2" type="Node3D" parent="." unique_id=164349388]
+[node name="Magazine-2" type="Node3D" parent="." unique_id=164349388]
 transform = Transform3D(1, 0, 0, 0, 0.88294756, -0.46947157, 0, 0.46947157, 0.88294756, 0, -0.19, -0.06)
 script = ExtResource("2_efuf3")
 size = Vector3(0.045, 0.12, 0.07)
 color = Color(0.1, 0.1, 0.11, 1)
 collide = false
 
-[node name="Empunhadura" type="Node3D" parent="." unique_id=1633021549]
+[node name="Grip" type="Node3D" parent="." unique_id=1633021549]
 transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, -0.05, 0.05)
 script = ExtResource("2_efuf3")
 size = Vector3(0.045, 0.12, 0.06)
 color = Color(0.32, 0.19, 0.1, 1)
 collide = false
 
-[node name="Cano" type="Node3D" parent="." unique_id=1139401656]
+[node name="GunBarrel" type="Node3D" parent="." unique_id=1139401656]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.07, -0.6)
 script = ExtResource("2_efuf3")
 shape = 1
@@ -76,14 +76,14 @@ metallic = 0.7
 roughness = 0.4
 collide = false
 
-[node name="Massa-mira" type="Node3D" parent="." unique_id=1265848237]
+[node name="Comb" type="Node3D" parent="." unique_id=1265848237]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, -0.7)
 script = ExtResource("2_efuf3")
 size = Vector3(0.012, 0.04, 0.012)
 color = Color(0.1, 0.1, 0.11, 1)
 collide = false
 
-[node name="Alca" type="Node3D" parent="." unique_id=1058357430]
+[node name="IronSight" type="Node3D" parent="." unique_id=1058357430]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
 script = ExtResource("2_efuf3")
 size = Vector3(0.03, 0.02, 0.03)
@@ -92,3 +92,6 @@ collide = false
 
 [node name="Muzzle" type="Marker3D" parent="." unique_id=1509530290]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, -0.77)
+
+[node name="Foregrip" type="Marker3D" parent="." unique_id=231777416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.38)

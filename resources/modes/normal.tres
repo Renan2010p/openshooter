@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="GameModeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/weapon_data.gd" id="1_rlf27"]
+[ext_resource type="Resource" path="res://resources/weapons/knife.tres" id="2_pary3"]
+[ext_resource type="Resource" path="res://resources/weapons/pistol.tres" id="3_hmxs7"]
+[ext_resource type="Resource" path="res://resources/weapons/ak47.tres" id="4_up84x"]
+[ext_resource type="Resource" path="res://resources/weapons/shotgun.tres" id="5_5of8p"]
+[ext_resource type="Resource" path="res://resources/weapons/sniper.tres" id="6_xc3py"]
+[ext_resource type="Resource" path="res://resources/weapons/mine.tres" id="7_8a8bm"]
+[ext_resource type="Resource" path="res://resources/weapons/grenade.tres" id="8_hpwe0"]
+[ext_resource type="Resource" path="res://resources/weapons/poison.tres" id="9_odvod"]
+[ext_resource type="Resource" path="res://resources/weapons/barrier.tres" id="10_vsw2a"]
+[ext_resource type="Script" path="res://scripts/game/mode_data.gd" id="11_3u3t2"]
+
+[resource]
+script = ExtResource("11_3u3t2")
+id = "normal"
+display_name = "Normal"
+description = "All weapons and equipment. The player with the most eliminations wins."
+loadout = Array[ExtResource("1_rlf27")]([ExtResource("2_pary3"), ExtResource("3_hmxs7"), ExtResource("4_up84x"), ExtResource("5_5of8p"), ExtResource("6_xc3py"), ExtResource("7_8a8bm"), ExtResource("8_hpwe0"), ExtResource("9_odvod"), ExtResource("10_vsw2a")])
+start_weapon = ExtResource("4_up84x")

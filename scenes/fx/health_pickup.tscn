@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/fx/health_pickup.gd" id="1_health"]
+
+[sub_resource type="StandardMaterial3D" id="MatBody"]
+albedo_color = Color(0.82, 0.9, 0.84, 1)
+roughness = 0.4
+emission_enabled = true
+emission = Color(0.16, 0.8, 0.34, 1)
+emission_energy_multiplier = 0.12
+
+[sub_resource type="StandardMaterial3D" id="MatCross"]
+albedo_color = Color(0.9, 0.16, 0.12, 1)
+roughness = 0.35
+emission_enabled = true
+emission = Color(0.9, 0.12, 0.1, 1)
+emission_energy_multiplier = 0.45
+
+[sub_resource type="StandardMaterial3D" id="MatRing"]
+albedo_color = Color(0.2, 0.9, 0.35, 1)
+roughness = 0.4
+emission_enabled = true
+emission = Color(0.2, 1, 0.4, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="BoxMesh" id="BoxBody"]
+material = SubResource("MatBody")
+size = Vector3(0.55, 0.35, 0.4)
+
+[sub_resource type="BoxMesh" id="CrossV"]
+material = SubResource("MatCross")
+size = Vector3(0.07, 0.26, 0.02)
+
+[sub_resource type="BoxMesh" id="CrossH"]
+material = SubResource("MatCross")
+size = Vector3(0.28, 0.07, 0.02)
+
+[sub_resource type="BoxMesh" id="TopV"]
+material = SubResource("MatCross")
+size = Vector3(0.07, 0.02, 0.26)
+
+[sub_resource type="BoxMesh" id="TopH"]
+material = SubResource("MatCross")
+size = Vector3(0.28, 0.02, 0.07)
+
+[sub_resource type="CylinderMesh" id="RingMesh"]
+material = SubResource("MatRing")
+top_radius = 0.42
+bottom_radius = 0.42
+height = 0.02
+radial_segments = 24
+rings = 1
+
+[sub_resource type="SphereShape3D" id="PickupShape"]
+radius = 0.85
+
+[node name="HealthPickup" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_health")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+shape = SubResource("PickupShape")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+cast_shadow = 0
+mesh = SubResource("BoxBody")
+
+[node name="CrossV" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0.21)
+cast_shadow = 0
+mesh = SubResource("CrossV")
+
+[node name="CrossH" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0.21)
+cast_shadow = 0
+mesh = SubResource("CrossH")
+
+[node name="TopV" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.53, 0)
+cast_shadow = 0
+mesh = SubResource("TopV")
+
+[node name="TopH" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.53, 0)
+cast_shadow = 0
+mesh = SubResource("TopH")
+
+[node name="Ring" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+cast_shadow = 0
+mesh = SubResource("RingMesh")

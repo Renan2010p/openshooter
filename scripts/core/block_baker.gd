@@ -1,22 +1,22 @@
 class_name BlockBaker
-## Junta vários [Block] em meshes com cores por vértice e cria as colisões deles
-## num único StaticBody3D.
+## Merges multiple [Block] nodes into vertex-colored meshes and builds their
+## collision shapes inside a single StaticBody3D.
 ##
-## - bake(): tudo num mesh só (armas, boneco: coisas pequenas).
-## - bake_chunked(): mapas. Divide em pedaços (células) para o Godot poder pular
-##   o que está fora da tela ou longe demais, e separa os detalhes pequenos num
-##   mesh que só aparece de perto e não faz sombra.
-## - build_occluders(): paredes grandes escondem o que está atrás delas.
+## - bake(): everything into one mesh (weapons, character: small objects).
+## - bake_chunked(): maps. Splits geometry into cells so Godot can skip what is
+##   off-screen or too far away, and moves small details into a mesh that only
+##   appears up close and casts no shadows.
+## - build_occluders(): large walls hide whatever is behind them.
 ##
-## Os blocos continuam na árvore (sem desenhar nada), então nós filhos como
-## Marker3D não são afetados.
+## Blocks remain in the tree (drawing nothing), so child nodes such as
+## Marker3D are unaffected.
 
-## Blocos maiores que isto (em qualquer eixo) não entram em células: ficam num
-## mesh "global" sempre desenhado (chão, muros do mapa).
+## Blocks larger than this (on any axis) are not split into cells: they go into
+## an always-drawn "global" mesh (ground, map boundary walls).
 const HUGE := 30.0
 
 
-## Blocos sob `root`. Com `recursive = false`, só os filhos diretos.
+## Blocks under `root`. With `recursive = false`, only direct children.
 static func collect(root: Node, recursive := true) -> Array[Block]:
 	var out: Array[Block] = []
 	for child in root.get_children():
@@ -27,7 +27,18 @@ static func collect(root: Node, recursive := true) -> Array[Block]:
 	return out
 
 
-## Transformação de `node` relativa a `root` (funciona fora da árvore também).
+## Is the block visible? Checks the block and every parent up to `root` (a
+## hidden parent, such as the left hand of a one-handed weapon, also hides it).
+static func is_shown(root: Node, b: Node) -> bool:
+	var n := b
+	while n != null and n != root:
+		if n is Node3D and not (n as Node3D).visible:
+			return false
+		n = n.get_parent()
+	return true
+
+
+## Transform of `node` relative to `root` (works outside the tree too).
 static func relative(root: Node, node: Node) -> Transform3D:
 	var xf := Transform3D.IDENTITY
 	var n := node
@@ -38,7 +49,7 @@ static func relative(root: Node, node: Node) -> Transform3D:
 	return xf
 
 
-## Cria um MeshInstance3D "BakedMesh" filho de `root` com todos os blocos juntos.
+## Creates a MeshInstance3D named "BakedMesh" under `root` with all blocks merged.
 static func bake(root: Node3D, recursive := true, blocks: Array[Block] = []) -> MeshInstance3D:
 	if blocks.is_empty():
 		blocks = collect(root, recursive)
@@ -57,14 +68,14 @@ static func bake(root: Node3D, recursive := true, blocks: Array[Block] = []) -> 
 	return out
 
 
-## Junta os blocos do mapa em células de `cell` metros. Cada célula vira até dois
-## MeshInstance3D: o principal (some depois de `far` metros) e o de detalhes
-## (some depois de `detail_far` metros e não projeta sombra).
-## Devolve todos os MeshInstance3D criados, para ajustar as distâncias depois.
+## Merges map blocks into cells of `cell` meters. Each cell becomes up to two
+## MeshInstance3D nodes: the main mesh (hidden beyond `far` meters) and the
+## details mesh (hidden beyond `detail_far` meters and casting no shadows).
+## Returns every created MeshInstance3D so distances can be adjusted later.
 static func bake_chunked(root: Node3D, cell: float, far: float, detail_far: float) -> Array[MeshInstance3D]:
 	var cells := {}
 	for b in collect(root, true):
-		if b.has_meta("baked") or not b.visible:
+		if b.has_meta("baked") or not is_shown(root, b):
 			continue
 		b.set_meta("baked", true)
 		var xf := relative(root, b)
@@ -89,7 +100,7 @@ static func bake_chunked(root: Node3D, cell: float, far: float, detail_far: floa
 		if mesh == null:
 			continue
 		var mi := MeshInstance3D.new()
-		mi.name = "Global" if huge else ("Detalhes_%d_%d" % [key.x, key.y] if detail else "Celula_%d_%d" % [key.x, key.y])
+		mi.name = "Global" if huge else ("Details_%d_%d" % [key.x, key.y] if detail else "Cell_%d_%d" % [key.x, key.y])
 		mi.mesh = mesh
 		mi.position = origin
 		if not huge:
@@ -103,28 +114,150 @@ static func bake_chunked(root: Node3D, cell: float, far: float, detail_far: floa
 	return out
 
 
-## Ajusta as distâncias de desenho de meshes criados por bake_chunked().
+## True when the optional native (C) extension is loaded.
+static func native_available() -> bool:
+	return ClassDB.class_exists("NativeOps")
+
+
+## Native (C) version of bake_chunked(): the merge and chunking happen in the
+## extension, and each chunk becomes ONE surface with the shared map shader.
+## That keeps draw calls low on mobile. Falls back to GDScript on any problem.
+static func bake_chunked_native(root: Node3D, cell: float, far: float, detail_far: float) -> Array[MeshInstance3D]:
+	var todo: Array[Block] = []
+	for b in collect(root, true):
+		if b.has_meta("baked") or not is_shown(root, b):
+			continue
+		todo.append(b)
+	if todo.is_empty():
+		return []
+	var data := PackedFloat32Array()
+	data.resize(todo.size() * 24)
+	var i := 0
+	for b in todo:
+		var xf := relative(root, b)
+		var bs := xf.basis
+		data[i] = bs.x.x
+		data[i + 1] = bs.x.y
+		data[i + 2] = bs.x.z
+		data[i + 3] = bs.y.x
+		data[i + 4] = bs.y.y
+		data[i + 5] = bs.y.z
+		data[i + 6] = bs.z.x
+		data[i + 7] = bs.z.y
+		data[i + 8] = bs.z.z
+		data[i + 9] = xf.origin.x
+		data[i + 10] = xf.origin.y
+		data[i + 11] = xf.origin.z
+		data[i + 12] = b.size.x
+		data[i + 13] = b.size.y
+		data[i + 14] = b.size.z
+		data[i + 15] = b.color.r
+		data[i + 16] = b.color.g
+		data[i + 17] = b.color.b
+		data[i + 18] = b.metallic
+		data[i + 19] = b.roughness
+		data[i + 20] = b.emission
+		data[i + 21] = float(b.shape)
+		data[i + 22] = 1.0 if b.collide else 0.0
+		var huge := maxf(b.size.x, maxf(b.size.y, b.size.z)) > HUGE
+		data[i + 23] = (1.0 if b.is_detail() else 0.0) + (2.0 if huge else 0.0)
+		i += 24
+	var ops = ClassDB.instantiate("NativeOps")
+	if ops == null:
+		return bake_chunked(root, cell, far, detail_far)
+	var result: Array = ops.bake_map(data, todo.size(), cell)
+	if result.is_empty():
+		return bake_chunked(root, cell, far, detail_far)
+	for b in todo:
+		b.set_meta("baked", true)
+	var material := map_material()
+	var out: Array[MeshInstance3D] = []
+	var container := Node3D.new()
+	container.name = "BakedChunks"
+	root.add_child(container)
+	for item in result:
+		var vertices: PackedVector3Array = item["vertices"]
+		if vertices.is_empty():
+			continue
+		var arrays := []
+		arrays.resize(Mesh.ARRAY_MAX)
+		arrays[Mesh.ARRAY_VERTEX] = vertices
+		arrays[Mesh.ARRAY_NORMAL] = item["normals"]
+		arrays[Mesh.ARRAY_COLOR] = item["colors"]
+		arrays[Mesh.ARRAY_TEX_UV2] = item["uv2"]
+		arrays[Mesh.ARRAY_INDEX] = item["indices"]
+		var mesh := ArrayMesh.new()
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+		mesh.surface_set_material(0, material)
+		var mi := MeshInstance3D.new()
+		var huge: bool = item["huge"]
+		var detail: bool = item["detail"]
+		mi.name = "Global" if huge else ("Details" if detail else "Chunk")
+		mi.mesh = mesh
+		mi.position = item["origin"]
+		if not huge:
+			mi.visibility_range_end = detail_far if detail else far
+			mi.visibility_range_end_margin = 4.0
+		if detail:
+			mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		container.add_child(mi)
+		out.append(mi)
+	# Collision: one concave mesh per chunk instead of one box per block.
+	var body := StaticBody3D.new()
+	body.name = "Collision"
+	body.collision_layer = 1
+	body.collision_mask = 0
+	root.add_child(body)
+	var shapes := 0
+	for item in result:
+		var faces: PackedVector3Array = item["collision"]
+		if faces.is_empty():
+			continue
+		var shape := ConcavePolygonShape3D.new()
+		shape.set_faces(faces)
+		var cs := CollisionShape3D.new()
+		cs.shape = shape
+		body.add_child(cs)
+		shapes += 1
+	if shapes == 0:
+		body.queue_free()
+	return out
+
+
+static var _map_material: ShaderMaterial
+
+## One material for the whole map: color, roughness, metallic and emission are
+## packed per vertex, so a chunk needs a single surface (and a single draw call).
+static func map_material() -> ShaderMaterial:
+	if _map_material == null:
+		_map_material = ShaderMaterial.new()
+		_map_material.shader = load("res://resources/materials/map_surface.gdshader")
+	return _map_material
+
+
+## Adjusts the draw distances of meshes created by bake_chunked().
 static func set_ranges(meshes: Array[MeshInstance3D], far: float, detail_far: float) -> void:
 	for mi in meshes:
 		if is_instance_valid(mi) and mi.has_meta("detail"):
 			mi.visibility_range_end = detail_far if mi.get_meta("detail") else far
 
 
-## Paredes e volumes grandes viram oclusores: o que estiver atrás deles não é
-## desenhado. Só blocos sólidos, altos e largos (paredes, contêineres, casas).
+## Large walls and volumes become occluders: whatever is behind them is not
+## drawn. Only solid, tall and wide blocks (walls, containers, houses).
 static func build_occluders(root: Node3D) -> int:
 	var container := Node3D.new()
 	container.name = "Occluders"
 	root.add_child(container)
 	var n := 0
 	for b in collect(root, true):
-		if not b.collide or not b.visible or b.shape != Block.Shape.BOX:
+		if not b.collide or not is_shown(root, b) or b.shape != Block.Shape.BOX:
 			continue
 		if b.size.y < 2.0 or maxf(b.size.x, b.size.z) < 2.5 or maxf(b.size.x, maxf(b.size.y, b.size.z)) > HUGE:
 			continue
 		var occ := OccluderInstance3D.new()
 		var box := BoxOccluder3D.new()
-		# Um pouco menor que o bloco, para nunca esconder algo que aparece pela borda.
+		# Slightly smaller than the block, so it never hides something peeking
+		# around the edge.
 		box.size = b.size * 0.95
 		occ.occluder = box
 		occ.transform = relative(root, b)
@@ -133,7 +266,7 @@ static func build_occluders(root: Node3D) -> int:
 	return n
 
 
-## Colisões de todos os blocos com `collide = true`, num único StaticBody3D.
+## Collision for every block with `collide = true`, in a single StaticBody3D.
 static func build_collision(root: Node3D, layer := 1) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = "Collision"
@@ -150,7 +283,7 @@ static func build_collision(root: Node3D, layer := 1) -> StaticBody3D:
 	return body
 
 
-## Monta um ArrayMesh com os blocos, com vértices relativos a `origin`.
+## Builds an ArrayMesh from the blocks, with vertices relative to `origin`.
 static func _mesh_from(root: Node, blocks: Array, origin: Vector3) -> ArrayMesh:
 	var groups := {}
 	for b: Block in blocks:

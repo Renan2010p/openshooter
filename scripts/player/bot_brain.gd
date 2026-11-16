@@ -1,12 +1,12 @@
 class_name BotBrain
 extends Node
-## IA dos bots (roda só no servidor): procura inimigos visíveis, mira com atraso
-## e erro, desvia para os lados e anda entre os waypoints do mapa.
+## Bot AI (server only): finds visible enemies, aims with delay and error,
+## strafes sideways and walks between the map waypoints.
 
-## Tempo de reação ao ver um inimigo (segundos).
+## Reaction time to seeing an enemy (seconds).
 @export var reaction_min := 0.3
 @export var reaction_max := 0.6
-## Erro de mira inicial; diminui enquanto o bot continua mirando.
+## Initial aim error; shrinks while the bot keeps aiming.
 @export var aim_error := 0.035
 @export var view_distance := 65.0
 @export var turn_speed := 6.0
@@ -22,7 +22,7 @@ var _stuck := 0.0
 var _err := Vector2.ZERO
 
 
-## Devolve o desejo de movimento deste quadro: {wish: Vector3, jump: bool}.
+## Returns the movement wish for this frame: {wish: Vector3, jump: bool}.
 func think(delta: float) -> Dictionary:
 	var res := {"wish": Vector3.ZERO, "jump": false}
 	_scan -= delta
@@ -62,7 +62,11 @@ func _fight(delta: float, res: Dictionary) -> void:
 	var dist := to.length()
 	var forward := 0.0
 	var idx := player.weapons.index
-	if idx == WeaponDB.SHOTGUN or idx == WeaponDB.PISTOL:
+	if player.weapons.data().is_melee():
+		# Knife: run in until close and stop strafing so the swing lands.
+		forward = 1.0 if dist > 1.6 else 0.0
+		_strafe *= 0.2
+	elif idx == WeaponDB.SHOTGUN or idx == WeaponDB.PISTOL:
 		forward = 1.0 if dist > 7.0 else 0.0
 	elif dist > 28.0:
 		forward = 1.0

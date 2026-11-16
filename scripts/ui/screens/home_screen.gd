@@ -1,5 +1,5 @@
 extends MenuScreen
-## Tela inicial: Jogar, Armário, Configurações, Estatísticas e Sair.
+## Start screen: Play, Locker, Settings, Statistics and Quit.
 
 
 func _ready() -> void:
@@ -12,3 +12,9 @@ func _ready() -> void:
 
 func enter(_arg: Variant) -> void:
 	%PlayerName.text = Config.player_name
+	var s := Config.stats
+	var kills := int(s.get("kills", 0))
+	var deaths := int(s.get("deaths", 0))
+	%QuickKills.text = str(kills)
+	%QuickKd.text = "%.2f" % (float(kills) / maxf(1.0, float(deaths)))
+	%QuickMatches.text = str(int(s.get("matches", 0)))

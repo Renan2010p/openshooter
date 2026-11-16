@@ -1,7 +1,7 @@
 extends MenuScreen
-## Jogo privado: entrar com um código de 5 números ou criar um servidor privado.
+## Private game: join with a 5-digit code or create a private server.
 
-## Por quanto tempo procurar o servidor na rede antes de desistir.
+## How long to look for the server on the network before giving up.
 @export var search_seconds := 4.0
 
 var _pending := ""
@@ -22,11 +22,11 @@ func leave() -> void:
 func _start_search() -> void:
 	var code: String = %Code.text.strip_edges()
 	if code.length() != 5 or not code.is_valid_int():
-		menu.set_status("O código tem 5 números.")
+		menu.set_status("The code must have 5 digits.")
 		return
 	_pending = code
 	_search_t = search_seconds
-	menu.set_status("Procurando o servidor %s na rede..." % code, true)
+	menu.set_status("Searching for server %s on the network..." % code, true)
 
 
 func _process(delta: float) -> void:
@@ -42,4 +42,4 @@ func _process(delta: float) -> void:
 	_search_t -= delta
 	if _search_t <= 0.0:
 		_pending = ""
-		menu.set_status("Nenhum servidor privado com esse código foi encontrado na rede.")
+		menu.set_status("No private server with that code was found on the network.")

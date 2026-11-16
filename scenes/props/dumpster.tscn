@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_n54gv"]
+
+[node name="Dumpster" type="Node3D" unique_id=1262504627]
+
+[node name="BodyMesh" type="Node3D" parent="." unique_id=1570106415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+script = ExtResource("1_n54gv")
+shape = 1
+size = Vector3(0.6, 0.9, 0.6)
+color = Color(0.15, 0.45, 0.25, 1)
+
+[node name="Lid" type="Node3D" parent="." unique_id=1131200449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92, 0)
+script = ExtResource("1_n54gv")
+shape = 1
+size = Vector3(0.66, 0.06, 0.66)
+color = Color(0.1, 0.3, 0.17, 1)
+collide = false

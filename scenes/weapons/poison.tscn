@@ -1,0 +1,43 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/baked_model.gd" id="1_hgrel"]
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="2_bb2ow"]
+
+[node name="Poison" type="Node3D" unique_id=1579394967]
+script = ExtResource("1_hgrel")
+
+[node name="Can" type="Node3D" parent="." unique_id=864827675]
+script = ExtResource("2_bb2ow")
+shape = 1
+size = Vector3(0.08, 0.2, 0.08)
+color = Color(0.35, 0.42, 0.2, 1)
+metallic = 0.4
+roughness = 0.5
+collide = false
+
+[node name="Stripe" type="Node3D" parent="." unique_id=432770884]
+script = ExtResource("2_bb2ow")
+shape = 1
+size = Vector3(0.082, 0.04, 0.082)
+color = Color(0.5, 1, 0.3, 1)
+emission = 1.5
+collide = false
+
+[node name="Lid" type="Node3D" parent="." unique_id=1263555302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.11, 0)
+script = ExtResource("2_bb2ow")
+shape = 1
+size = Vector3(0.05, 0.03, 0.05)
+color = Color(0.3, 0.3, 0.3, 1)
+metallic = 0.8
+collide = false
+
+[node name="Valve" type="Node3D" parent="." unique_id=618630370]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13, 0)
+script = ExtResource("2_bb2ow")
+shape = 2
+size = Vector3(0.02, 0.02, 0.02)
+color = Color(0.9, 0.2, 0.2, 1)
+collide = false
+
+[node name="Muzzle" type="Marker3D" parent="." unique_id=1987140412]

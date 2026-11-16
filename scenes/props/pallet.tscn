@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_ghklq"]
+
+[node name="Pallet" type="Node3D" unique_id=427769188]
+
+[node name="Base" type="Node3D" parent="." unique_id=1142087200]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0)
+script = ExtResource("1_ghklq")
+size = Vector3(1.2, 0.14, 1)
+color = Color(0.6, 0.45, 0.28, 1)
+
+[node name="Cargo" type="Node3D" parent="." unique_id=1222605868]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+script = ExtResource("1_ghklq")
+size = Vector3(1.1, 0.8, 0.9)
+color = Color(0.82, 0.78, 0.7, 1)
+
+[node name="Tag" type="Node3D" parent="." unique_id=1012915430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -0.455)
+script = ExtResource("1_ghklq")
+size = Vector3(0.6, 0.3, 0.01)
+color = Color(0.9, 0.3, 0.2, 1)
+collide = false

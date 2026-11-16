@@ -1,162 +1,300 @@
 [gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/screens/create_screen.gd" id="gen_script_0"]
 
+[ext_resource type="Script" path="res://scripts/ui/screens/create_screen.gd" id="gen_script_0"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/plus.svg" id="3_plus"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/server.svg" id="4_server"]
+[ext_resource type="Script" path="res://scripts/ui/stepper.gd" id="5_stepper"]
+
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
 
 [node name="Create" type="Control" unique_id=1540711362]
 script = ExtResource("gen_script_0")
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="." unique_id=2017398056]
-unique_name_in_owner = true
+[node name="Content" type="VBoxContainer" parent="." unique_id=1540711001]
 layout_mode = 0
 anchor_right = 1.0
-offset_top = 36.0
-offset_bottom = 106.0
-theme_type_variation = &"TitleLabel"
-text = "CRIAR SERVIDOR"
-horizontal_alignment = 1
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 48.0
+offset_right = -56.0
+offset_bottom = -56.0
+theme_override_constants/separation = 0
 
-[node name="Card" type="PanelContainer" parent="." unique_id=1642388462]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -320.0
-offset_top = -250.0
-offset_right = 320.0
-offset_bottom = 300.0
+[node name="Eyebrow" type="Label" parent="Content" unique_id=1540711002]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "MULTIPLAYER"
+
+[node name="Header" type="HBoxContainer" parent="Content" unique_id=1540711003]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Content/Header" unique_id=1540711004]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Header/Titles" unique_id=2017398056]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "CREATE SERVER"
+
+[node name="Subtitle" type="Label" parent="Content/Header/Titles" unique_id=1540711005]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Host a match on this machine. Bots can fill the server while you wait for friends."
+
+[node name="Back" type="Button" parent="Content/Header" unique_id=1404767645]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 44)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"GhostButton"
+text = "Back"
+icon = ExtResource("2_back")
+
+[node name="Gap" type="Control" parent="Content" unique_id=1540711006]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Content" unique_id=1540711007]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="FormCard" type="PanelContainer" parent="Content/Body" unique_id=1642388462]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 theme_type_variation = &"Card"
 
-[node name="Content" type="VBoxContainer" parent="Card" unique_id=171723981]
+[node name="Form" type="VBoxContainer" parent="Content/Body/FormCard" unique_id=1540711008]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 6
 
-[node name="NameRow" type="HBoxContainer" parent="Card/Content" unique_id=596041342]
+[node name="ServerSection" type="Label" parent="Content/Body/FormCard/Form" unique_id=1540711009]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_type_variation = &"SectionLabel"
+text = "SERVER"
 
-[node name="Label" type="Label" parent="Card/Content/NameRow" unique_id=89655142]
-custom_minimum_size = Vector2(240, 0)
+[node name="NameRow" type="HBoxContainer" parent="Content/Body/FormCard/Form" unique_id=596041342]
 layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/FormCard/Form/NameRow" unique_id=89655142]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"FieldLabel"
-text = "Nome"
+text = "Server name"
 
-[node name="ServerName" type="LineEdit" parent="Card/Content/NameRow" unique_id=755306734]
+[node name="ServerName" type="LineEdit" parent="Content/Body/FormCard/Form/NameRow" unique_id=755306734]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 0)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MapRow" type="HBoxContainer" parent="Card/Content"]
+[node name="MapRow" type="HBoxContainer" parent="Content/Body/FormCard/Form" unique_id=1540711010]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Card/Content/MapRow"]
-custom_minimum_size = Vector2(240, 0)
+[node name="Label" type="Label" parent="Content/Body/FormCard/Form/MapRow" unique_id=1540711011]
+custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
-mouse_filter = 2
+size_flags_vertical = 4
 theme_type_variation = &"FieldLabel"
-text = "Mapa"
+text = "Map"
 
-[node name="Map" type="OptionButton" parent="Card/Content/MapRow"]
+[node name="Map" type="OptionButton" parent="Content/Body/FormCard/Form/MapRow" unique_id=1540711012]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 0)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MapDescription" type="Label" parent="Card/Content"]
+[node name="MapDescription" type="Label" parent="Content/Body/FormCard/Form" unique_id=1540711013]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 2
 theme_type_variation = &"HintLabel"
-text = "Descrição do mapa"
+text = "Map description"
+autowrap_mode = 2
 
-[node name="BotsRow" type="HBoxContainer" parent="Card/Content" unique_id=1728851065]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="Card/Content/BotsRow" unique_id=770803147]
-custom_minimum_size = Vector2(240, 0)
-layout_mode = 2
-theme_type_variation = &"FieldLabel"
-text = "Bots"
-
-[node name="Bots" type="SpinBox" parent="Card/Content/BotsRow" unique_id=1176754722]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-max_value = 8.0
-
-[node name="DurationRow" type="HBoxContainer" parent="Card/Content" unique_id=1994564762]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="Card/Content/DurationRow" unique_id=1245190375]
-custom_minimum_size = Vector2(240, 0)
-layout_mode = 2
-theme_type_variation = &"FieldLabel"
-text = "Duração"
-
-[node name="Duration" type="OptionButton" parent="Card/Content/DurationRow" unique_id=993887050]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="MaxPlayersRow" type="HBoxContainer" parent="Card/Content" unique_id=1507189525]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="Card/Content/MaxPlayersRow" unique_id=1148280490]
-custom_minimum_size = Vector2(240, 0)
-layout_mode = 2
-theme_type_variation = &"FieldLabel"
-text = "Máx. jogadores"
-
-[node name="MaxPlayers" type="SpinBox" parent="Card/Content/MaxPlayersRow" unique_id=374612635]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-min_value = 2.0
-max_value = 16.0
-value = 10.0
-
-[node name="CodeLabel" type="Label" parent="Card/Content" unique_id=1677745272]
+[node name="CodeLabel" type="Label" parent="Content/Body/FormCard/Form" unique_id=1677745272]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SubtitleLabel"
-theme_override_font_sizes/font_size = 26
-text = "Código Privado: 00000"
+text = "Private code: 00000"
+theme_override_font_sizes/font_size = 24
 
-[node name="DuelHint" type="Label" parent="Card/Content" unique_id=1442262944]
+[node name="Sep" type="HSeparator" parent="Content/Body/FormCard/Form" unique_id=1540711014]
+layout_mode = 2
+
+[node name="MatchSection" type="Label" parent="Content/Body/FormCard/Form" unique_id=1540711015]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "MATCH"
+
+[node name="DurationRow" type="HBoxContainer" parent="Content/Body/FormCard/Form" unique_id=1994564762]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/FormCard/Form/DurationRow" unique_id=1245190375]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Duration"
+
+[node name="Duration" type="OptionButton" parent="Content/Body/FormCard/Form/DurationRow" unique_id=993887050]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BotsRow" type="HBoxContainer" parent="Content/Body/FormCard/Form" unique_id=1728851065]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/FormCard/Form/BotsRow" unique_id=770803147]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Bots"
+
+[node name="Bots" type="PanelContainer" parent="Content/Body/FormCard/Form/BotsRow" unique_id=1176754722]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Stepper"
+script = ExtResource("5_stepper")
+max_value = 8
+value = 3
+
+[node name="MaxPlayersRow" type="HBoxContainer" parent="Content/Body/FormCard/Form" unique_id=1507189525]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/FormCard/Form/MaxPlayersRow" unique_id=1148280490]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Max players"
+
+[node name="MaxPlayers" type="PanelContainer" parent="Content/Body/FormCard/Form/MaxPlayersRow" unique_id=374612635]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Stepper"
+script = ExtResource("5_stepper")
+min_value = 2
+max_value = 16
+value = 10
+
+[node name="AllowAimAssistRow" type="HBoxContainer" parent="Content/Body/FormCard/Form" unique_id=1540711028]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/FormCard/Form/AllowAimAssistRow" unique_id=1540711029]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Touch aim assist"
+
+[node name="AllowAimAssist" type="CheckBox" parent="Content/Body/FormCard/Form/AllowAimAssistRow" unique_id=1540711030]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+button_pressed = true
+text = "Allowed"
+
+[node name="DuelHint" type="Label" parent="Content/Body/FormCard/Form" unique_id=1442262944]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HintLabel"
-text = "Duelo 1 contra 1: vence quem fizer 5 abates primeiro."
+text = "1v1 duel: first to reach 5 kills wins."
 autowrap_mode = 2
 
-[node name="Actions" type="HBoxContainer" parent="Card/Content" unique_id=1383181129]
+[node name="Spacer" type="Control" parent="Content/Body/FormCard/Form" unique_id=1540711016]
 layout_mode = 2
-theme_override_constants/separation = 10
+size_flags_vertical = 3
 
-[node name="Create" type="Button" parent="Card/Content/Actions" unique_id=2125563499]
+[node name="Create" type="Button" parent="Content/Body/FormCard/Form" unique_id=2125563499]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 56)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "Criar"
+theme_type_variation = &"PrimaryButton"
+text = "Create server"
+icon = ExtResource("3_plus")
 
-[node name="Back" type="Button" parent="Card/Content/Actions" unique_id=1404767645]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 56)
+[node name="Info" type="PanelContainer" parent="Content/Body" unique_id=1540711017]
+custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
-focus_mode = 0
-text = "Voltar"
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Body/Info" unique_id=1540711018]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="Content/Body/Info/Box" unique_id=1540711019]
+script = ExtResource("9_animicon")
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("4_server")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.96, 0.65, 0.14, 1)
+
+[node name="Title" type="Label" parent="Content/Body/Info/Box" unique_id=1540711020]
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+text = "QUICK START"
+
+[node name="Step1" type="Label" parent="Content/Body/Info/Box" unique_id=1540711021]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "1. Choose the map and match length."
+autowrap_mode = 2
+
+[node name="Step2" type="Label" parent="Content/Body/Info/Box" unique_id=1540711022]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "2. Add bots to fill empty slots."
+autowrap_mode = 2
+
+[node name="Step3" type="Label" parent="Content/Body/Info/Box" unique_id=1540711023]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "3. Share the server name, private code or your IP."
+autowrap_mode = 2
+
+[node name="Sep" type="HSeparator" parent="Content/Body/Info/Box" unique_id=1540711024]
+layout_mode = 2
+
+[node name="Ports" type="Label" parent="Content/Body/Info/Box" unique_id=1540711025]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "REQUIRES UDP 24540 AND 24541 ON THE HOST"
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="Content/Body/Info/Box" unique_id=1540711026]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Note" type="Label" parent="Content/Body/Info/Box" unique_id=1540711027]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "The match clock, damage, mines and bots are all authoritative on the host."
+autowrap_mode = 2

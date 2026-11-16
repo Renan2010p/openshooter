@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://resources/textures/arctic.res" id="1_nq6pe"]
+
+[resource]
+albedo_texture = ExtResource("1_nq6pe")
+uv1_scale = Vector3(0.25, 0.25, 0.25)
+uv1_triplanar = true

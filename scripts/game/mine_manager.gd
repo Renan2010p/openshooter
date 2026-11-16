@@ -1,6 +1,6 @@
 class_name MineManager
 extends Node3D
-## Minas terrestres: o servidor decide quando explodem e quem toma dano.
+## Land mines: the server decides when they explode and who takes damage.
 
 const MINE_SCENE := preload("res://scenes/fx/placed_mine.tscn")
 const EXPLOSION_SCENE := preload("res://scenes/fx/explosion.tscn")
@@ -90,7 +90,15 @@ func explode(id: int) -> void:
 		world.hud.shake(0.5)
 
 
-## Explode todas (fim de partida).
+## Explode every mine (end of match).
 func clear_all() -> void:
 	for id in _mines.keys():
 		explode.rpc(id)
+
+
+## Removes every mine without exploding (map change; runs on every computer).
+func clear_all_local() -> void:
+	for id in _mines:
+		if is_instance_valid(_mines[id].node):
+			_mines[id].node.queue_free()
+	_mines.clear()

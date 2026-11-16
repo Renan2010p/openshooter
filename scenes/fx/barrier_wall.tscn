@@ -1,0 +1,75 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/fx/barrier_wall.gd" id="gen_script_0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j1uk2"]
+size = Vector3(4, 2.4, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jtgeq"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.35, 0.8, 1, 0.45)
+
+[sub_resource type="BoxMesh" id="BoxMesh_me1f3"]
+size = Vector3(4, 2.4, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yp768"]
+albedo_color = Color(0.5, 0.95, 1, 1)
+emission_enabled = true
+emission = Color(0.4, 0.9, 1, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_cklp6"]
+size = Vector3(4.1, 0.08, 0.55)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yxvks"]
+size = Vector3(4.1, 0.08, 0.55)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cae1v"]
+size = Vector3(0.08, 2.4, 0.55)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bq1g4"]
+size = Vector3(0.08, 2.4, 0.55)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tuuyk"]
+size = Vector3(0.05, 2.3, 0.52)
+
+[node name="BarrierWall" type="StaticBody3D" unique_id=291427294]
+script = ExtResource("gen_script_0")
+collision_mask = 0
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=1043726586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_j1uk2")
+
+[node name="Visual" type="Node3D" parent="." unique_id=1644384063]
+
+[node name="Panel" type="MeshInstance3D" parent="Visual" unique_id=178079990]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+material_override = SubResource("StandardMaterial3D_jtgeq")
+mesh = SubResource("BoxMesh_me1f3")
+
+[node name="Edge" type="MeshInstance3D" parent="Visual" unique_id=504739756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+material_override = SubResource("StandardMaterial3D_yp768")
+mesh = SubResource("BoxMesh_cklp6")
+
+[node name="Edge2" type="MeshInstance3D" parent="Visual" unique_id=1393089449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+material_override = SubResource("StandardMaterial3D_yp768")
+mesh = SubResource("BoxMesh_yxvks")
+
+[node name="Edge3" type="MeshInstance3D" parent="Visual" unique_id=1936248078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.2, 0)
+material_override = SubResource("StandardMaterial3D_yp768")
+mesh = SubResource("BoxMesh_cae1v")
+
+[node name="Edge4" type="MeshInstance3D" parent="Visual" unique_id=532051571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.2, 0)
+material_override = SubResource("StandardMaterial3D_yp768")
+mesh = SubResource("BoxMesh_bq1g4")
+
+[node name="Edge5" type="MeshInstance3D" parent="Visual" unique_id=781677128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+material_override = SubResource("StandardMaterial3D_yp768")
+mesh = SubResource("BoxMesh_tuuyk")

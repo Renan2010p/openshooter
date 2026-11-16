@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="GameModeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/weapon_data.gd" id="1_p8u1k"]
+[ext_resource type="Resource" path="res://resources/weapons/knife.tres" id="2_48h7b"]
+[ext_resource type="Script" path="res://scripts/game/mode_data.gd" id="3_fpoel"]
+
+[resource]
+script = ExtResource("3_fpoel")
+id = "knives"
+display_name = "Knife Fight"
+description = "Knives only. Get close without being seen."
+loadout = Array[ExtResource("1_p8u1k")]([ExtResource("2_48h7b")])
+start_weapon = ExtResource("2_48h7b")

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="AudioStream" path="res://audio/knife.wav" id="1_vi4nm"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/poison.tscn" id="2_rpbgj"]
+[ext_resource type="Script" path="res://scripts/weapons/weapon_data.gd" id="3_n3mpt"]
+
+[resource]
+script = ExtResource("3_n3mpt")
+id = "poison"
+display_name = "Poison"
+kind = 3
+model = ExtResource("2_rpbgj")
+fire_sound = ExtResource("1_vi4nm")
+damage = 7.0
+fire_interval = 0.9
+magazine = 1
+reserve = 0
+throw_effect = 1
+fuse = 1.2
+effect_radius = 4.5
+view_position = Vector3(0.22, -0.24, -0.4)
+view_scale = 0.6

@@ -1,17 +1,37 @@
 [gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/vote_panel.tscn" id="vote_panel"]
 [ext_resource type="Script" path="res://scripts/ui/hud.gd" id="gen_script_0"]
 [ext_resource type="Script" path="res://scripts/ui/crosshair.gd" id="gen_script_1"]
 [ext_resource type="Script" path="res://scripts/ui/scoreboard.gd" id="gen_script_2"]
-
-
+[ext_resource type="Script" path="res://scripts/ui/animated_number.gd" id="5_anim"]
 [ext_resource type="Shader" path="res://shaders/scope.gdshader" id="1_hqnrr"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="2_bo48s"]
+[ext_resource type="Shader" path="res://shaders/ui_vignette.gdshader" id="3_vig"]
+[ext_resource type="Shader" path="res://shaders/ui_gradient.gdshader" id="4_grad"]
+[ext_resource type="PackedScene" path="res://scenes/ui/touch_controls.tscn" id="6_touch"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8qguk"]
 shader = ExtResource("1_hqnrr")
 shader_parameter/aspect = null
 shader_parameter/radius = null
 shader_parameter/line_width = null
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hudvig"]
+shader = ExtResource("3_vig")
+shader_parameter/color = Color(0.012, 0.016, 0.022, 1)
+shader_parameter/strength = 0.2
+shader_parameter/softness = 0.6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hudfade"]
+shader = ExtResource("4_grad")
+shader_parameter/color = Color(0.008, 0.012, 0.018, 1)
+shader_parameter/horizontal = false
+shader_parameter/invert = true
+shader_parameter/start = 0.55
+shader_parameter/end = 0.98
+shader_parameter/max_alpha = 0.5
+shader_parameter/curve = 1.0
 
 [node name="HUD" type="CanvasLayer" unique_id=42742378]
 script = ExtResource("gen_script_0")
@@ -23,18 +43,36 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
+[node name="Vignette" type="ColorRect" parent="Root" unique_id=42742400]
+material = SubResource("ShaderMaterial_hudvig")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="BottomFade" type="ColorRect" parent="Root" unique_id=42742401]
+material = SubResource("ShaderMaterial_hudfade")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
 [node name="ScopeOverlay" type="ColorRect" parent="Root" unique_id=890714097]
 unique_name_in_owner = true
 visible = false
 material = SubResource("ShaderMaterial_8qguk")
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="DamageVignette" type="ColorRect" parent="Root" unique_id=1396685628]
 unique_name_in_owner = true
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -43,30 +81,33 @@ color = Color(0.8, 0, 0, 0)
 [node name="Crosshair" type="Control" parent="Root" unique_id=1307464947]
 script = ExtResource("gen_script_1")
 unique_name_in_owner = true
-anchors_preset = 0
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -60.0
-offset_top = -60.0
-offset_right = 60.0
-offset_bottom = 60.0
+offset_left = -80.0
+offset_top = -80.0
+offset_right = 80.0
+offset_bottom = 80.0
 mouse_filter = 2
 
 [node name="HitMarker" type="Label" parent="Root" unique_id=1546488888]
 unique_name_in_owner = true
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -30.0
-offset_top = -32.0
-offset_right = 30.0
-offset_bottom = 28.0
+offset_left = -40.0
+offset_top = -42.0
+offset_right = 40.0
+offset_bottom = 38.0
 theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 54
 text = "✕"
 horizontal_alignment = 1
 
@@ -81,131 +122,175 @@ theme_override_colors/font_color = Color(1, 0.2, 0.2, 1)
 text = "◆"
 horizontal_alignment = 1
 
-[node name="TopBar" type="VBoxContainer" parent="Root" unique_id=1846878670]
-layout_mode = 0
+[node name="TopBar" type="PanelContainer" parent="Root" unique_id=1846878670]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 1
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -270.0
-offset_top = 6.0
-offset_right = 270.0
-offset_bottom = 130.0
-theme_override_constants/separation = 2
+offset_left = -280.0
+offset_top = 12.0
+offset_right = 280.0
+offset_bottom = 124.0
+theme_type_variation = &"TopBarPanel"
 
-[node name="Timer" type="Label" parent="Root/TopBar" unique_id=705072062]
-unique_name_in_owner = true
+[node name="Box" type="VBoxContainer" parent="Root/TopBar" unique_id=1846878671]
 layout_mode = 2
-theme_type_variation = &"HudBig"
-text = "05:00"
+theme_override_constants/separation = 1
+
+[node name="Timer" type="Control" parent="Root/TopBar/Box" unique_id=705072062]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_anim")
+font_variation = &"HudBig"
+font_size = 34
+initial_text = "05:00"
 horizontal_alignment = 1
 
-[node name="TimeBar" type="ProgressBar" parent="Root/TopBar" unique_id=1303181058]
+[node name="TimeBar" type="ProgressBar" parent="Root/TopBar/Box" unique_id=1303181058]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 6)
+custom_minimum_size = Vector2(240, 4)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"TimeBar"
 value = 100.0
 show_percentage = false
 
-[node name="Leaders" type="HBoxContainer" parent="Root/TopBar" unique_id=2019645140]
+[node name="ModeLabel" type="Label" parent="Root/TopBar/Box" unique_id=42742402]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 12
+mouse_filter = 2
+theme_type_variation = &"HudSmall"
+text = "Mode"
+horizontal_alignment = 1
+
+[node name="Leaders" type="HBoxContainer" parent="Root/TopBar/Box" unique_id=2019645140]
+layout_mode = 2
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="First" type="Label" parent="Root/TopBar/Leaders" unique_id=710707026]
+[node name="First" type="Label" parent="Root/TopBar/Box/Leaders" unique_id=710707026]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 theme_type_variation = &"Gold"
-text = "Ninguém"
+text = "Nobody"
 horizontal_alignment = 1
 
-[node name="Second" type="Label" parent="Root/TopBar/Leaders" unique_id=836823945]
+[node name="Second" type="Label" parent="Root/TopBar/Box/Leaders" unique_id=836823945]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 theme_type_variation = &"Silver"
-text = "Ninguém"
+text = "Nobody"
 horizontal_alignment = 1
 
-[node name="Third" type="Label" parent="Root/TopBar/Leaders" unique_id=2005398275]
+[node name="Third" type="Label" parent="Root/TopBar/Box/Leaders" unique_id=2005398275]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 theme_type_variation = &"Bronze"
-text = "Ninguém"
+text = "Nobody"
 horizontal_alignment = 1
 
 [node name="KillFeed" type="VBoxContainer" parent="Root" unique_id=27992968]
 unique_name_in_owner = true
-layout_mode = 0
+layout_mode = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -420.0
-offset_top = 16.0
-offset_right = -16.0
-offset_bottom = 220.0
+offset_left = -440.0
+offset_top = 136.0
+offset_right = -20.0
+offset_bottom = 380.0
 mouse_filter = 2
-theme_override_constants/separation = 2
+theme_override_constants/separation = 4
+alignment = 0
 
 [node name="FpsLabel" type="Label" parent="Root" unique_id=1804465531]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 16.0
+offset_left = 18.0
 offset_top = 12.0
 offset_right = 140.0
-offset_bottom = 36.0
-theme_type_variation = &"HudLabel"
+offset_bottom = 34.0
+theme_type_variation = &"HudSmall"
 theme_override_colors/font_color = Color(0.6, 1, 0.6, 1)
 text = "60 FPS"
 
 [node name="BottomLeft" type="VBoxContainer" parent="Root" unique_id=23423200]
-layout_mode = 0
+layout_mode = 1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
-offset_top = -92.0
-offset_right = 340.0
-offset_bottom = -16.0
-theme_override_constants/separation = 6
+offset_top = -104.0
+offset_right = 320.0
+offset_bottom = -20.0
+theme_override_constants/separation = 4
+
+[node name="HealthHeader" type="HBoxContainer" parent="Root/BottomLeft" unique_id=42742403]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Root/BottomLeft/HealthHeader" unique_id=42742404]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HudSmall"
+text = "HEALTH"
+vertical_alignment = 2
+
+[node name="HealthValue" type="Control" parent="Root/BottomLeft/HealthHeader" unique_id=42742405]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 24)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_anim")
+font_variation = &"HudAccent"
+font_size = 20
+initial_text = "100"
+horizontal_alignment = 2
+
+[node name="HealthBar" type="ProgressBar" parent="Root/BottomLeft" unique_id=716557061]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 12)
+layout_mode = 2
+theme_type_variation = &"HealthBar"
+value = 100.0
+show_percentage = false
 
 [node name="ServerInfo" type="Label" parent="Root/BottomLeft" unique_id=1190836414]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HudSmall"
-text = "Servidor • Normal"
-
-[node name="HealthBar" type="ProgressBar" parent="Root/BottomLeft" unique_id=716557061]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 30)
-layout_mode = 2
-value = 100.0
+text = "Server • Normal"
 
 [node name="Hotbar" type="HBoxContainer" parent="Root" unique_id=1773507536]
 unique_name_in_owner = true
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -260.0
-offset_top = -62.0
-offset_right = 260.0
-offset_bottom = -14.0
+offset_left = -320.0
+offset_top = -72.0
+offset_right = 320.0
+offset_bottom = -18.0
 mouse_filter = 2
 theme_override_constants/separation = 4
 alignment = 1
 
 [node name="AmmoBox" type="VBoxContainer" parent="Root" unique_id=523654618]
-layout_mode = 0
+layout_mode = 1
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = -100.0
+offset_left = -320.0
+offset_top = -116.0
 offset_right = -24.0
-offset_bottom = -16.0
+offset_bottom = -20.0
 theme_override_constants/separation = 0
 
 [node name="WeaponName" type="Label" parent="Root/AmmoBox" unique_id=1977009037]
@@ -215,63 +300,93 @@ theme_type_variation = &"HudLabel"
 text = "AK-47"
 horizontal_alignment = 2
 
-[node name="Ammo" type="Label" parent="Root/AmmoBox" unique_id=2081600093]
-unique_name_in_owner = true
+[node name="AmmoRow" type="HBoxContainer" parent="Root/AmmoBox" unique_id=42742406]
 layout_mode = 2
-theme_type_variation = &"HudBig"
-text = "30 / 90"
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="Ammo" type="Control" parent="Root/AmmoBox/AmmoRow" unique_id=2081600093]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(112, 62)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_anim")
+font_variation = &"HudBig"
+font_size = 54
+initial_text = "30"
+horizontal_alignment = 2
+
+[node name="AmmoReserve" type="Label" parent="Root/AmmoBox/AmmoRow" unique_id=42742407]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"HudSmall"
+text = "/ 90"
+vertical_alignment = 2
+
+[node name="ReloadHint" type="Label" parent="Root/AmmoBox" unique_id=42742408]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"Caption"
+theme_override_colors/font_color = Color(0.96, 0.65, 0.14, 1)
+text = "RELOADING"
 horizontal_alignment = 2
 
 [node name="DeathLabel" type="Label" parent="Root" unique_id=1969440607]
 unique_name_in_owner = true
-layout_mode = 0
+layout_mode = 1
 anchor_top = 0.42
 anchor_right = 1.0
 anchor_bottom = 0.42
 offset_top = -60.0
 offset_bottom = 60.0
 theme_type_variation = &"HudBig"
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
 horizontal_alignment = 1
 
 [node name="Toast" type="Label" parent="Root" unique_id=423998205]
 unique_name_in_owner = true
-layout_mode = 0
-anchor_top = 0.63
+layout_mode = 1
+anchor_top = 0.64
 anchor_right = 1.0
-anchor_bottom = 0.63
+anchor_bottom = 0.64
 offset_top = -15.0
 offset_bottom = 15.0
-theme_type_variation = &"HudLabel"
-theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_type_variation = &"HudAccent"
 horizontal_alignment = 1
 
-[node name="EndLabel" type="Label" parent="Root" unique_id=1182441257]
+[node name="ModalDim" type="ColorRect" parent="Root" unique_id=42742411]
 unique_name_in_owner = true
 visible = false
-layout_mode = 0
-anchor_top = 0.28
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.28
-offset_top = -60.0
-offset_bottom = 60.0
-theme_type_variation = &"HudBig"
-theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
-horizontal_alignment = 1
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.008, 0.012, 0.018, 0.55)
+
+[node name="TouchControls" parent="Root" unique_id=42742416 instance=ExtResource("6_touch")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
 
 [node name="Scoreboard" type="PanelContainer" parent="Root" unique_id=922148846]
 script = ExtResource("gen_script_2")
 unique_name_in_owner = true
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -320.0
-offset_top = -150.0
-offset_right = 320.0
+offset_left = -340.0
+offset_top = -190.0
+offset_right = 340.0
 offset_bottom = 230.0
-theme_type_variation = &"Card"
+theme_type_variation = &"ModalCard"
 
 [node name="Content" type="VBoxContainer" parent="Root/Scoreboard" unique_id=400000000]
 layout_mode = 2
@@ -279,35 +394,73 @@ theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="Root/Scoreboard/Content" unique_id=1387643782]
 layout_mode = 2
-theme_type_variation = &"TitleLabel"
-text = "PLACAR"
+theme_type_variation = &"TitleSmall"
+text = "SCOREBOARD"
 horizontal_alignment = 1
 
-[node name="Grid" type="GridContainer" parent="Root/Scoreboard/Content" unique_id=1706406032]
-unique_name_in_owner = true
+[node name="Hint" type="Label" parent="Root/Scoreboard/Content" unique_id=42742409]
 layout_mode = 2
-theme_override_constants/h_separation = 40
-columns = 3
+theme_type_variation = &"Caption"
+text = "HOLD TAB TO VIEW"
+horizontal_alignment = 1
 
-[node name="HeaderJogador" type="Label" parent="Root/Scoreboard/Content/Grid" unique_id=890253364]
+[node name="Headers" type="HBoxContainer" parent="Root/Scoreboard/Content" unique_id=42742412]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderPlayer" type="Label" parent="Root/Scoreboard/Content/Headers" unique_id=890253364]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"ScoreHeader"
-text = "JOGADOR"
-metadata/header = true
+text = "PLAYER"
 
-[node name="HeaderAbates" type="Label" parent="Root/Scoreboard/Content/Grid" unique_id=2144669914]
+[node name="HeaderKills" type="Label" parent="Root/Scoreboard/Content/Headers" unique_id=2144669914]
+custom_minimum_size = Vector2(76, 0)
 layout_mode = 2
 theme_type_variation = &"ScoreHeader"
-text = "ABATES"
-metadata/header = true
+text = "KILLS"
+horizontal_alignment = 2
 
-[node name="HeaderMortes" type="Label" parent="Root/Scoreboard/Content/Grid" unique_id=767775253]
+[node name="HeaderDeaths" type="Label" parent="Root/Scoreboard/Content/Headers" unique_id=767775253]
+custom_minimum_size = Vector2(76, 0)
 layout_mode = 2
 theme_type_variation = &"ScoreHeader"
-text = "MORTES"
-metadata/header = true
+text = "DEATHS"
+horizontal_alignment = 2
+
+[node name="Sep" type="HSeparator" parent="Root/Scoreboard/Content" unique_id=42742413]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Root/Scoreboard/Content" unique_id=42742414]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Rows" type="VBoxContainer" parent="Root/Scoreboard/Content/Scroll" unique_id=42742415]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
 
 [node name="PauseMenu" parent="Root" unique_id=3012850 instance=ExtResource("2_bo48s")]
 unique_name_in_owner = true
-layout_mode = 0
+layout_mode = 1
+
+[node name="VotePanel" parent="Root" unique_id=42742410 instance=ExtResource("vote_panel")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="EndLabel" type="Label" parent="Root" unique_id=1182441257]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_top = 0.3
+anchor_right = 1.0
+anchor_bottom = 0.3
+offset_top = -60.0
+offset_bottom = 60.0
+theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 40
+theme_override_colors/font_color = Color(0.96, 0.65, 0.14, 1)
+horizontal_alignment = 1

@@ -1,0 +1,5 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/fx/thrown_projectile.gd" id="gen_script_0"]
+
+[node name="ThrownProjectile" type="Node3D" unique_id=851342071]
+script = ExtResource("gen_script_0")

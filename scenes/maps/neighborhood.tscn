@@ -1,0 +1,926 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/game/game_map.gd" id="gen_script_0"]
+
+
+[ext_resource type="Environment" path="res://resources/environments/day.tres" id="1_ml5gb"]
+[ext_resource type="Material" path="res://resources/materials/grass.tres" id="2_hdlq2"]
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="3_si0ha"]
+[ext_resource type="PackedScene" path="res://scenes/props/blue_house.tscn" id="4_n06mv"]
+[ext_resource type="PackedScene" path="res://scenes/props/yellow_house.tscn" id="5_0rjcq"]
+[ext_resource type="PackedScene" path="res://scenes/props/red_house.tscn" id="6_m1pnj"]
+[ext_resource type="PackedScene" path="res://scenes/props/green_house.tscn" id="7_vhibk"]
+[ext_resource type="PackedScene" path="res://scenes/props/warehouse.tscn" id="8_1yssh"]
+[ext_resource type="PackedScene" path="res://scenes/props/crate_stack.tscn" id="9_e81u1"]
+[ext_resource type="PackedScene" path="res://scenes/props/car.tscn" id="10_ueiaq"]
+[ext_resource type="PackedScene" path="res://scenes/props/tree.tscn" id="11_u4l1v"]
+[ext_resource type="PackedScene" path="res://scenes/props/lamp_post.tscn" id="12_v2t3c"]
+[ext_resource type="PackedScene" path="res://scenes/props/bench.tscn" id="13_pn4r7"]
+[ext_resource type="PackedScene" path="res://scenes/props/dumpster.tscn" id="14_55s88"]
+[ext_resource type="PackedScene" path="res://scenes/props/fence.tscn" id="15_htrfj"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rqay4"]
+size = Vector2(80, 80)
+
+[node name="Neighborhood" type="Node3D" unique_id=1540288054]
+script = ExtResource("gen_script_0")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1524675042]
+environment = ExtResource("1_ml5gb")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1601319974]
+transform = Transform3D(0.81915206, -0.43938506, 0.36868784, 0, 0.64278764, 0.76604444, -0.57357645, -0.62750685, 0.5265408, 0, 0, 0)
+light_energy = 1.05
+shadow_enabled = true
+directional_shadow_mode = 0
+directional_shadow_max_distance = 35.0
+[node name="FillLight" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52, 148, 0)
+light_color = Color(0.64, 0.72, 0.9, 1)
+light_energy = 0.3
+shadow_enabled = false
+
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1225128150]
+material_override = ExtResource("2_hdlq2")
+mesh = SubResource("PlaneMesh_rqay4")
+
+[node name="Geometry" type="Node3D" parent="." unique_id=1941018816]
+
+[node name="GroundCollision" type="Node3D" parent="Geometry" unique_id=412856231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+visible = false
+script = ExtResource("3_si0ha")
+size = Vector3(80, 1, 80)
+color = Color(0, 0.39215687, 0, 1)
+
+[node name="Paths" type="Node3D" parent="Geometry" unique_id=650804311]
+
+[node name="NorthSouthStreet" type="Node3D" parent="Geometry/Paths" unique_id=142210786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+script = ExtResource("3_si0ha")
+size = Vector3(4, 0.02, 78)
+color = Color(0.62, 0.55, 0.42, 1)
+collide = false
+
+[node name="EastWestStreet" type="Node3D" parent="Geometry/Paths" unique_id=1593137147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011, 0)
+script = ExtResource("3_si0ha")
+size = Vector3(78, 0.02, 4)
+color = Color(0.62, 0.55, 0.42, 1)
+collide = false
+
+[node name="Stripe" type="Node3D" parent="Geometry/Paths" unique_id=298067091]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, -36)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe2" type="Node3D" parent="Geometry/Paths" unique_id=1816853789]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, -30)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe3" type="Node3D" parent="Geometry/Paths" unique_id=2118369748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, -24)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe4" type="Node3D" parent="Geometry/Paths" unique_id=1783676332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, -18)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe5" type="Node3D" parent="Geometry/Paths" unique_id=157709546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, -12)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe6" type="Node3D" parent="Geometry/Paths" unique_id=2067490574]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, -6)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe7" type="Node3D" parent="Geometry/Paths" unique_id=2059028120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe8" type="Node3D" parent="Geometry/Paths" unique_id=1048690911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 6)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe9" type="Node3D" parent="Geometry/Paths" unique_id=1347371877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 12)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe10" type="Node3D" parent="Geometry/Paths" unique_id=1512046589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 18)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe11" type="Node3D" parent="Geometry/Paths" unique_id=240152195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 24)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe12" type="Node3D" parent="Geometry/Paths" unique_id=429923573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 30)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Stripe13" type="Node3D" parent="Geometry/Paths" unique_id=1541695649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 36)
+script = ExtResource("3_si0ha")
+size = Vector3(0.15, 0.01, 2)
+color = Color(0.95, 0.9, 0.5, 1)
+collide = false
+
+[node name="Wall" type="Node3D" parent="Geometry" unique_id=176111125]
+
+[node name="NorthWall" type="Node3D" parent="Geometry/Wall" unique_id=1728674930]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(80, 4, 1)
+color = Color(0.55, 0.32, 0.26, 1)
+
+[node name="SouthWall" type="Node3D" parent="Geometry/Wall" unique_id=1915110880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(80, 4, 1)
+color = Color(0.55, 0.32, 0.26, 1)
+
+[node name="WestWall" type="Node3D" parent="Geometry/Wall" unique_id=1107023097]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2, 0)
+script = ExtResource("3_si0ha")
+size = Vector3(1, 4, 80)
+color = Color(0.55, 0.32, 0.26, 1)
+
+[node name="EastWall" type="Node3D" parent="Geometry/Wall" unique_id=1330945103]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 2, 0)
+script = ExtResource("3_si0ha")
+size = Vector3(1, 4, 80)
+color = Color(0.55, 0.32, 0.26, 1)
+
+[node name="Pillar" type="Node3D" parent="Geometry/Wall" unique_id=1980001492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar2" type="Node3D" parent="Geometry/Wall" unique_id=1808584638]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar3" type="Node3D" parent="Geometry/Wall" unique_id=123918427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, -36)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar4" type="Node3D" parent="Geometry/Wall" unique_id=160215767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, -36)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar5" type="Node3D" parent="Geometry/Wall" unique_id=748952437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar6" type="Node3D" parent="Geometry/Wall" unique_id=1100056820]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar7" type="Node3D" parent="Geometry/Wall" unique_id=506592818]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, -28)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar8" type="Node3D" parent="Geometry/Wall" unique_id=796080505]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, -28)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar9" type="Node3D" parent="Geometry/Wall" unique_id=308520425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar10" type="Node3D" parent="Geometry/Wall" unique_id=57019991]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar11" type="Node3D" parent="Geometry/Wall" unique_id=560421184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, -20)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar12" type="Node3D" parent="Geometry/Wall" unique_id=257122499]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, -20)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar13" type="Node3D" parent="Geometry/Wall" unique_id=1176900621]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar14" type="Node3D" parent="Geometry/Wall" unique_id=1826493724]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar15" type="Node3D" parent="Geometry/Wall" unique_id=1768585387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, -12)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar16" type="Node3D" parent="Geometry/Wall" unique_id=2092213959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, -12)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar17" type="Node3D" parent="Geometry/Wall" unique_id=1969452518]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar18" type="Node3D" parent="Geometry/Wall" unique_id=953814311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar19" type="Node3D" parent="Geometry/Wall" unique_id=1560374335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, -4)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar20" type="Node3D" parent="Geometry/Wall" unique_id=1876029569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, -4)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar21" type="Node3D" parent="Geometry/Wall" unique_id=1662207848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar22" type="Node3D" parent="Geometry/Wall" unique_id=1865935774]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar23" type="Node3D" parent="Geometry/Wall" unique_id=1428406993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, 4)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar24" type="Node3D" parent="Geometry/Wall" unique_id=1655120419]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, 4)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar25" type="Node3D" parent="Geometry/Wall" unique_id=1452108619]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar26" type="Node3D" parent="Geometry/Wall" unique_id=1918714961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar27" type="Node3D" parent="Geometry/Wall" unique_id=1517136931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, 12)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar28" type="Node3D" parent="Geometry/Wall" unique_id=1191048348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, 12)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar29" type="Node3D" parent="Geometry/Wall" unique_id=1320868731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar30" type="Node3D" parent="Geometry/Wall" unique_id=1788205783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar31" type="Node3D" parent="Geometry/Wall" unique_id=2068477867]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, 20)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar32" type="Node3D" parent="Geometry/Wall" unique_id=1178483551]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, 20)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar33" type="Node3D" parent="Geometry/Wall" unique_id=530636888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar34" type="Node3D" parent="Geometry/Wall" unique_id=207336161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar35" type="Node3D" parent="Geometry/Wall" unique_id=1488120098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, 28)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar36" type="Node3D" parent="Geometry/Wall" unique_id=27873862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, 28)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar37" type="Node3D" parent="Geometry/Wall" unique_id=1866654935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 4.2, -40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar38" type="Node3D" parent="Geometry/Wall" unique_id=602231578]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 4.2, 40)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar39" type="Node3D" parent="Geometry/Wall" unique_id=359479770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.2, 36)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Pillar40" type="Node3D" parent="Geometry/Wall" unique_id=2070533082]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 4.2, 36)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 0.4, 1.2)
+color = Color(0.44000003, 0.256, 0.20799999, 1)
+collide = false
+
+[node name="Buildings" type="Node3D" parent="Geometry" unique_id=118686195]
+
+[node name="BlueHouse" parent="Geometry/Buildings" unique_id=2117876961 instance=ExtResource("4_n06mv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, -25)
+
+[node name="YellowHouse" parent="Geometry/Buildings" unique_id=966822483 instance=ExtResource("5_0rjcq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, -25)
+
+[node name="RedHouse" parent="Geometry/Buildings" unique_id=470238274 instance=ExtResource("6_m1pnj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 25)
+
+[node name="GreenHouse" parent="Geometry/Buildings" unique_id=1912182056 instance=ExtResource("7_vhibk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 25)
+
+[node name="Warehouse" parent="Geometry/Buildings" unique_id=2041886467 instance=ExtResource("8_1yssh")]
+
+[node name="RoofCover" type="Node3D" parent="Geometry" unique_id=1785303177]
+
+[node name="Hedge" type="Node3D" parent="Geometry/RoofCover" unique_id=1323827657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.1, -14)
+script = ExtResource("3_si0ha")
+size = Vector3(10, 2.2, 1.2)
+color = Color(0.18, 0.42, 0.22, 1)
+
+[node name="Hedge2" type="Node3D" parent="Geometry/RoofCover" unique_id=1682078712]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.1, 14)
+script = ExtResource("3_si0ha")
+size = Vector3(10, 2.2, 1.2)
+color = Color(0.18, 0.42, 0.22, 1)
+
+[node name="Hedge3" type="Node3D" parent="Geometry/RoofCover" unique_id=2092858756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 1.1, 0)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 2.2, 12)
+color = Color(0.18, 0.42, 0.22, 1)
+
+[node name="Hedge4" type="Node3D" parent="Geometry/RoofCover" unique_id=446100426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 1.1, 0)
+script = ExtResource("3_si0ha")
+size = Vector3(1.2, 2.2, 12)
+color = Color(0.18, 0.42, 0.22, 1)
+
+[node name="Hedge5" type="Node3D" parent="Geometry/RoofCover" unique_id=845067806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -32)
+script = ExtResource("3_si0ha")
+size = Vector3(14, 1.2, 1)
+color = Color(0.18, 0.42, 0.22, 1)
+
+[node name="Hedge6" type="Node3D" parent="Geometry/RoofCover" unique_id=303305795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 32)
+script = ExtResource("3_si0ha")
+size = Vector3(14, 1.2, 1)
+color = Color(0.18, 0.42, 0.22, 1)
+
+[node name="LowWall" type="Node3D" parent="Geometry/RoofCover" unique_id=1717164602]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, 6)
+script = ExtResource("3_si0ha")
+size = Vector3(4, 1, 0.5)
+color = Color(0.6, 0.6, 0.6, 1)
+
+[node name="LowWall2" type="Node3D" parent="Geometry/RoofCover" unique_id=1854269427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.5, -6)
+script = ExtResource("3_si0ha")
+size = Vector3(4, 1, 0.5)
+color = Color(0.6, 0.6, 0.6, 1)
+
+[node name="LowWall3" type="Node3D" parent="Geometry/RoofCover" unique_id=1848855797]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 17)
+script = ExtResource("3_si0ha")
+size = Vector3(4, 1, 0.5)
+color = Color(0.6, 0.6, 0.6, 1)
+
+[node name="LowWall4" type="Node3D" parent="Geometry/RoofCover" unique_id=2077767557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.5, -17)
+script = ExtResource("3_si0ha")
+size = Vector3(4, 1, 0.5)
+color = Color(0.6, 0.6, 0.6, 1)
+
+[node name="Boxes" parent="Geometry/RoofCover" unique_id=1787998161 instance=ExtResource("9_e81u1")]
+transform = Transform3D(0.9929604, 0, 0.118446894, 0, 1, 0, -0.118446894, 0, 0.9929604, -14, 0, -4)
+
+[node name="Boxes2" parent="Geometry/RoofCover" unique_id=1986759558 instance=ExtResource("9_e81u1")]
+transform = Transform3D(0.99875444, 0, 0.049895532, 0, 1, 0, -0.049895532, 0, 0.99875444, 14, 0, 5)
+
+[node name="Boxes3" parent="Geometry/RoofCover" unique_id=185525737 instance=ExtResource("9_e81u1")]
+transform = Transform3D(0.9989187, 0, 0.046491005, 0, 1, 0, -0.046491005, 0, 0.9989187, -5, 0, 24)
+
+[node name="Boxes4" parent="Geometry/RoofCover" unique_id=124657253 instance=ExtResource("9_e81u1")]
+transform = Transform3D(0.9845464, 0, 0.17512392, 0, 1, 0, -0.17512392, 0, 0.9845464, 6, 0, -25)
+
+[node name="Boxes5" parent="Geometry/RoofCover" unique_id=597880886 instance=ExtResource("9_e81u1")]
+transform = Transform3D(0.94191504, 0, 0.3358513, 0, 1, 0, -0.3358513, 0, 0.94191504, -34, 0, -12)
+
+[node name="Boxes6" parent="Geometry/RoofCover" unique_id=381188025 instance=ExtResource("9_e81u1")]
+transform = Transform3D(0.97431433, 0, -0.22519237, 0, 1, 0, 0.22519237, 0, 0.97431433, 34, 0, 12)
+
+[node name="Boxes7" parent="Geometry/RoofCover" unique_id=891912829 instance=ExtResource("9_e81u1")]
+transform = Transform3D(0.99470437, 0, -0.10277741, 0, 1, 0, 0.10277741, 0, 0.99470437, -8, 0, -22)
+
+[node name="Boxes8" parent="Geometry/RoofCover" unique_id=203111665 instance=ExtResource("9_e81u1")]
+transform = Transform3D(0.9994958, 0, 0.03175044, 0, 1, 0, -0.03175044, 0, 0.9994958, 10, 0, 22)
+
+[node name="Car" parent="Geometry/RoofCover" unique_id=1768881396 instance=ExtResource("10_ueiaq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -9)
+
+[node name="Decor" type="Node3D" parent="Geometry" unique_id=195208557]
+
+[node name="Tree" parent="Geometry/Decor" unique_id=225480773 instance=ExtResource("11_u4l1v")]
+transform = Transform3D(0.9985969, 0, 0.05295507, 0, 1, 0, -0.05295507, 0, 0.9985969, -18, 0, -32)
+
+[node name="Tree2" parent="Geometry/Decor" unique_id=560655460 instance=ExtResource("11_u4l1v")]
+transform = Transform3D(0.1464128, 0, 0.9892236, 0, 1, 0, -0.9892236, 0, 0.1464128, 18, 0, 32)
+
+[node name="Tree3" parent="Geometry/Decor" unique_id=2069056206 instance=ExtResource("11_u4l1v")]
+transform = Transform3D(0.88580304, 0, 0.4640614, 0, 1, 0, -0.4640614, 0, 0.88580304, -34, 0, 18)
+
+[node name="Tree4" parent="Geometry/Decor" unique_id=448287951 instance=ExtResource("11_u4l1v")]
+transform = Transform3D(0.84631896, 0, 0.5326765, 0, 1, 0, -0.5326765, 0, 0.84631896, 34, 0, -18)
+
+[node name="Tree5" parent="Geometry/Decor" unique_id=289615404 instance=ExtResource("11_u4l1v")]
+transform = Transform3D(0.039954234, 0, 0.99920154, 0, 1, 0, -0.99920154, 0, 0.039954234, -10, 0, 10)
+
+[node name="Tree6" parent="Geometry/Decor" unique_id=920922306 instance=ExtResource("11_u4l1v")]
+transform = Transform3D(0.35306832, 0, 0.93559754, 0, 1, 0, -0.93559754, 0, 0.35306832, 10, 0, -10)
+
+[node name="Tree7" parent="Geometry/Decor" unique_id=223647181 instance=ExtResource("11_u4l1v")]
+transform = Transform3D(0.43324792, 0, 0.9012748, 0, 1, 0, -0.9012748, 0, 0.43324792, -34, 0, -32)
+
+[node name="Tree8" parent="Geometry/Decor" unique_id=1675652841 instance=ExtResource("11_u4l1v")]
+transform = Transform3D(0.08356407, 0, 0.9965024, 0, 1, 0, -0.9965024, 0, 0.08356407, 33, 0, 33)
+
+[node name="LampPost" parent="Geometry/Decor" unique_id=1894200377 instance=ExtResource("12_v2t3c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -18)
+
+[node name="LampPost2" parent="Geometry/Decor" unique_id=1574068991 instance=ExtResource("12_v2t3c")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 3, 0, 18)
+
+[node name="LampPost3" parent="Geometry/Decor" unique_id=1910879431 instance=ExtResource("12_v2t3c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 3)
+
+[node name="LampPost4" parent="Geometry/Decor" unique_id=1933082951 instance=ExtResource("12_v2t3c")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 18, 0, -3)
+
+[node name="LampPost5" parent="Geometry/Decor" unique_id=1783397203 instance=ExtResource("12_v2t3c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 30)
+
+[node name="LampPost6" parent="Geometry/Decor" unique_id=859210031 instance=ExtResource("12_v2t3c")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 3, 0, -30)
+
+[node name="Bench" parent="Geometry/Decor" unique_id=1544880317 instance=ExtResource("13_pn4r7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 30)
+
+[node name="Bench2" parent="Geometry/Decor" unique_id=213316052 instance=ExtResource("13_pn4r7")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 8, 0, -30)
+
+[node name="Bench3" parent="Geometry/Decor" unique_id=1513674318 instance=ExtResource("13_pn4r7")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -30, 0, 8)
+
+[node name="Bench4" parent="Geometry/Decor" unique_id=789236036 instance=ExtResource("13_pn4r7")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 30, 0, -8)
+
+[node name="Dumpster" parent="Geometry/Decor" unique_id=1262504627 instance=ExtResource("14_55s88")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.2, 0, 30)
+
+[node name="Dumpster2" parent="Geometry/Decor" unique_id=425144347 instance=ExtResource("14_55s88")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.2, 0, -30)
+
+[node name="Dumpster3" parent="Geometry/Decor" unique_id=1701936673 instance=ExtResource("14_55s88")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -13)
+
+[node name="Dumpster4" parent="Geometry/Decor" unique_id=276477371 instance=ExtResource("14_55s88")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 13)
+
+[node name="Fence" parent="Geometry/Decor" unique_id=209845008 instance=ExtResource("15_htrfj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, -18.6)
+
+[node name="Fence2" parent="Geometry/Decor" unique_id=1620433359 instance=ExtResource("15_htrfj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -18.6)
+
+[node name="Fence3" parent="Geometry/Decor" unique_id=1327546843 instance=ExtResource("15_htrfj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 18.6)
+
+[node name="Fence4" parent="Geometry/Decor" unique_id=1859849789 instance=ExtResource("15_htrfj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 18.6)
+
+[node name="Spawns" type="Node3D" parent="." unique_id=1461745097]
+
+[node name="Spawn0" type="Marker3D" parent="Spawns" unique_id=1168192493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, -34)
+
+[node name="Spawn1" type="Marker3D" parent="Spawns" unique_id=1225867462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, 34)
+
+[node name="Spawn2" type="Marker3D" parent="Spawns" unique_id=342905614]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.2, -34)
+
+[node name="Spawn3" type="Marker3D" parent="Spawns" unique_id=1775670463]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.2, 34)
+
+[node name="Spawn4" type="Marker3D" parent="Spawns" unique_id=116175348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -34)
+
+[node name="Spawn5" type="Marker3D" parent="Spawns" unique_id=563853069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 34)
+
+[node name="Spawn6" type="Marker3D" parent="Spawns" unique_id=1954178831]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.2, -34)
+
+[node name="Spawn7" type="Marker3D" parent="Spawns" unique_id=1192050266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.2, 34)
+
+[node name="Spawn8" type="Marker3D" parent="Spawns" unique_id=149127722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0.2, -34)
+
+[node name="Spawn9" type="Marker3D" parent="Spawns" unique_id=132852503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0.2, 34)
+
+[node name="Spawn10" type="Marker3D" parent="Spawns" unique_id=1852713813]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.2, -18)
+
+[node name="Spawn11" type="Marker3D" parent="Spawns" unique_id=1638579836]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0.2, -18)
+
+[node name="Spawn12" type="Marker3D" parent="Spawns" unique_id=1211490203]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.2, 0)
+
+[node name="Spawn13" type="Marker3D" parent="Spawns" unique_id=1963782434]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0.2, 0)
+
+[node name="Spawn14" type="Marker3D" parent="Spawns" unique_id=524277322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.2, 18)
+
+[node name="Spawn15" type="Marker3D" parent="Spawns" unique_id=257025043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0.2, 18)
+
+[node name="Waypoints" type="Node3D" parent="." unique_id=628817045]
+
+[node name="Waypoint0" type="Marker3D" parent="Waypoints" unique_id=690694034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.2, -32)
+
+[node name="Waypoint1" type="Marker3D" parent="Waypoints" unique_id=1219818721]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.2, -24)
+
+[node name="Waypoint2" type="Marker3D" parent="Waypoints" unique_id=2086839088]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.2, -16)
+
+[node name="Waypoint3" type="Marker3D" parent="Waypoints" unique_id=647659679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.2, -8)
+
+[node name="Waypoint4" type="Marker3D" parent="Waypoints" unique_id=1721835789]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.2, 0)
+
+[node name="Waypoint5" type="Marker3D" parent="Waypoints" unique_id=771483487]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.2, 8)
+
+[node name="Waypoint6" type="Marker3D" parent="Waypoints" unique_id=131846589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.2, 16)
+
+[node name="Waypoint7" type="Marker3D" parent="Waypoints" unique_id=1530742771]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.2, 24)
+
+[node name="Waypoint8" type="Marker3D" parent="Waypoints" unique_id=280143745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.2, 32)
+
+[node name="Waypoint9" type="Marker3D" parent="Waypoints" unique_id=110830798]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.2, -32)
+
+[node name="Waypoint10" type="Marker3D" parent="Waypoints" unique_id=69008038]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.2, -16)
+
+[node name="Waypoint11" type="Marker3D" parent="Waypoints" unique_id=1993536167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.2, -8)
+
+[node name="Waypoint12" type="Marker3D" parent="Waypoints" unique_id=407605761]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.2, 0)
+
+[node name="Waypoint13" type="Marker3D" parent="Waypoints" unique_id=376308456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.2, 8)
+
+[node name="Waypoint14" type="Marker3D" parent="Waypoints" unique_id=207812325]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.2, 16)
+
+[node name="Waypoint15" type="Marker3D" parent="Waypoints" unique_id=1308509802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.2, 32)
+
+[node name="Waypoint16" type="Marker3D" parent="Waypoints" unique_id=678063448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, -32)
+
+[node name="Waypoint17" type="Marker3D" parent="Waypoints" unique_id=2097029477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, -24)
+
+[node name="Waypoint18" type="Marker3D" parent="Waypoints" unique_id=1981749727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, -16)
+
+[node name="Waypoint19" type="Marker3D" parent="Waypoints" unique_id=911590958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, -8)
+
+[node name="Waypoint20" type="Marker3D" parent="Waypoints" unique_id=1249528520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, 0)
+
+[node name="Waypoint21" type="Marker3D" parent="Waypoints" unique_id=1483707174]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, 8)
+
+[node name="Waypoint22" type="Marker3D" parent="Waypoints" unique_id=1397571897]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, 16)
+
+[node name="Waypoint23" type="Marker3D" parent="Waypoints" unique_id=293039810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, 24)
+
+[node name="Waypoint24" type="Marker3D" parent="Waypoints" unique_id=1846454057]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, 32)
+
+[node name="Waypoint25" type="Marker3D" parent="Waypoints" unique_id=1772069391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.2, -32)
+
+[node name="Waypoint26" type="Marker3D" parent="Waypoints" unique_id=36328965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.2, -24)
+
+[node name="Waypoint27" type="Marker3D" parent="Waypoints" unique_id=1557586996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.2, -16)
+
+[node name="Waypoint28" type="Marker3D" parent="Waypoints" unique_id=1369147605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.2, -8)
+
+[node name="Waypoint29" type="Marker3D" parent="Waypoints" unique_id=1293695844]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.2, 8)
+
+[node name="Waypoint30" type="Marker3D" parent="Waypoints" unique_id=917866801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.2, 16)
+
+[node name="Waypoint31" type="Marker3D" parent="Waypoints" unique_id=1384553089]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.2, 24)
+
+[node name="Waypoint32" type="Marker3D" parent="Waypoints" unique_id=2061177187]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.2, 32)
+
+[node name="Waypoint33" type="Marker3D" parent="Waypoints" unique_id=348502000]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -32)
+
+[node name="Waypoint34" type="Marker3D" parent="Waypoints" unique_id=194093953]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -24)
+
+[node name="Waypoint35" type="Marker3D" parent="Waypoints" unique_id=2054505181]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -16)
+
+[node name="Waypoint36" type="Marker3D" parent="Waypoints" unique_id=1869472230]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -8)
+
+[node name="Waypoint37" type="Marker3D" parent="Waypoints" unique_id=1491787746]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 8)
+
+[node name="Waypoint38" type="Marker3D" parent="Waypoints" unique_id=481108683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 16)
+
+[node name="Waypoint39" type="Marker3D" parent="Waypoints" unique_id=635717417]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 24)
+
+[node name="Waypoint40" type="Marker3D" parent="Waypoints" unique_id=2140887490]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 32)
+
+[node name="Waypoint41" type="Marker3D" parent="Waypoints" unique_id=57076346]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, -32)
+
+[node name="Waypoint42" type="Marker3D" parent="Waypoints" unique_id=1710720306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, -24)
+
+[node name="Waypoint43" type="Marker3D" parent="Waypoints" unique_id=1203370357]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, -16)
+
+[node name="Waypoint44" type="Marker3D" parent="Waypoints" unique_id=539936527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, -8)
+
+[node name="Waypoint45" type="Marker3D" parent="Waypoints" unique_id=660208120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, 8)
+
+[node name="Waypoint46" type="Marker3D" parent="Waypoints" unique_id=1325247281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, 16)
+
+[node name="Waypoint47" type="Marker3D" parent="Waypoints" unique_id=1896675696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, 24)
+
+[node name="Waypoint48" type="Marker3D" parent="Waypoints" unique_id=201992666]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, 32)
+
+[node name="Waypoint49" type="Marker3D" parent="Waypoints" unique_id=575983391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.2, -32)
+
+[node name="Waypoint50" type="Marker3D" parent="Waypoints" unique_id=862690134]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.2, -24)
+
+[node name="Waypoint51" type="Marker3D" parent="Waypoints" unique_id=1639375747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.2, -16)
+
+[node name="Waypoint52" type="Marker3D" parent="Waypoints" unique_id=217133092]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.2, -8)
+
+[node name="Waypoint53" type="Marker3D" parent="Waypoints" unique_id=322484300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.2, 0)
+
+[node name="Waypoint54" type="Marker3D" parent="Waypoints" unique_id=1649477948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.2, 8)
+
+[node name="Waypoint55" type="Marker3D" parent="Waypoints" unique_id=360528866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.2, 16)
+
+[node name="Waypoint56" type="Marker3D" parent="Waypoints" unique_id=934244438]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.2, 24)
+
+[node name="Waypoint57" type="Marker3D" parent="Waypoints" unique_id=940694866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.2, 32)
+
+[node name="Waypoint58" type="Marker3D" parent="Waypoints" unique_id=2012343788]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.2, -32)
+
+[node name="Waypoint59" type="Marker3D" parent="Waypoints" unique_id=1721617852]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.2, -16)
+
+[node name="Waypoint60" type="Marker3D" parent="Waypoints" unique_id=406893775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.2, -8)
+
+[node name="Waypoint61" type="Marker3D" parent="Waypoints" unique_id=435489745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.2, 0)
+
+[node name="Waypoint62" type="Marker3D" parent="Waypoints" unique_id=1494605304]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.2, 8)
+
+[node name="Waypoint63" type="Marker3D" parent="Waypoints" unique_id=1763768151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.2, 16)
+
+[node name="Waypoint64" type="Marker3D" parent="Waypoints" unique_id=931257016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.2, 32)
+
+[node name="Waypoint65" type="Marker3D" parent="Waypoints" unique_id=984108752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, -32)
+
+[node name="Waypoint66" type="Marker3D" parent="Waypoints" unique_id=688874719]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, -24)
+
+[node name="Waypoint67" type="Marker3D" parent="Waypoints" unique_id=1274014824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, -16)
+
+[node name="Waypoint68" type="Marker3D" parent="Waypoints" unique_id=2002163039]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, -8)
+
+[node name="Waypoint69" type="Marker3D" parent="Waypoints" unique_id=417223351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 0)
+
+[node name="Waypoint70" type="Marker3D" parent="Waypoints" unique_id=236687733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 8)
+
+[node name="Waypoint71" type="Marker3D" parent="Waypoints" unique_id=274527709]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 16)
+
+[node name="Waypoint72" type="Marker3D" parent="Waypoints" unique_id=2121392251]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 24)
+
+[node name="Waypoint73" type="Marker3D" parent="Waypoints" unique_id=2109379307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 32)

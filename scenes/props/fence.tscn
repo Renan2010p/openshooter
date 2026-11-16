@@ -1,0 +1,87 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_d2g7m"]
+
+[node name="Fence" type="Node3D" unique_id=209845008]
+
+[node name="Plank" type="Node3D" parent="." unique_id=932211386]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.55, 0)
+script = ExtResource("1_d2g7m")
+size = Vector3(0.1, 1.1, 0.06)
+color = Color(0.92, 0.92, 0.9, 1)
+collide = false
+
+[node name="Plank2" type="Node3D" parent="." unique_id=539711643]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.55, 0)
+script = ExtResource("1_d2g7m")
+size = Vector3(0.1, 1.1, 0.06)
+color = Color(0.92, 0.92, 0.9, 1)
+collide = false
+
+[node name="Plank3" type="Node3D" parent="." unique_id=2123186161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.55, 0)
+script = ExtResource("1_d2g7m")
+size = Vector3(0.1, 1.1, 0.06)
+color = Color(0.92, 0.92, 0.9, 1)
+collide = false
+
+[node name="Plank4" type="Node3D" parent="." unique_id=314284300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.55, 0)
+script = ExtResource("1_d2g7m")
+size = Vector3(0.1, 1.1, 0.06)
+color = Color(0.92, 0.92, 0.9, 1)
+collide = false
+
+[node name="Plank5" type="Node3D" parent="." unique_id=2092160774]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+script = ExtResource("1_d2g7m")
+size = Vector3(0.1, 1.1, 0.06)
+color = Color(0.92, 0.92, 0.9, 1)
+collide = false
+
+[node name="Plank6" type="Node3D" parent="." unique_id=1083159609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.55, 0)
+script = ExtResource("1_d2g7m")
+size = Vector3(0.1, 1.1, 0.06)
+color = Color(0.92, 0.92, 0.9, 1)
+collide = false
+
+[node name="Plank7" type="Node3D" parent="." unique_id=95179679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.55, 0)
+script = ExtResource("1_d2g7m")
+size = Vector3(0.1, 1.1, 0.06)
+color = Color(0.92, 0.92, 0.9, 1)
+collide = false
+
+[node name="Plank8" type="Node3D" parent="." unique_id=20607794]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.55, 0)
+script = ExtResource("1_d2g7m")
+size = Vector3(0.1, 1.1, 0.06)
+color = Color(0.92, 0.92, 0.9, 1)
+collide = false
+
+[node name="Plank9" type="Node3D" parent="." unique_id=583137043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.55, 0)
+script = ExtResource("1_d2g7m")
+size = Vector3(0.1, 1.1, 0.06)
+color = Color(0.92, 0.92, 0.9, 1)
+collide = false
+
+[node name="Crossbar" type="Node3D" parent="." unique_id=1522523693]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.05)
+script = ExtResource("1_d2g7m")
+size = Vector3(4.4, 0.1, 0.05)
+color = Color(0.92, 0.92, 0.9, 1)
+
+[node name="Crossbar2" type="Node3D" parent="." unique_id=307794075]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0.05)
+script = ExtResource("1_d2g7m")
+size = Vector3(4.4, 0.1, 0.05)
+color = Color(0.92, 0.92, 0.9, 1)
+
+[node name="FenceCollision" type="Node3D" parent="." unique_id=1939607093]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+visible = false
+script = ExtResource("1_d2g7m")
+size = Vector3(4.4, 1.1, 0.12)
+color = Color(0.92, 0.92, 0.9, 1)

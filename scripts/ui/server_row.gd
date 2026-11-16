@@ -1,6 +1,6 @@
 class_name ServerRow
 extends PanelContainer
-## Uma linha da lista de servidores (scenes/ui/server_row.tscn).
+## One row of the server list (scenes/ui/server_row.tscn).
 
 signal join_pressed(ip: String)
 
@@ -8,10 +8,11 @@ var _ip := ""
 
 
 func _ready() -> void:
+	UiMotion.attach(%Join)
 	%Join.pressed.connect(func(): join_pressed.emit(_ip))
 
 
 func setup(ip: String, info: Dictionary) -> void:
 	_ip = ip
-	%ServerName.text = str(info.get("name", "Servidor"))
-	%Details.text = "%s  •  %s  •  %d/%d jogadores  •  %d bots" % [ip, info.get("map", "?"), int(info.get("players", 0)), int(info.get("max", 0)), int(info.get("bots", 0))]
+	%ServerName.text = str(info.get("name", "Server"))
+	%Details.text = "%s  •  %s  •  %d/%d players  •  %d bots" % [ip, info.get("map", "?"), int(info.get("players", 0)), int(info.get("max", 0)), int(info.get("bots", 0))]

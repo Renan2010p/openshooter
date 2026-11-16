@@ -1,0 +1,169 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_a2nac"]
+
+[node name="OrangeContainer" type="Node3D" unique_id=278757055]
+
+[node name="Box" type="Node3D" parent="." unique_id=527480754]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+script = ExtResource("1_a2nac")
+size = Vector3(6.1, 2.6, 2.44)
+color = Color(0.9, 0.5, 0.12, 1)
+metallic = 0.4
+roughness = 0.6
+
+[node name="Rib" type="Node3D" parent="." unique_id=1804878978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.3, 1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib2" type="Node3D" parent="." unique_id=638180612]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.3, -1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib3" type="Node3D" parent="." unique_id=1501715063]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.3, 1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib4" type="Node3D" parent="." unique_id=1468592090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.3, -1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib5" type="Node3D" parent="." unique_id=766074723]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.3, 1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib6" type="Node3D" parent="." unique_id=1008316243]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.3, -1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib7" type="Node3D" parent="." unique_id=1630522738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1.3, 1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib8" type="Node3D" parent="." unique_id=1747634635]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1.3, -1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib9" type="Node3D" parent="." unique_id=1962672211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib10" type="Node3D" parent="." unique_id=863232771]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib11" type="Node3D" parent="." unique_id=1340782335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 1.3, 1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib12" type="Node3D" parent="." unique_id=1356120018]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 1.3, -1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib13" type="Node3D" parent="." unique_id=1404874167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.3, 1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib14" type="Node3D" parent="." unique_id=1355353686]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.3, -1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib15" type="Node3D" parent="." unique_id=850294415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.3, 1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib16" type="Node3D" parent="." unique_id=2115418801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.3, -1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib17" type="Node3D" parent="." unique_id=195937152]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.3, 1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Rib18" type="Node3D" parent="." unique_id=2008384810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.3, -1.24)
+script = ExtResource("1_a2nac")
+size = Vector3(0.08, 2.5, 0.06)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Gap" type="Node3D" parent="." unique_id=636291722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.07, 1.3, 0)
+script = ExtResource("1_a2nac")
+size = Vector3(0.04, 2.5, 0.04)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false
+
+[node name="Lock" type="Node3D" parent="." unique_id=1023838293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.08, 1.3, -0.6)
+script = ExtResource("1_a2nac")
+size = Vector3(0.05, 2.3, 0.05)
+color = Color(0.6, 0.6, 0.6, 1)
+metallic = 0.8
+collide = false
+
+[node name="Lock2" type="Node3D" parent="." unique_id=1650455442]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.08, 1.3, 0.6)
+script = ExtResource("1_a2nac")
+size = Vector3(0.05, 2.3, 0.05)
+color = Color(0.6, 0.6, 0.6, 1)
+metallic = 0.8
+collide = false
+
+[node name="Ceiling" type="Node3D" parent="." unique_id=689445657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62, 0)
+script = ExtResource("1_a2nac")
+size = Vector3(6.1, 0.04, 2.44)
+color = Color(0.67499995, 0.375, 0.089999996, 1)
+collide = false

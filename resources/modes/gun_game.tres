@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="GameModeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/weapon_data.gd" id="1_0h15y"]
+[ext_resource type="Resource" path="res://resources/weapons/pistol.tres" id="2_8gtuc"]
+[ext_resource type="Resource" path="res://resources/weapons/shotgun.tres" id="3_8x8ls"]
+[ext_resource type="Resource" path="res://resources/weapons/ak47.tres" id="4_yhk5o"]
+[ext_resource type="Resource" path="res://resources/weapons/sniper.tres" id="5_mh2jv"]
+[ext_resource type="Resource" path="res://resources/weapons/knife.tres" id="6_oa60x"]
+[ext_resource type="Resource" path="res://resources/weapons/grenade.tres" id="7_n6bll"]
+[ext_resource type="Script" path="res://scripts/game/mode_data.gd" id="8_nl84m"]
+
+[resource]
+script = ExtResource("8_nl84m")
+id = "gun_game"
+display_name = "Gun Game"
+description = "Each kill gives you the next weapon. Score a kill with the last one (Knife) to win."
+progression = Array[ExtResource("1_0h15y")]([ExtResource("2_8gtuc"), ExtResource("3_8x8ls"), ExtResource("4_yhk5o"), ExtResource("5_mh2jv"), ExtResource("6_oa60x")])
+progression_extras = Array[ExtResource("1_0h15y")]([ExtResource("7_n6bll")])

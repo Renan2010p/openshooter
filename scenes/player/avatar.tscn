@@ -9,7 +9,7 @@ script = ExtResource("gen_script_0")
 [node name="LegL" type="Node3D" parent="." unique_id=299814699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.85, 0)
 
-[node name="Coxa" type="Node3D" parent="LegL" unique_id=563925793]
+[node name="Thigh" type="Node3D" parent="LegL" unique_id=563925793]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21, 0)
 script = ExtResource("1_wwu74")
 size = Vector3(0.32, 0.44, 0.34)
@@ -20,22 +20,22 @@ tint = 2
 [node name="Knee" type="Node3D" parent="LegL" unique_id=534631524]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.42, 0)
 
-[node name="Canela" type="Node3D" parent="LegL/Knee" unique_id=1559380789]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.19, 0)
+[node name="Shin" type="Node3D" parent="LegL/Knee" unique_id=1559380789]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17, 0)
 script = ExtResource("1_wwu74")
-size = Vector3(0.3, 0.38, 0.32)
+size = Vector3(0.3, 0.42, 0.32)
 color = Color(0.4117647, 0.4117647, 0.4117647, 1)
 collide = false
 tint = 2
 
-[node name="Sapato" type="Node3D" parent="LegL/Knee" unique_id=1128275487]
+[node name="Shoe" type="Node3D" parent="LegL/Knee" unique_id=1128275487]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.37, -0.04)
 script = ExtResource("1_wwu74")
 size = Vector3(0.34, 0.14, 0.42)
 color = Color(0.12, 0.1, 0.09, 1)
 collide = false
 
-[node name="Sola" type="Node3D" parent="LegL/Knee" unique_id=1325415744]
+[node name="Sole" type="Node3D" parent="LegL/Knee" unique_id=1325415744]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.435, -0.04)
 script = ExtResource("1_wwu74")
 size = Vector3(0.35, 0.03, 0.43)
@@ -45,7 +45,7 @@ collide = false
 [node name="LegR" type="Node3D" parent="." unique_id=469347332]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17, 0.85, 0)
 
-[node name="Coxa" type="Node3D" parent="LegR" unique_id=390813817]
+[node name="Thigh" type="Node3D" parent="LegR" unique_id=390813817]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21, 0)
 script = ExtResource("1_wwu74")
 size = Vector3(0.32, 0.44, 0.34)
@@ -56,22 +56,22 @@ tint = 2
 [node name="Knee" type="Node3D" parent="LegR" unique_id=1303774412]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.42, 0)
 
-[node name="Canela" type="Node3D" parent="LegR/Knee" unique_id=487054938]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.19, 0)
+[node name="Shin" type="Node3D" parent="LegR/Knee" unique_id=487054938]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17, 0)
 script = ExtResource("1_wwu74")
-size = Vector3(0.3, 0.38, 0.32)
+size = Vector3(0.3, 0.42, 0.32)
 color = Color(0.4117647, 0.4117647, 0.4117647, 1)
 collide = false
 tint = 2
 
-[node name="Sapato" type="Node3D" parent="LegR/Knee" unique_id=253479670]
+[node name="Shoe" type="Node3D" parent="LegR/Knee" unique_id=253479670]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.37, -0.04)
 script = ExtResource("1_wwu74")
 size = Vector3(0.34, 0.14, 0.42)
 color = Color(0.12, 0.1, 0.09, 1)
 collide = false
 
-[node name="Sola" type="Node3D" parent="LegR/Knee" unique_id=785121183]
+[node name="Sole" type="Node3D" parent="LegR/Knee" unique_id=785121183]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.435, -0.04)
 script = ExtResource("1_wwu74")
 size = Vector3(0.35, 0.03, 0.43)
@@ -81,7 +81,7 @@ collide = false
 [node name="Spine" type="Node3D" parent="." unique_id=456508763]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
 
-[node name="Tronco" type="Node3D" parent="Spine" unique_id=506253496]
+[node name="Log" type="Node3D" parent="Spine" unique_id=506253496]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.37, 0)
 script = ExtResource("1_wwu74")
 size = Vector3(0.7, 0.8, 0.4)
@@ -89,7 +89,7 @@ color = Color(0.25490198, 0.4117647, 0.88235295, 1)
 collide = false
 tint = 1
 
-[node name="Gola" type="Node3D" parent="Spine" unique_id=1488864815]
+[node name="Collar" type="Node3D" parent="Spine" unique_id=1488864815]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74, 0)
 script = ExtResource("1_wwu74")
 size = Vector3(0.36, 0.06, 0.42)
@@ -97,13 +97,13 @@ color = Color(0.25490198, 0.4117647, 0.88235295, 1)
 collide = false
 tint = 1
 
-[node name="Cinto" type="Node3D" parent="Spine" unique_id=1009268033]
+[node name="Belt" type="Node3D" parent="Spine" unique_id=1009268033]
 script = ExtResource("1_wwu74")
 size = Vector3(0.72, 0.08, 0.42)
 color = Color(0.15, 0.12, 0.1, 1)
 collide = false
 
-[node name="Fivela" type="Node3D" parent="Spine" unique_id=1833142774]
+[node name="Buckle" type="Node3D" parent="Spine" unique_id=1833142774]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.215)
 script = ExtResource("1_wwu74")
 size = Vector3(0.1, 0.07, 0.02)
@@ -115,7 +115,7 @@ collide = false
 [node name="ArmL" type="Node3D" parent="Spine" unique_id=2076390539]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, 0.7, 0)
 
-[node name="Manga" type="Node3D" parent="Spine/ArmL" unique_id=846851766]
+[node name="Sleeve" type="Node3D" parent="Spine/ArmL" unique_id=846851766]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
 script = ExtResource("1_wwu74")
 size = Vector3(0.27, 0.38, 0.31)
@@ -126,15 +126,15 @@ tint = 1
 [node name="Elbow" type="Node3D" parent="Spine/ArmL" unique_id=1812274628]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34, 0)
 
-[node name="Antebraco" type="Node3D" parent="Spine/ArmL/Elbow" unique_id=207181043]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17, 0)
+[node name="Forearm" type="Node3D" parent="Spine/ArmL/Elbow" unique_id=207181043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
 script = ExtResource("1_wwu74")
-size = Vector3(0.24, 0.34, 0.28)
+size = Vector3(0.24, 0.38, 0.28)
 color = Color(1, 0.89411765, 0.76862746, 1)
 collide = false
 tint = 3
 
-[node name="Mao" type="Node3D" parent="Spine/ArmL/Elbow" unique_id=56035880]
+[node name="Hand" type="Node3D" parent="Spine/ArmL/Elbow" unique_id=56035880]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 script = ExtResource("1_wwu74")
 size = Vector3(0.22, 0.14, 0.26)
@@ -145,7 +145,7 @@ tint = 3
 [node name="ArmR" type="Node3D" parent="Spine" unique_id=135814146]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47, 0.7, 0)
 
-[node name="Manga" type="Node3D" parent="Spine/ArmR" unique_id=1838022442]
+[node name="Sleeve" type="Node3D" parent="Spine/ArmR" unique_id=1838022442]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
 script = ExtResource("1_wwu74")
 size = Vector3(0.27, 0.38, 0.31)
@@ -156,15 +156,15 @@ tint = 1
 [node name="Elbow" type="Node3D" parent="Spine/ArmR" unique_id=1265763299]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34, 0)
 
-[node name="Antebraco" type="Node3D" parent="Spine/ArmR/Elbow" unique_id=1215810816]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17, 0)
+[node name="Forearm" type="Node3D" parent="Spine/ArmR/Elbow" unique_id=1215810816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
 script = ExtResource("1_wwu74")
-size = Vector3(0.24, 0.34, 0.28)
+size = Vector3(0.24, 0.38, 0.28)
 color = Color(1, 0.89411765, 0.76862746, 1)
 collide = false
 tint = 3
 
-[node name="Mao" type="Node3D" parent="Spine/ArmR/Elbow" unique_id=545501745]
+[node name="Hand" type="Node3D" parent="Spine/ArmR/Elbow" unique_id=545501745]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 script = ExtResource("1_wwu74")
 size = Vector3(0.22, 0.14, 0.26)
@@ -178,7 +178,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -
 [node name="Head" type="Node3D" parent="Spine" unique_id=1801845077]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
 
-[node name="Cabeca" type="Node3D" parent="Spine/Head" unique_id=1075910598]
+[node name="HeadMesh" type="Node3D" parent="Spine/Head" unique_id=1075910598]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, 0)
 script = ExtResource("1_wwu74")
 size = Vector3(0.48, 0.48, 0.48)
@@ -186,51 +186,99 @@ color = Color(1, 0.89411765, 0.76862746, 1)
 collide = false
 tint = 3
 
-[node name="Cabelo" type="Node3D" parent="Spine/Head" unique_id=154771074]
+[node name="Hair" type="Node3D" parent="Spine/Head" unique_id=154771074]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.02)
 script = ExtResource("1_wwu74")
 size = Vector3(0.5, 0.08, 0.5)
 color = Color(0.2, 0.13, 0.08, 1)
 collide = false
 
-[node name="Nuca" type="Node3D" parent="Spine/Head" unique_id=360342980]
+[node name="Nape" type="Node3D" parent="Spine/Head" unique_id=360342980]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0.22)
 script = ExtResource("1_wwu74")
 size = Vector3(0.5, 0.26, 0.08)
 color = Color(0.2, 0.13, 0.08, 1)
 collide = false
 
-[node name="OlhoE" type="Node3D" parent="Spine/Head" unique_id=20826750]
+[node name="EyeL" type="Node3D" parent="Spine/Head" unique_id=20826750]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.3, -0.245)
 script = ExtResource("1_wwu74")
 size = Vector3(0.07, 0.1, 0.02)
 color = Color(0.08, 0.08, 0.08, 1)
 collide = false
 
-[node name="OlhoD" type="Node3D" parent="Spine/Head" unique_id=1301180693]
+[node name="EyeR" type="Node3D" parent="Spine/Head" unique_id=1301180693]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.3, -0.245)
 script = ExtResource("1_wwu74")
 size = Vector3(0.07, 0.1, 0.02)
 color = Color(0.08, 0.08, 0.08, 1)
 collide = false
 
-[node name="SobrancelhaE" type="Node3D" parent="Spine/Head" unique_id=382544901]
+[node name="EyebrowL" type="Node3D" parent="Spine/Head" unique_id=382544901]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.38, -0.245)
 script = ExtResource("1_wwu74")
 size = Vector3(0.1, 0.025, 0.02)
 color = Color(0.2, 0.13, 0.08, 1)
 collide = false
 
-[node name="SobrancelhaD" type="Node3D" parent="Spine/Head" unique_id=2097605479]
+[node name="EyebrowR" type="Node3D" parent="Spine/Head" unique_id=2097605479]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.38, -0.245)
 script = ExtResource("1_wwu74")
 size = Vector3(0.1, 0.025, 0.02)
 color = Color(0.2, 0.13, 0.08, 1)
 collide = false
 
-[node name="Boca" type="Node3D" parent="Spine/Head" unique_id=1675918741]
+[node name="MuzzleBlock" type="Node3D" parent="Spine/Head" unique_id=1675918741]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -0.245)
 script = ExtResource("1_wwu74")
 size = Vector3(0.18, 0.04, 0.02)
 color = Color(0.08, 0.08, 0.08, 1)
 collide = false
+
+[node name="ShoulderJoint" type="Node3D" parent="Spine/ArmL"]
+script = ExtResource("1_wwu74")
+shape = 2
+size = Vector3(0.3, 0.3, 0.3)
+color = Color(0.25490196, 0.4117647, 0.88235295, 1)
+collide = false
+tint = 1
+
+[node name="ElbowJoint" type="Node3D" parent="Spine/ArmL/Elbow"]
+script = ExtResource("1_wwu74")
+shape = 2
+size = Vector3(0.29, 0.29, 0.29)
+color = Color(0.25490196, 0.4117647, 0.88235295, 1)
+collide = false
+tint = 1
+
+[node name="ShoulderJoint" type="Node3D" parent="Spine/ArmR"]
+script = ExtResource("1_wwu74")
+shape = 2
+size = Vector3(0.3, 0.3, 0.3)
+color = Color(0.25490196, 0.4117647, 0.88235295, 1)
+collide = false
+tint = 1
+
+[node name="ElbowJoint" type="Node3D" parent="Spine/ArmR/Elbow"]
+script = ExtResource("1_wwu74")
+shape = 2
+size = Vector3(0.29, 0.29, 0.29)
+color = Color(0.25490196, 0.4117647, 0.88235295, 1)
+collide = false
+tint = 1
+
+[node name="KneeJoint" type="Node3D" parent="LegL/Knee"]
+script = ExtResource("1_wwu74")
+shape = 2
+size = Vector3(0.31, 0.31, 0.31)
+color = Color(0.4117647, 0.4117647, 0.4117647, 1)
+collide = false
+tint = 2
+
+[node name="KneeJoint" type="Node3D" parent="LegR/Knee"]
+script = ExtResource("1_wwu74")
+shape = 2
+size = Vector3(0.31, 0.31, 0.31)
+color = Color(0.4117647, 0.4117647, 0.4117647, 1)
+collide = false
+tint = 2

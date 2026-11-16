@@ -1,0 +1,140 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/splash.gd" id="1_splash"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="2_icon"]
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="3_animicon"]
+[ext_resource type="Shader" path="res://shaders/ui_vignette.gdshader" id="4_vig"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vig"]
+shader = ExtResource("4_vig")
+shader_parameter/color = Color(0.008, 0.012, 0.018, 1)
+shader_parameter/strength = 0.55
+shader_parameter/softness = 0.45
+
+[node name="Splash" type="Control" unique_id=990000001]
+script = ExtResource("1_splash")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Background" type="ColorRect" parent="." unique_id=990000002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.043, 0.055, 0.075, 1)
+
+[node name="Vignette" type="ColorRect" parent="." unique_id=990000003]
+material = SubResource("ShaderMaterial_vig")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Center" type="CenterContainer" parent="." unique_id=990000004]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Phase1" type="VBoxContainer" parent="Center" unique_id=990000005]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(760, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Logo" type="TextureRect" parent="Center/Phase1" unique_id=990000006]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("3_animicon")
+pulse_amount = 0.055
+tilt_degrees = 0.0
+pulse_speed = 1.35
+
+[node name="Studio" type="Label" parent="Center/Phase1" unique_id=990000007]
+layout_mode = 2
+theme_type_variation = &"HeroLabel"
+theme_override_font_sizes/font_size = 92
+text = "RL PROJECTS"
+horizontal_alignment = 1
+
+[node name="Rule" type="ColorRect" parent="Center/Phase1" unique_id=990000008]
+custom_minimum_size = Vector2(74, 3)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+color = Color(0.96, 0.65, 0.14, 1)
+
+[node name="Presents" type="Label" parent="Center/Phase1" unique_id=990000009]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "P R E S E N T S"
+horizontal_alignment = 1
+
+[node name="Phase2" type="VBoxContainer" parent="Center" unique_id=990000010]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(900, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="MadeBy" type="Label" parent="Center/Phase2" unique_id=990000011]
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "Feito por"
+horizontal_alignment = 1
+
+[node name="Author" type="Label" parent="Center/Phase2" unique_id=990000012]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 42
+text = "Renan Hilário"
+horizontal_alignment = 1
+
+[node name="Engine" type="Label" parent="Center/Phase2" unique_id=990000013]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "GODOT 4.7  ·  OPENSHOOTER 1.0.0"
+horizontal_alignment = 1
+
+[node name="Footer" type="Label" parent="." unique_id=990000014]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -40.0
+offset_right = 320.0
+offset_bottom = -18.0
+mouse_filter = 2
+theme_type_variation = &"Caption"
+text = "OPENSHOOTER  ·  RL PROJECTS"
+horizontal_alignment = 1
+
+[node name="SkipHint" type="Label" parent="." unique_id=990000015]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -40.0
+offset_right = -24.0
+offset_bottom = -18.0
+mouse_filter = 2
+theme_type_variation = &"Caption"
+text = "CLICK OR TAP TO SKIP"
+horizontal_alignment = 2

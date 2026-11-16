@@ -1,18 +1,20 @@
 @tool
 class_name Block
 extends Node3D
-## Bloco de construção editável no Inspetor (caixa, cilindro ou esfera).
+## Editable building block (box, cylinder or sphere), configured in the Inspector.
 ##
-## No editor ele se desenha sozinho para você ver o que está montando. No jogo,
-## quem o contém (mapa, arma, boneco) chama [BlockBaker] e todos os blocos viram
-## um único mesh, o que mantém o número de draw calls baixo. Se ninguém juntar o
-## bloco, ele se desenha sozinho (e cria a própria colisão) no quadro seguinte.
+## In the editor it draws itself so you can see what you are building. At
+## runtime, the node that owns it (map, weapon, character) calls [BlockBaker]
+## and all blocks become a single mesh, keeping draw calls low. If nothing
+## bakes the block, it draws itself (and creates its own collision) on the next
+## frame.
 
 enum Shape { BOX, CYLINDER, SPHERE }
-## AUTO: peças pequenas e sem colisão viram "detalhe" (só aparecem de perto e
-## não fazem sombra). ALWAYS: sempre na distância normal. DETAIL: sempre detalhe.
+## AUTO: small, non-colliding pieces become "details" (only drawn up close and
+## casting no shadows). ALWAYS: always part of the normal draw distance.
+## DETAIL: always treated as a detail.
 enum Lod { AUTO, ALWAYS, DETAIL }
-## Cor trocada pela roupa/pele do jogador (usado pelo [Avatar]).
+## Color replaced by the player's shirt/pants/skin (used by [Avatar]).
 enum Tint { NONE, SHIRT, PANTS, SKIN }
 
 @export var shape: Shape = Shape.BOX:
@@ -35,15 +37,15 @@ enum Tint { NONE, SHIRT, PANTS, SKIN }
 	set(v):
 		roughness = v
 		_changed()
-## Brilho próprio (0 = não brilha). Bom para lâmpadas, telas e LEDs.
+## Self-illumination (0 = no glow). Useful for lamps, screens and LEDs.
 @export_range(0.0, 8.0) var emission := 0.0:
 	set(v):
 		emission = v
 		_changed()
-## Cria colisão (camada "mundo") quando faz parte do mapa.
+## Creates collision (the "world" layer) when part of a map.
 @export var collide := true
 @export var tint: Tint = Tint.NONE
-## Nível de detalhe nos mapas (veja [enum Lod]).
+## Level of detail on maps (see [enum Lod]).
 @export var lod: Lod = Lod.AUTO
 
 var _preview: MeshInstance3D
@@ -66,7 +68,7 @@ func _changed() -> void:
 	_preview.material_override = make_material()
 
 
-## Peça pequena que pode sumir de longe sem ninguém perceber.
+## Small piece that can disappear at a distance without anyone noticing.
 func is_detail() -> bool:
 	match lod:
 		Lod.ALWAYS:
@@ -121,7 +123,7 @@ func make_shape() -> Shape3D:
 	return b
 
 
-## Usado só se nenhum [BlockBaker] juntou este bloco.
+## Only used when no [BlockBaker] merged this block.
 func _runtime_fallback() -> void:
 	if has_meta("baked") or not is_inside_tree():
 		return

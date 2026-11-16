@@ -2,7 +2,7 @@
 [ext_resource type="Script" path="res://scripts/fx/placed_mine.gd" id="gen_script_0"]
 
 
-[ext_resource type="PackedScene" path="res://scenes/weapons/mina.tscn" id="1_ui08q"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/mine.tscn" id="1_ui08q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_neqlr"]
 albedo_color = Color(1, 0.2, 0.2, 1)

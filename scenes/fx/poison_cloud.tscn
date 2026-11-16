@@ -1,0 +1,121 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/fx/poison_cloud.gd" id="gen_script_0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0cx4"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.45, 0.85, 0.2, 0.28)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8xcj2"]
+radius = 1.5452056
+height = 2.1632879
+radial_segments = 10
+rings = 5
+
+[sub_resource type="SphereMesh" id="SphereMesh_qfn74"]
+radius = 1.8402557
+height = 2.576358
+radial_segments = 10
+rings = 5
+
+[sub_resource type="SphereMesh" id="SphereMesh_8g66t"]
+radius = 1.8903245
+height = 2.6464543
+radial_segments = 10
+rings = 5
+
+[sub_resource type="SphereMesh" id="SphereMesh_2amcb"]
+radius = 1.550328
+height = 2.1704593
+radial_segments = 10
+rings = 5
+
+[sub_resource type="SphereMesh" id="SphereMesh_bbeg0"]
+radius = 1.603344
+height = 2.2446816
+radial_segments = 10
+rings = 5
+
+[sub_resource type="SphereMesh" id="SphereMesh_4xuwc"]
+radius = 1.5200815
+height = 2.1281142
+radial_segments = 10
+rings = 5
+
+[sub_resource type="SphereMesh" id="SphereMesh_8w4fp"]
+radius = 1.9574044
+height = 2.7403662
+radial_segments = 10
+rings = 5
+
+[sub_resource type="SphereMesh" id="SphereMesh_3g8k5"]
+radius = 1.9378726
+height = 2.7130218
+radial_segments = 10
+rings = 5
+
+[sub_resource type="SphereMesh" id="SphereMesh_gqyb3"]
+radius = 1.2692194
+height = 1.7769072
+radial_segments = 10
+rings = 5
+
+[node name="PoisonCloud" type="Node3D" unique_id=321298719]
+script = ExtResource("gen_script_0")
+
+[node name="Puffs" type="Node3D" parent="." unique_id=1909994777]
+
+[node name="Puff" type="MeshInstance3D" parent="Puffs" unique_id=709443723]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.272726, 1.6804833, 0)
+material_override = SubResource("StandardMaterial3D_f0cx4")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_8xcj2")
+
+[node name="Puff2" type="MeshInstance3D" parent="Puffs" unique_id=1344433884]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8080411, 0.6576407, 0.870106)
+material_override = SubResource("StandardMaterial3D_f0cx4")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_qfn74")
+
+[node name="Puff3" type="MeshInstance3D" parent="Puffs" unique_id=732629672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29305777, 0.64891726, 1.6377285)
+material_override = SubResource("StandardMaterial3D_f0cx4")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_8g66t")
+
+[node name="Puff4" type="MeshInstance3D" parent="Puffs" unique_id=505903864]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0212901, 1.2323997, 2.162248)
+material_override = SubResource("StandardMaterial3D_f0cx4")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_2amcb")
+
+[node name="Puff5" type="MeshInstance3D" parent="Puffs" unique_id=1136073505]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.559904, 1.3408682, 0.67584467)
+material_override = SubResource("StandardMaterial3D_f0cx4")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_bbeg0")
+
+[node name="Puff6" type="MeshInstance3D" parent="Puffs" unique_id=161675414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5869792, 1.4117486, -0.54174185)
+material_override = SubResource("StandardMaterial3D_f0cx4")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_4xuwc")
+
+[node name="Puff7" type="MeshInstance3D" parent="Puffs" unique_id=1418136660]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2310598, 0.62998605, -1.8252609)
+material_override = SubResource("StandardMaterial3D_f0cx4")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_8w4fp")
+
+[node name="Puff8" type="MeshInstance3D" parent="Puffs" unique_id=814184758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20553148, 0.98837256, -2.0283053)
+material_override = SubResource("StandardMaterial3D_f0cx4")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_3g8k5")
+
+[node name="Puff9" type="MeshInstance3D" parent="Puffs" unique_id=588265735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.78806937, 1.1726506, -1.0442129)
+material_override = SubResource("StandardMaterial3D_f0cx4")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_gqyb3")

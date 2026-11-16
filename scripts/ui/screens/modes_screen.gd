@@ -1,5 +1,5 @@
 extends MenuScreen
-## Seleção do modo de jogo.
+## Game mode selection.
 
 
 func _ready() -> void:

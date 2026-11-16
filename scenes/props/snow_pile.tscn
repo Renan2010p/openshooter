@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_gql4q"]
+
+[node name="SnowPile" type="Node3D" unique_id=257482647]
+
+[node name="Snow" type="Node3D" parent="." unique_id=294141079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+script = ExtResource("1_gql4q")
+shape = 2
+size = Vector3(3.2, 0.8, 2)
+color = Color(0.93, 0.95, 0.98, 1)
+
+[node name="Snow2" type="Node3D" parent="." unique_id=488222945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.25, 0.6)
+script = ExtResource("1_gql4q")
+shape = 2
+size = Vector3(1.8, 0.55, 1.4)
+color = Color(0.9021, 0.9215, 0.9506, 1)
+collide = false

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="AudioStream" path="res://audio/knife.wav" id="1_141ly"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/barrier.tscn" id="2_cdu4i"]
+[ext_resource type="Script" path="res://scripts/weapons/weapon_data.gd" id="3_wk3iq"]
+
+[resource]
+script = ExtResource("3_wk3iq")
+id = "barrier"
+display_name = "Barrier"
+kind = 3
+model = ExtResource("2_cdu4i")
+fire_sound = ExtResource("1_141ly")
+damage = 0.0
+fire_interval = 0.9
+magazine = 2
+reserve = 0
+throw_effect = 2
+fuse = 0.7
+effect_radius = 4.0
+effect_duration = 12.0
+view_position = Vector3(0.22, -0.24, -0.4)
+view_scale = 0.6

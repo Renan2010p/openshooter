@@ -1,5 +1,5 @@
 extends MenuScreen
-## Armário: nome e cores do boneco, com prévia 3D girando ao lado.
+## Locker: name and character colors, with a rotating 3D preview beside them.
 
 
 func _ready() -> void:
@@ -27,5 +27,5 @@ func _save() -> void:
 	if n != "":
 		Config.player_name = n
 	Config.save_cfg()
-	menu.set_status("Armário salvo.", true)
+	menu.set_status("Locker saved.", true)
 	menu.show_screen("Home")

@@ -1,0 +1,607 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/game/game_map.gd" id="gen_script_0"]
+
+[ext_resource type="Environment" path="res://resources/environments/desert.tres" id="1_1r7oa"]
+[ext_resource type="Material" path="res://resources/materials/desert.tres" id="2_8sd64"]
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="3_agdj5"]
+[ext_resource type="PackedScene" path="res://scenes/props/adobe_house_terrace.tscn" id="4_texfx"]
+[ext_resource type="PackedScene" path="res://scenes/props/adobe_house.tscn" id="5_110mp"]
+[ext_resource type="PackedScene" path="res://scenes/props/well.tscn" id="6_065mn"]
+[ext_resource type="PackedScene" path="res://scenes/props/tent_1.tscn" id="7_p4a65"]
+[ext_resource type="PackedScene" path="res://scenes/props/tent_2.tscn" id="8_8wsnm"]
+[ext_resource type="PackedScene" path="res://scenes/props/tent_3.tscn" id="9_p0tpv"]
+[ext_resource type="PackedScene" path="res://scenes/props/palm_tree.tscn" id="10_vjxy3"]
+[ext_resource type="PackedScene" path="res://scenes/props/rocks.tscn" id="11_nv6yi"]
+[ext_resource type="PackedScene" path="res://scenes/props/cactus.tscn" id="12_0vcbj"]
+[ext_resource type="PackedScene" path="res://scenes/props/ruin.tscn" id="13_8ymyb"]
+[ext_resource type="PackedScene" path="res://scenes/props/sandbags.tscn" id="14_gsu5e"]
+[ext_resource type="PackedScene" path="res://scenes/props/barrels.tscn" id="15_yy73n"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_63rtv"]
+size = Vector2(80, 80)
+
+[node name="DesertVillage" type="Node3D" unique_id=1051843438]
+script = ExtResource("gen_script_0")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=402829999]
+environment = ExtResource("1_1r7oa")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=2111677951]
+light_energy = 1.1
+transform = Transform3D(0.90630776, -0.37314978, 0.19840728, 0, 0.4694716, 0.88294756, -0.42261827, -0.8002222, 0.42548576, 0, 0, 0)
+light_color = Color(1, 0.96, 0.88, 1)
+shadow_enabled = true
+directional_shadow_mode = 0
+directional_shadow_max_distance = 35.0
+[node name="FillLight" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52, 148, 0)
+light_color = Color(0.64, 0.72, 0.9, 1)
+light_energy = 0.3
+shadow_enabled = false
+
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1092809326]
+material_override = ExtResource("2_8sd64")
+mesh = SubResource("PlaneMesh_63rtv")
+
+[node name="Geometry" type="Node3D" parent="." unique_id=386447555]
+
+[node name="GroundCollision" type="Node3D" parent="Geometry" unique_id=1861242461]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+visible = false
+script = ExtResource("3_agdj5")
+size = Vector3(80, 1, 80)
+color = Color(0.74509805, 0.74509805, 0.74509805, 1)
+
+[node name="Wall" type="Node3D" parent="Geometry" unique_id=1173071736]
+
+[node name="NorthWall" type="Node3D" parent="Geometry/Wall" unique_id=1638108776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -40)
+script = ExtResource("3_agdj5")
+size = Vector3(80, 4, 1)
+color = Color(0.78, 0.6, 0.42, 1)
+
+[node name="SouthWall" type="Node3D" parent="Geometry/Wall" unique_id=1584865024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 40)
+script = ExtResource("3_agdj5")
+size = Vector3(80, 4, 1)
+color = Color(0.78, 0.6, 0.42, 1)
+
+[node name="WestWall" type="Node3D" parent="Geometry/Wall" unique_id=1482769699]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2, 0)
+script = ExtResource("3_agdj5")
+size = Vector3(1, 4, 80)
+color = Color(0.78, 0.6, 0.42, 1)
+
+[node name="EastWall" type="Node3D" parent="Geometry/Wall" unique_id=385522892]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 2, 0)
+script = ExtResource("3_agdj5")
+size = Vector3(1, 4, 80)
+color = Color(0.78, 0.6, 0.42, 1)
+
+[node name="Paths" type="Node3D" parent="Geometry" unique_id=1027610612]
+
+[node name="Trail" type="Node3D" parent="Geometry/Paths" unique_id=100662346]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+script = ExtResource("3_agdj5")
+size = Vector3(5, 0.02, 78)
+color = Color(0.76, 0.64, 0.45, 1)
+collide = false
+
+[node name="Trail2" type="Node3D" parent="Geometry/Paths" unique_id=236987528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011, 0)
+script = ExtResource("3_agdj5")
+size = Vector3(78, 0.02, 5)
+color = Color(0.76, 0.64, 0.45, 1)
+collide = false
+
+[node name="Houses" type="Node3D" parent="Geometry" unique_id=1370163789]
+
+[node name="House" parent="Geometry/Houses" unique_id=1553976822 instance=ExtResource("4_texfx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, -26)
+
+[node name="House2" parent="Geometry/Houses" unique_id=1341514261 instance=ExtResource("5_110mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -28)
+
+[node name="House3" parent="Geometry/Houses" unique_id=696560816 instance=ExtResource("5_110mp")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 24, 0, -24)
+
+[node name="House4" parent="Geometry/Houses" unique_id=831602172 instance=ExtResource("4_texfx")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 26, 0, 8)
+
+[node name="House5" parent="Geometry/Houses" unique_id=2054747326 instance=ExtResource("5_110mp")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -26, 0, 6)
+
+[node name="House6" parent="Geometry/Houses" unique_id=1982120648 instance=ExtResource("5_110mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, 28)
+
+[node name="House7" parent="Geometry/Houses" unique_id=1833046954 instance=ExtResource("4_texfx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, 28)
+
+[node name="House8" parent="Geometry/Houses" unique_id=1754879087 instance=ExtResource("5_110mp")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 12, 0, -10)
+
+[node name="Square" type="Node3D" parent="Geometry" unique_id=2010855716]
+
+[node name="Well" parent="Geometry/Square" unique_id=1984950982 instance=ExtResource("6_065mn")]
+
+[node name="Tent" parent="Geometry/Square" unique_id=1429737263 instance=ExtResource("7_p4a65")]
+transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, -8, 0, -6)
+
+[node name="Tent2" parent="Geometry/Square" unique_id=409366739 instance=ExtResource("8_8wsnm")]
+transform = Transform3D(-0.9396926, 0, -0.34202015, 0, 1, 0, 0.34202015, 0, -0.9396926, 8, 0, 6)
+
+[node name="Tent3" parent="Geometry/Square" unique_id=1741015583 instance=ExtResource("9_p0tpv")]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -9, 0, 7)
+
+[node name="PalmTree" parent="Geometry/Square" unique_id=179114006 instance=ExtResource("10_vjxy3")]
+transform = Transform3D(0.2645594, 0, 0.9643694, 0, 1, 0, -0.9643694, 0, 0.2645594, 4, 0, -3)
+
+[node name="PalmTree2" parent="Geometry/Square" unique_id=219530515 instance=ExtResource("10_vjxy3")]
+transform = Transform3D(0.60918057, 0, 0.7930315, 0, 1, 0, -0.7930315, 0, 0.60918057, -4, 0, 3)
+
+[node name="Nature" type="Node3D" parent="Geometry" unique_id=1079859607]
+
+[node name="Rocks" parent="Geometry/Nature" unique_id=1449722247 instance=ExtResource("11_nv6yi")]
+transform = Transform3D(0.3338279, 0, 0.94263405, 0, 1, 0, -0.94263405, 0, 0.3338279, -32, 0, -10)
+
+[node name="Rocks2" parent="Geometry/Nature" unique_id=1800938921 instance=ExtResource("11_nv6yi")]
+transform = Transform3D(-0.80757314, 0, 0.58976746, 0, 1, 0, -0.58976746, 0, -0.80757314, 32, 0, -8)
+
+[node name="Rocks3" parent="Geometry/Nature" unique_id=125105792 instance=ExtResource("11_nv6yi")]
+transform = Transform3D(-0.42867836, 0, -0.90345716, 0, 1, 0, 0.90345716, 0, -0.42867836, -14, 0, 20)
+
+[node name="Rocks4" parent="Geometry/Nature" unique_id=2037759078 instance=ExtResource("11_nv6yi")]
+transform = Transform3D(0.99292374, 0, -0.11875369, 0, 1, 0, 0.11875369, 0, 0.99292374, 14, 0, 18)
+
+[node name="Rocks5" parent="Geometry/Nature" unique_id=1717768790 instance=ExtResource("11_nv6yi")]
+transform = Transform3D(0.9912784, 0, -0.13178413, 0, 1, 0, 0.13178413, 0, 0.9912784, 0, 0, -20)
+
+[node name="Rocks6" parent="Geometry/Nature" unique_id=803730789 instance=ExtResource("11_nv6yi")]
+transform = Transform3D(0.7157064, 0, 0.6984013, 0, 1, 0, -0.6984013, 0, 0.7157064, 34, 0, 24)
+
+[node name="Rocks7" parent="Geometry/Nature" unique_id=1730755348 instance=ExtResource("11_nv6yi")]
+transform = Transform3D(-0.75913674, 0, 0.65093124, 0, 1, 0, -0.65093124, 0, -0.75913674, -34, 0, 18)
+
+[node name="Cactus" parent="Geometry/Nature" unique_id=877258178 instance=ExtResource("12_0vcbj")]
+transform = Transform3D(0.451942, 0, 0.89204735, 0, 1, 0, -0.89204735, 0, 0.451942, -18, 0, -14)
+
+[node name="Cactus2" parent="Geometry/Nature" unique_id=798177512 instance=ExtResource("12_0vcbj")]
+transform = Transform3D(-0.33056855, 0, -0.943782, 0, 1, 0, 0.943782, 0, -0.33056855, 18, 0, -16)
+
+[node name="Cactus3" parent="Geometry/Nature" unique_id=1659195358 instance=ExtResource("12_0vcbj")]
+transform = Transform3D(-0.9027459, 0, -0.43017423, 0, 1, 0, 0.43017423, 0, -0.9027459, -30, 0, -32)
+
+[node name="Cactus4" parent="Geometry/Nature" unique_id=871809228 instance=ExtResource("12_0vcbj")]
+transform = Transform3D(0.7708135, 0, 0.6370609, 0, 1, 0, -0.6370609, 0, 0.7708135, 30, 0, -34)
+
+[node name="Cactus5" parent="Geometry/Nature" unique_id=346426538 instance=ExtResource("12_0vcbj")]
+transform = Transform3D(-0.51432407, 0, -0.8575959, 0, 1, 0, 0.8575959, 0, -0.51432407, 10, 0, 32)
+
+[node name="Cactus6" parent="Geometry/Nature" unique_id=1890412637 instance=ExtResource("12_0vcbj")]
+transform = Transform3D(0.35721678, 0, -0.93402153, 0, 1, 0, 0.93402153, 0, 0.35721678, -12, 0, 32)
+
+[node name="Cactus7" parent="Geometry/Nature" unique_id=245095780 instance=ExtResource("12_0vcbj")]
+transform = Transform3D(-0.5476937, 0, 0.8366789, 0, 1, 0, -0.8366789, 0, -0.5476937, 34, 0, 0)
+
+[node name="PalmTree" parent="Geometry/Nature" unique_id=1284431070 instance=ExtResource("10_vjxy3")]
+transform = Transform3D(-0.9982391, 0, 0.059318423, 0, 1, 0, -0.059318423, 0, -0.9982391, -36, 0, -24)
+
+[node name="PalmTree2" parent="Geometry/Nature" unique_id=442431732 instance=ExtResource("10_vjxy3")]
+transform = Transform3D(0.38233775, 0, -0.9240227, 0, 1, 0, 0.9240227, 0, 0.38233775, 36, 0, 14)
+
+[node name="PalmTree3" parent="Geometry/Nature" unique_id=1308472521 instance=ExtResource("10_vjxy3")]
+transform = Transform3D(-0.18399046, 0, 0.98292804, 0, 1, 0, -0.98292804, 0, -0.18399046, -8, 0, 34)
+
+[node name="RoofCover" type="Node3D" parent="Geometry" unique_id=516921343]
+
+[node name="Ruin" parent="Geometry/RoofCover" unique_id=1294593643 instance=ExtResource("13_8ymyb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -16, 0, 2)
+
+[node name="Ruin2" parent="Geometry/RoofCover" unique_id=445968539 instance=ExtResource("13_8ymyb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 18, 0, -2)
+
+[node name="Ruin3" parent="Geometry/RoofCover" unique_id=1825311532 instance=ExtResource("13_8ymyb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -30)
+
+[node name="Sandbags" parent="Geometry/RoofCover" unique_id=111118630 instance=ExtResource("14_gsu5e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -16)
+
+[node name="Sandbags2" parent="Geometry/RoofCover" unique_id=1571260169 instance=ExtResource("14_gsu5e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 14)
+
+[node name="Sandbags3" parent="Geometry/RoofCover" unique_id=1425088051 instance=ExtResource("14_gsu5e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -20, 0, 14)
+
+[node name="Sandbags4" parent="Geometry/RoofCover" unique_id=1759470310 instance=ExtResource("14_gsu5e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 20, 0, -10)
+
+[node name="Barris" parent="Geometry/RoofCover" unique_id=1603031756 instance=ExtResource("15_yy73n")]
+transform = Transform3D(-0.99587595, 0, 0.0907251, 0, 1, 0, -0.0907251, 0, -0.99587595, -30, 0, -20)
+
+[node name="Barris2" parent="Geometry/RoofCover" unique_id=2064352045 instance=ExtResource("15_yy73n")]
+transform = Transform3D(-0.9845844, 0, 0.17491019, 0, 1, 0, -0.17491019, 0, -0.9845844, 30, 0, 18)
+
+[node name="Barris3" parent="Geometry/RoofCover" unique_id=908561493 instance=ExtResource("15_yy73n")]
+transform = Transform3D(-0.88782454, 0, -0.4601821, 0, 1, 0, 0.4601821, 0, -0.88782454, -6, 0, 26)
+
+[node name="LowWalls" type="Node3D" parent="Geometry" unique_id=1472607881]
+
+[node name="LowWall" type="Node3D" parent="Geometry/LowWalls" unique_id=143358234]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.6, -22)
+script = ExtResource("3_agdj5")
+size = Vector3(6, 1.2, 0.5)
+color = Color(0.78, 0.6, 0.42, 1)
+
+[node name="LowWall2" type="Node3D" parent="Geometry/LowWalls" unique_id=1229127374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.6, 22)
+script = ExtResource("3_agdj5")
+size = Vector3(6, 1.2, 0.5)
+color = Color(0.78, 0.6, 0.42, 1)
+
+[node name="LowWall3" type="Node3D" parent="Geometry/LowWalls" unique_id=521980208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.6, 0)
+script = ExtResource("3_agdj5")
+size = Vector3(0.5, 1.2, 8)
+color = Color(0.78, 0.6, 0.42, 1)
+
+[node name="LowWall4" type="Node3D" parent="Geometry/LowWalls" unique_id=1327214415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.6, -18)
+script = ExtResource("3_agdj5")
+size = Vector3(0.5, 1.2, 8)
+color = Color(0.78, 0.6, 0.42, 1)
+
+[node name="Spawns" type="Node3D" parent="." unique_id=1478659687]
+
+[node name="Spawn0" type="Marker3D" parent="Spawns" unique_id=1260662155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, -35)
+
+[node name="Spawn1" type="Marker3D" parent="Spawns" unique_id=454807788]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, 35)
+
+[node name="Spawn2" type="Marker3D" parent="Spawns" unique_id=1951794893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.2, -35)
+
+[node name="Spawn3" type="Marker3D" parent="Spawns" unique_id=47330011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.2, 35)
+
+[node name="Spawn4" type="Marker3D" parent="Spawns" unique_id=647155701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -35)
+
+[node name="Spawn5" type="Marker3D" parent="Spawns" unique_id=261793280]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 35)
+
+[node name="Spawn6" type="Marker3D" parent="Spawns" unique_id=1777633567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.2, -35)
+
+[node name="Spawn7" type="Marker3D" parent="Spawns" unique_id=1992427796]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.2, 35)
+
+[node name="Spawn8" type="Marker3D" parent="Spawns" unique_id=1605136573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0.2, -35)
+
+[node name="Spawn9" type="Marker3D" parent="Spawns" unique_id=757917795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0.2, 35)
+
+[node name="Spawn10" type="Marker3D" parent="Spawns" unique_id=495151904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.2, -18)
+
+[node name="Spawn11" type="Marker3D" parent="Spawns" unique_id=1591207802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0.2, -18)
+
+[node name="Spawn12" type="Marker3D" parent="Spawns" unique_id=351583870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.2, 0)
+
+[node name="Spawn13" type="Marker3D" parent="Spawns" unique_id=651933495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0.2, 0)
+
+[node name="Spawn14" type="Marker3D" parent="Spawns" unique_id=715372859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.2, 18)
+
+[node name="Spawn15" type="Marker3D" parent="Spawns" unique_id=1618366282]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0.2, 18)
+
+[node name="Waypoints" type="Node3D" parent="." unique_id=764797308]
+
+[node name="Waypoint0" type="Marker3D" parent="Waypoints" unique_id=1893273911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, -34)
+
+[node name="Waypoint1" type="Marker3D" parent="Waypoints" unique_id=1233328716]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, -28)
+
+[node name="Waypoint2" type="Marker3D" parent="Waypoints" unique_id=711892145]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, -22)
+
+[node name="Waypoint3" type="Marker3D" parent="Waypoints" unique_id=1959738479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, -16)
+
+[node name="Waypoint4" type="Marker3D" parent="Waypoints" unique_id=1813307902]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, -4)
+
+[node name="Waypoint5" type="Marker3D" parent="Waypoints" unique_id=1754284592]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, 2)
+
+[node name="Waypoint6" type="Marker3D" parent="Waypoints" unique_id=333945414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, 8)
+
+[node name="Waypoint7" type="Marker3D" parent="Waypoints" unique_id=1820062921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, 14)
+
+[node name="Waypoint8" type="Marker3D" parent="Waypoints" unique_id=684901072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, 26)
+
+[node name="Waypoint9" type="Marker3D" parent="Waypoints" unique_id=476695419]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.2, 32)
+
+[node name="Waypoint10" type="Marker3D" parent="Waypoints" unique_id=1928193263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.2, -34)
+
+[node name="Waypoint11" type="Marker3D" parent="Waypoints" unique_id=1885555855]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.2, -16)
+
+[node name="Waypoint12" type="Marker3D" parent="Waypoints" unique_id=1183637208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.2, -10)
+
+[node name="Waypoint13" type="Marker3D" parent="Waypoints" unique_id=1960536995]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.2, -4)
+
+[node name="Waypoint14" type="Marker3D" parent="Waypoints" unique_id=1849942634]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.2, 14)
+
+[node name="Waypoint15" type="Marker3D" parent="Waypoints" unique_id=963371880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0.2, 20)
+
+[node name="Waypoint16" type="Marker3D" parent="Waypoints" unique_id=1319943416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.2, -34)
+
+[node name="Waypoint17" type="Marker3D" parent="Waypoints" unique_id=1403312686]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.2, -16)
+
+[node name="Waypoint18" type="Marker3D" parent="Waypoints" unique_id=153341171]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.2, -10)
+
+[node name="Waypoint19" type="Marker3D" parent="Waypoints" unique_id=885924360]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.2, -4)
+
+[node name="Waypoint20" type="Marker3D" parent="Waypoints" unique_id=2000785897]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.2, 20)
+
+[node name="Waypoint21" type="Marker3D" parent="Waypoints" unique_id=1711260896]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, -34)
+
+[node name="Waypoint22" type="Marker3D" parent="Waypoints" unique_id=2055689179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, -28)
+
+[node name="Waypoint23" type="Marker3D" parent="Waypoints" unique_id=778188240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, -16)
+
+[node name="Waypoint24" type="Marker3D" parent="Waypoints" unique_id=89906901]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, -10)
+
+[node name="Waypoint25" type="Marker3D" parent="Waypoints" unique_id=674636024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, -4)
+
+[node name="Waypoint26" type="Marker3D" parent="Waypoints" unique_id=545062129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, 8)
+
+[node name="Waypoint27" type="Marker3D" parent="Waypoints" unique_id=1072071266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, 14)
+
+[node name="Waypoint28" type="Marker3D" parent="Waypoints" unique_id=2130462801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, 26)
+
+[node name="Waypoint29" type="Marker3D" parent="Waypoints" unique_id=285155933]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.2, 32)
+
+[node name="Waypoint30" type="Marker3D" parent="Waypoints" unique_id=1610439069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.2, -34)
+
+[node name="Waypoint31" type="Marker3D" parent="Waypoints" unique_id=1836479826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.2, -16)
+
+[node name="Waypoint32" type="Marker3D" parent="Waypoints" unique_id=1183493116]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.2, -10)
+
+[node name="Waypoint33" type="Marker3D" parent="Waypoints" unique_id=1744490336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.2, 2)
+
+[node name="Waypoint34" type="Marker3D" parent="Waypoints" unique_id=977805415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.2, 14)
+
+[node name="Waypoint35" type="Marker3D" parent="Waypoints" unique_id=788971489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.2, 20)
+
+[node name="Waypoint36" type="Marker3D" parent="Waypoints" unique_id=36437934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.2, 26)
+
+[node name="Waypoint37" type="Marker3D" parent="Waypoints" unique_id=746054970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.2, 32)
+
+[node name="Waypoint38" type="Marker3D" parent="Waypoints" unique_id=362567720]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -34)
+
+[node name="Waypoint39" type="Marker3D" parent="Waypoints" unique_id=901258957]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -28)
+
+[node name="Waypoint40" type="Marker3D" parent="Waypoints" unique_id=2043345087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -22)
+
+[node name="Waypoint41" type="Marker3D" parent="Waypoints" unique_id=819592570]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -10)
+
+[node name="Waypoint42" type="Marker3D" parent="Waypoints" unique_id=715552386]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -4)
+
+[node name="Waypoint43" type="Marker3D" parent="Waypoints" unique_id=781742744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, 8)
+
+[node name="Waypoint44" type="Marker3D" parent="Waypoints" unique_id=2067822205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, 14)
+
+[node name="Waypoint45" type="Marker3D" parent="Waypoints" unique_id=1688731402]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, 20)
+
+[node name="Waypoint46" type="Marker3D" parent="Waypoints" unique_id=1405197136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, 26)
+
+[node name="Waypoint47" type="Marker3D" parent="Waypoints" unique_id=2034569843]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, 32)
+
+[node name="Waypoint48" type="Marker3D" parent="Waypoints" unique_id=2065066721]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, -34)
+
+[node name="Waypoint49" type="Marker3D" parent="Waypoints" unique_id=808312829]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, -28)
+
+[node name="Waypoint50" type="Marker3D" parent="Waypoints" unique_id=1406705362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, -16)
+
+[node name="Waypoint51" type="Marker3D" parent="Waypoints" unique_id=192940485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, -10)
+
+[node name="Waypoint52" type="Marker3D" parent="Waypoints" unique_id=1352837019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, -4)
+
+[node name="Waypoint53" type="Marker3D" parent="Waypoints" unique_id=1106251878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, 8)
+
+[node name="Waypoint54" type="Marker3D" parent="Waypoints" unique_id=700660175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, 14)
+
+[node name="Waypoint55" type="Marker3D" parent="Waypoints" unique_id=1968001616]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, 20)
+
+[node name="Waypoint56" type="Marker3D" parent="Waypoints" unique_id=548124272]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, 26)
+
+[node name="Waypoint57" type="Marker3D" parent="Waypoints" unique_id=1204189326]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, 32)
+
+[node name="Waypoint58" type="Marker3D" parent="Waypoints" unique_id=1075184598]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, -34)
+
+[node name="Waypoint59" type="Marker3D" parent="Waypoints" unique_id=1470331483]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, -28)
+
+[node name="Waypoint60" type="Marker3D" parent="Waypoints" unique_id=1315622060]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, -22)
+
+[node name="Waypoint61" type="Marker3D" parent="Waypoints" unique_id=1942481726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, -16)
+
+[node name="Waypoint62" type="Marker3D" parent="Waypoints" unique_id=1529951987]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, -4)
+
+[node name="Waypoint63" type="Marker3D" parent="Waypoints" unique_id=2090510474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, 2)
+
+[node name="Waypoint64" type="Marker3D" parent="Waypoints" unique_id=993154624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, 20)
+
+[node name="Waypoint65" type="Marker3D" parent="Waypoints" unique_id=1162964221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, 26)
+
+[node name="Waypoint66" type="Marker3D" parent="Waypoints" unique_id=2005388384]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.2, 32)
+
+[node name="Waypoint67" type="Marker3D" parent="Waypoints" unique_id=1726949410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, -34)
+
+[node name="Waypoint68" type="Marker3D" parent="Waypoints" unique_id=2041424945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, -28)
+
+[node name="Waypoint69" type="Marker3D" parent="Waypoints" unique_id=443371773]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, -22)
+
+[node name="Waypoint70" type="Marker3D" parent="Waypoints" unique_id=2132035860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, -16)
+
+[node name="Waypoint71" type="Marker3D" parent="Waypoints" unique_id=658937253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, -4)
+
+[node name="Waypoint72" type="Marker3D" parent="Waypoints" unique_id=2097614496]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, 2)
+
+[node name="Waypoint73" type="Marker3D" parent="Waypoints" unique_id=787154810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, 8)
+
+[node name="Waypoint74" type="Marker3D" parent="Waypoints" unique_id=73236394]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, 14)
+
+[node name="Waypoint75" type="Marker3D" parent="Waypoints" unique_id=551081141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, 26)
+
+[node name="Waypoint76" type="Marker3D" parent="Waypoints" unique_id=1217947437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.2, 32)
+
+[node name="Waypoint77" type="Marker3D" parent="Waypoints" unique_id=436011756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.2, -34)
+
+[node name="Waypoint78" type="Marker3D" parent="Waypoints" unique_id=1423550620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.2, -16)
+
+[node name="Waypoint79" type="Marker3D" parent="Waypoints" unique_id=657792709]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.2, -4)
+
+[node name="Waypoint80" type="Marker3D" parent="Waypoints" unique_id=1910881679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.2, 2)
+
+[node name="Waypoint81" type="Marker3D" parent="Waypoints" unique_id=298750943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.2, 8)
+
+[node name="Waypoint82" type="Marker3D" parent="Waypoints" unique_id=592679703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.2, 14)
+
+[node name="Waypoint83" type="Marker3D" parent="Waypoints" unique_id=241167604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.2, 20)
+
+[node name="Waypoint84" type="Marker3D" parent="Waypoints" unique_id=1268791325]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.2, -34)
+
+[node name="Waypoint85" type="Marker3D" parent="Waypoints" unique_id=853671995]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.2, -16)
+
+[node name="Waypoint86" type="Marker3D" parent="Waypoints" unique_id=1491545966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.2, -10)
+
+[node name="Waypoint87" type="Marker3D" parent="Waypoints" unique_id=1312574637]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.2, -4)
+
+[node name="Waypoint88" type="Marker3D" parent="Waypoints" unique_id=644248680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.2, 2)
+
+[node name="Waypoint89" type="Marker3D" parent="Waypoints" unique_id=1130214797]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.2, 14)
+
+[node name="Waypoint90" type="Marker3D" parent="Waypoints" unique_id=1963250139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.2, 20)
+
+[node name="Waypoint91" type="Marker3D" parent="Waypoints" unique_id=2100462334]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, -34)
+
+[node name="Waypoint92" type="Marker3D" parent="Waypoints" unique_id=154390543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, -28)
+
+[node name="Waypoint93" type="Marker3D" parent="Waypoints" unique_id=963534597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, -22)
+
+[node name="Waypoint94" type="Marker3D" parent="Waypoints" unique_id=1790885770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, -16)
+
+[node name="Waypoint95" type="Marker3D" parent="Waypoints" unique_id=1286345494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, -4)
+
+[node name="Waypoint96" type="Marker3D" parent="Waypoints" unique_id=58485204]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 2)
+
+[node name="Waypoint97" type="Marker3D" parent="Waypoints" unique_id=1965010904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 8)
+
+[node name="Waypoint98" type="Marker3D" parent="Waypoints" unique_id=1340441757]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 14)
+
+[node name="Waypoint99" type="Marker3D" parent="Waypoints" unique_id=445037814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 20)
+
+[node name="Waypoint100" type="Marker3D" parent="Waypoints" unique_id=1595237668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.2, 32)

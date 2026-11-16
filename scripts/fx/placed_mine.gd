@@ -1,5 +1,5 @@
 extends Node3D
-## Mina colocada no chão (scenes/fx/placed_mine.tscn): o LED pisca.
+## Mine placed on the ground (scenes/fx/placed_mine.tscn): the LED blinks.
 
 @export var blink_interval := 0.6
 

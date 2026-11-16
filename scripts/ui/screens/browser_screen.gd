@@ -1,8 +1,8 @@
 extends MenuScreen
-## Lista de servidores públicos achados na rede local (modo Normal ou Duelos).
+## List of public servers found on the local network (Normal or Duel modes).
 
 const ROW_SCENE := preload("res://scenes/ui/server_row.tscn")
-const TITLES := {"normal": "SERVIDORES NA REDE — NORMAL", "duel": "SERVIDORES NA REDE — APENAS DUELOS"}
+const TITLES := {"normal": "LAN SERVERS — NORMAL", "duel": "LAN SERVERS — DUEL ONLY"}
 
 var mode := "normal"
 
@@ -17,7 +17,7 @@ func _ready() -> void:
 
 func enter(arg: Variant) -> void:
 	mode = str(arg) if arg != null else "normal"
-	%Title.text = TITLES.get(mode, "SERVIDORES")
+	%Title.text = TITLES.get(mode, "SERVERS")
 	_refresh()
 
 
@@ -43,4 +43,5 @@ func _refresh() -> void:
 		list.add_child(row)
 		row.setup(ip, s)
 		row.join_pressed.connect(func(addr): menu.request_join(addr))
-	%Empty.visible = not any
+	%EmptyState.visible = not any
+	%Scroll.visible = any

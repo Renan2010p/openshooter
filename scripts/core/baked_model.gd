@@ -1,9 +1,10 @@
 class_name BakedModel
 extends Node3D
-## Raiz de um modelo pequeno feito de [Block] (armas, mina). Junta tudo num mesh
-## ao entrar na árvore. O Marker3D "Muzzle" marca a ponta do cano.
+## Root of a small model built from [Block] nodes (weapons, mines). Merges
+## everything into one mesh when it enters the tree. The "Muzzle" Marker3D
+## marks the tip of the barrel.
 
-## Brilho e sombra do modelo inteiro.
+## Brightness and shadow settings for the whole model.
 @export var cast_shadows := true
 
 
@@ -13,7 +14,7 @@ func _ready() -> void:
 		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 
-## Posição global da ponta do cano (ou da origem, se não houver "Muzzle").
+## Global position of the muzzle (or the model origin when there is no "Muzzle").
 func muzzle_position() -> Vector3:
 	var m := get_node_or_null("Muzzle") as Node3D
 	return m.global_position if m else global_position

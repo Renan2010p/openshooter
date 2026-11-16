@@ -1,65 +1,228 @@
 [gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/screens/modes_screen.gd" id="gen_script_0"]
 
+[ext_resource type="Script" path="res://scripts/ui/screens/modes_screen.gd" id="gen_script_0"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/server.svg" id="3_server"]
+
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
 
 [node name="Modes" type="Control" unique_id=1064835256]
 script = ExtResource("gen_script_0")
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="." unique_id=1762075033]
-unique_name_in_owner = true
+[node name="Content" type="VBoxContainer" parent="." unique_id=1064835001]
 layout_mode = 0
 anchor_right = 1.0
-offset_top = 36.0
-offset_bottom = 106.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 48.0
+offset_right = -56.0
+offset_bottom = -56.0
+theme_override_constants/separation = 0
+
+[node name="Eyebrow" type="Label" parent="Content" unique_id=1064835002]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "PLAY"
+
+[node name="Header" type="HBoxContainer" parent="Content" unique_id=1064835003]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Content/Header" unique_id=1064835004]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Header/Titles" unique_id=1064835005]
+layout_mode = 2
 theme_type_variation = &"TitleLabel"
-text = "SELECIONE O MODO DE JOGO"
-horizontal_alignment = 1
+text = "SELECT MODE"
 
-[node name="Buttons" type="VBoxContainer" parent="." unique_id=1170986119]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -200.0
-offset_right = 250.0
-offset_bottom = 220.0
-theme_override_constants/separation = 18
+[node name="Subtitle" type="Label" parent="Content/Header/Titles" unique_id=1064835006]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Choose how you want to play. Every server can vote for a different mode after each match."
 
-[node name="Normal" type="Button" parent="Buttons" unique_id=251333383]
+[node name="Back" type="Button" parent="Content/Header" unique_id=1096531553]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(500, 90)
+custom_minimum_size = Vector2(130, 44)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"GhostButton"
+text = "Back"
+icon = ExtResource("2_back")
+
+[node name="Gap" type="Control" parent="Content" unique_id=1064835007]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Content" unique_id=1064835008]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="Cards" type="VBoxContainer" parent="Content/Body" unique_id=1064835009]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Normal" type="Button" parent="Content/Body/Cards" unique_id=251333383]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 118)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"BigButton"
-text = "Normal"
 
-[node name="Private" type="Button" parent="Buttons" unique_id=628920626]
+[node name="Text" type="VBoxContainer" parent="Content/Body/Cards/Normal" unique_id=1064835010]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 18.0
+offset_right = -26.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="Content/Body/Cards/Normal/Text" unique_id=1064835011]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"TitleSmall"
+text = "NORMAL"
+
+[node name="Desc" type="Label" parent="Content/Body/Cards/Normal/Text" unique_id=1064835012]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"HintLabel"
+text = "Servers on your local network. All weapons, all maps, most kills wins."
+
+[node name="Private" type="Button" parent="Content/Body/Cards" unique_id=628920626]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(500, 90)
+custom_minimum_size = Vector2(0, 118)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"BigButton"
-text = "Privado"
 
-[node name="Duel" type="Button" parent="Buttons" unique_id=1912798442]
+[node name="Text" type="VBoxContainer" parent="Content/Body/Cards/Private" unique_id=1064835013]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 18.0
+offset_right = -26.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="Content/Body/Cards/Private/Text" unique_id=1064835014]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"TitleSmall"
+text = "PRIVATE"
+
+[node name="Desc" type="Label" parent="Content/Body/Cards/Private/Text" unique_id=1064835015]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"HintLabel"
+text = "Share a 5-digit code with your friends. The game finds the server for you."
+
+[node name="Duel" type="Button" parent="Content/Body/Cards" unique_id=1912798442]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(500, 90)
+custom_minimum_size = Vector2(0, 118)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"BigButton"
-text = "Apenas Duelos"
 
-[node name="Back" type="Button" parent="Buttons" unique_id=1096531553]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(500, 56)
+[node name="Text" type="VBoxContainer" parent="Content/Body/Cards/Duel" unique_id=1064835016]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 18.0
+offset_right = -26.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="Content/Body/Cards/Duel/Text" unique_id=1064835017]
 layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "Voltar"
+mouse_filter = 2
+theme_type_variation = &"TitleSmall"
+text = "DUEL ONLY"
+
+[node name="Desc" type="Label" parent="Content/Body/Cards/Duel/Text" unique_id=1064835018]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"HintLabel"
+text = "One versus one. First player to reach five eliminations takes the match."
+
+[node name="Info" type="PanelContainer" parent="Content/Body" unique_id=1064835019]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="Box" type="VBoxContainer" parent="Content/Body/Info" unique_id=1064835020]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="Content/Body/Info/Box" unique_id=1064835021]
+script = ExtResource("9_animicon")
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("3_server")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.96, 0.65, 0.14, 1)
+
+[node name="Title" type="Label" parent="Content/Body/Info/Box" unique_id=1064835022]
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+text = "MULTIPLAYER"
+
+[node name="Hint" type="Label" parent="Content/Body/Info/Box" unique_id=1064835023]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Host a match on your machine. Up to 12 players and 8 bots."
+autowrap_mode = 2
+
+[node name="Sep" type="HSeparator" parent="Content/Body/Info/Box" unique_id=1064835024]
+layout_mode = 2
+
+[node name="Bullet1" type="Label" parent="Content/Body/Info/Box" unique_id=1064835025]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "LAN DISCOVERY  ·  UDP 24541"
+autowrap_mode = 2
+
+[node name="Bullet2" type="Label" parent="Content/Body/Info/Box" unique_id=1064835026]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "GAME TRAFFIC  ·  UDP 24540"
+autowrap_mode = 2
+
+[node name="Bullet3" type="Label" parent="Content/Body/Info/Box" unique_id=1064835027]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "DIRECT IP FALLBACK AVAILABLE"
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="Content/Body/Info/Box" unique_id=1064835028]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Note" type="Label" parent="Content/Body/Info/Box" unique_id=1064835029]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Between matches, everyone votes for the next map and mode."
+autowrap_mode = 2

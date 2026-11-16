@@ -1,50 +1,84 @@
 [gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="gen_script_0"]
 
+[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="gen_script_0"]
 
 [node name="PauseMenu" type="PanelContainer" unique_id=3012850]
 script = ExtResource("gen_script_0")
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -170.0
-offset_top = -170.0
-offset_right = 170.0
-offset_bottom = 170.0
-theme_type_variation = &"Card"
+offset_left = -230.0
+offset_top = -235.0
+offset_right = 230.0
+offset_bottom = 235.0
+theme_type_variation = &"ModalCard"
 
 [node name="Content" type="VBoxContainer" parent="." unique_id=619359462]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 12
+
+[node name="Eyebrow" type="Label" parent="Content" unique_id=3012851]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "IN MATCH"
 
 [node name="Title" type="Label" parent="Content" unique_id=1270714370]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TitleLabel"
-text = "PAUSA"
-horizontal_alignment = 1
+text = "MENU"
+theme_override_font_sizes/font_size = 46
+
+[node name="Subtitle" type="Label" parent="Content" unique_id=3012852]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "The match keeps running while this menu is open."
+autowrap_mode = 2
+
+[node name="Gap" type="Control" parent="Content" unique_id=3012853]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
 
 [node name="Resume" type="Button" parent="Content" unique_id=1167162453]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 54)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "Continuar"
+theme_type_variation = &"PrimaryButton"
+text = "Resume"
 
 [node name="Leave" type="Button" parent="Content" unique_id=230295217]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 54)
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "Sair da partida"
+theme_type_variation = &"DangerButton"
+text = "Leave match"
 
-[node name="Help" type="Label" parent="Content" unique_id=1207936462]
+[node name="Sep" type="HSeparator" parent="Content" unique_id=3012854]
+layout_mode = 2
+
+[node name="HelpCard" type="PanelContainer" parent="Content" unique_id=3012855]
+layout_mode = 2
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/HelpCard" unique_id=3012856]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Heading" type="Label" parent="Content/HelpCard/Box" unique_id=3012857]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "CONTROLS"
+
+[node name="Help" type="Label" parent="Content/HelpCard/Box" unique_id=1207936462]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"HintLabel"
-text = "WASD andar • ESPAÇO pular • SHIFT correr
-CTRL agachar • R recarregar • 1-6 armas
-botão direito: luneta do Fuzil • TAB placar"
+theme_type_variation = &"HudSmall"
+text = "WASD move  ·  SPACE jump  ·  SHIFT sprint
+CTRL crouch  ·  R reload  ·  1-9 weapons
+RIGHT MOUSE aim  ·  TAB scoreboard"
+autowrap_mode = 2

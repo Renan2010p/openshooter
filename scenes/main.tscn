@@ -1,6 +1,9 @@
 [gd_scene format=3]
 [ext_resource type="Script" path="res://scripts/main.gd" id="gen_script_0"]
+[ext_resource type="PackedScene" path="res://scenes/ui/loading_screen.tscn" id="2_loading"]
 
 
 [node name="Main" type="Node" unique_id=1035312268]
 script = ExtResource("gen_script_0")
+
+[node name="LoadingScreen" parent="." unique_id=1035312269 instance=ExtResource("2_loading")]

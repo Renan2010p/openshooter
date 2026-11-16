@@ -1,74 +1,144 @@
 [gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/screens/private_screen.gd" id="gen_script_0"]
 
+[ext_resource type="Script" path="res://scripts/ui/screens/private_screen.gd" id="gen_script_0"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/code.svg" id="3_code"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/plus.svg" id="4_plus"]
+
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
 
 [node name="Private" type="Control" unique_id=1358314270]
 script = ExtResource("gen_script_0")
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="." unique_id=1508425966]
-unique_name_in_owner = true
+[node name="Content" type="VBoxContainer" parent="." unique_id=1358314001]
 layout_mode = 0
 anchor_right = 1.0
-offset_top = 36.0
-offset_bottom = 106.0
-theme_type_variation = &"TitleLabel"
-text = "JOGO PRIVADO"
-horizontal_alignment = 1
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 48.0
+offset_right = -56.0
+offset_bottom = -56.0
+theme_override_constants/separation = 0
 
-[node name="Card" type="PanelContainer" parent="." unique_id=1138429014]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -210.0
-offset_top = -185.0
-offset_right = 210.0
-offset_bottom = 245.0
+[node name="Eyebrow" type="Label" parent="Content" unique_id=1358314002]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "MULTIPLAYER"
+
+[node name="Header" type="HBoxContainer" parent="Content" unique_id=1358314003]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Content/Header" unique_id=1358314004]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Header/Titles" unique_id=1508425966]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "PRIVATE MATCH"
+
+[node name="Subtitle" type="Label" parent="Content/Header/Titles" unique_id=1358314005]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "The host shares a 5-digit code. Enter it here and the game locates the server automatically."
+
+[node name="Back" type="Button" parent="Content/Header" unique_id=1116796254]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 44)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"GhostButton"
+text = "Back"
+icon = ExtResource("2_back")
+
+[node name="Center" type="CenterContainer" parent="Content" unique_id=1358314006]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Card" type="PanelContainer" parent="Content/Center" unique_id=1138429014]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
 theme_type_variation = &"Card"
 
-[node name="Content" type="VBoxContainer" parent="Card" unique_id=475595804]
+[node name="Box" type="VBoxContainer" parent="Content/Center/Card" unique_id=1358314007]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 
-[node name="Code" type="LineEdit" parent="Card/Content" unique_id=1233563580]
+[node name="Icon" type="TextureRect" parent="Content/Center/Card/Box" unique_id=1358314008]
+script = ExtResource("9_animicon")
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("3_code")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.96, 0.65, 0.14, 1)
+
+[node name="Title" type="Label" parent="Content/Center/Card/Box" unique_id=1358314009]
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+text = "ENTER ACCESS CODE"
+
+[node name="Hint" type="Label" parent="Content/Center/Card/Box" unique_id=1358314010]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Five digits, as shown to the host when the server was created."
+autowrap_mode = 2
+
+[node name="Code" type="LineEdit" parent="Content/Center/Card/Box" unique_id=1233563580]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(380, 70)
+custom_minimum_size = Vector2(500, 82)
 layout_mode = 2
 theme_type_variation = &"CodeEdit5"
 placeholder_text = "00000"
 alignment = 1
 max_length = 5
 
-[node name="Join" type="Button" parent="Card/Content" unique_id=188911072]
+[node name="Join" type="Button" parent="Content/Center/Card/Box" unique_id=188911072]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(380, 60)
+custom_minimum_size = Vector2(500, 56)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "Entrar no Servidor"
+theme_type_variation = &"PrimaryButton"
+text = "Join server"
 
-[node name="Spacer" type="Control" parent="Card/Content" unique_id=580741529]
-custom_minimum_size = Vector2(0, 30)
+[node name="Or" type="HBoxContainer" parent="Content/Center/Card/Box" unique_id=1358314011]
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="Create" type="Button" parent="Card/Content" unique_id=1512826122]
+[node name="Left" type="HSeparator" parent="Content/Center/Card/Box/Or" unique_id=1358314012]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Content/Center/Card/Box/Or" unique_id=1358314013]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "OR HOST YOUR OWN"
+
+[node name="Right" type="HSeparator" parent="Content/Center/Card/Box/Or" unique_id=1358314014]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Create" type="Button" parent="Content/Center/Card/Box" unique_id=1512826122]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(380, 60)
+custom_minimum_size = Vector2(500, 52)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "Criar Servidor Privado"
+theme_type_variation = &"GhostButton"
+text = "Create private server"
+icon = ExtResource("4_plus")
 
-[node name="Back" type="Button" parent="Card/Content" unique_id=1116796254]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 46)
+[node name="Note" type="Label" parent="Content/Center/Card/Box" unique_id=1358314015]
 layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 0
-text = "Voltar"
+theme_type_variation = &"Caption"
+text = "BOTH COMPUTERS MUST BE ON THE SAME LOCAL NETWORK."
+horizontal_alignment = 1
+autowrap_mode = 2

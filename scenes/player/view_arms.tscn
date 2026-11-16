@@ -1,39 +1,78 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_dk370"]
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="block"]
 
-[node name="ViewArms" type="Node3D" unique_id=694886572]
+[node name="ViewArms" type="Node3D"]
 
-[node name="Antebraco" type="Node3D" parent="." unique_id=725481058]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.07, 0.2)
-script = ExtResource("1_dk370")
-size = Vector3(0.09, 0.09, 0.32)
+[node name="RightArm" type="Node3D" parent="."]
+transform = Transform3D(0.980581, 0.0863353, 0.17609, 0, 0.897887, -0.440225, -0.196116, 0.431677, 0.880451, 0.02, -0.07, 0.03)
+
+[node name="Hand" type="Node3D" parent="RightArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.02)
+script = ExtResource("block")
+size = Vector3(0.1, 0.11, 0.13)
 color = Color(1, 0.89411765, 0.76862746, 1)
 collide = false
 tint = 3
 
-[node name="Manga" type="Node3D" parent="." unique_id=2113670592]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.09, 0.45)
-script = ExtResource("1_dk370")
-size = Vector3(0.11, 0.11, 0.3)
-color = Color(0.25490198, 0.4117647, 0.88235295, 1)
+[node name="Forearm" type="Node3D" parent="RightArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
+script = ExtResource("block")
+size = Vector3(0.09, 0.09, 0.3)
+color = Color(1, 0.89411765, 0.76862746, 1)
+collide = false
+tint = 3
+
+[node name="Hilt" type="Node3D" parent="RightArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.34)
+script = ExtResource("block")
+size = Vector3(0.118, 0.118, 0.05)
+color = Color(0.25490196, 0.4117647, 0.88235295, 1)
 collide = false
 tint = 1
 
-[node name="LeftHand" type="Node3D" parent="." unique_id=980957636]
+[node name="Sleeve" type="Node3D" parent="RightArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+script = ExtResource("block")
+size = Vector3(0.115, 0.115, 0.34)
+color = Color(0.25490196, 0.4117647, 0.88235295, 1)
+collide = false
+tint = 1
 
-[node name="BracoEsquerdo" type="Node3D" parent="LeftHand" unique_id=139197628]
-transform = Transform3D(0.81915206, 0, -0.57357645, 0, 1, 0, 0.57357645, 0, 0.81915206, -0.12, -0.06, -0.12)
-script = ExtResource("1_dk370")
-size = Vector3(0.08, 0.08, 0.4)
+[node name="LeftHand" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, -0.36)
+
+[node name="LeftArm" type="Node3D" parent="LeftHand"]
+transform = Transform3D(0.819232, -0.266289, -0.507887, -0, 0.88565, -0.464354, 0.573462, 0.380413, 0.725553, 0, -0.03, 0)
+
+[node name="Hand" type="Node3D" parent="LeftHand/LeftArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.02)
+script = ExtResource("block")
+size = Vector3(0.1, 0.11, 0.13)
 color = Color(1, 0.89411765, 0.76862746, 1)
 collide = false
 tint = 3
 
-[node name="MangaEsquerda" type="Node3D" parent="LeftHand" unique_id=137648745]
-transform = Transform3D(0.81915206, 0, -0.57357645, 0, 1, 0, 0.57357645, 0, 0.81915206, -0.2, -0.07, 0.12)
-script = ExtResource("1_dk370")
-size = Vector3(0.1, 0.1, 0.25)
-color = Color(0.25490198, 0.4117647, 0.88235295, 1)
+[node name="Forearm" type="Node3D" parent="LeftHand/LeftArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
+script = ExtResource("block")
+size = Vector3(0.09, 0.09, 0.3)
+color = Color(1, 0.89411765, 0.76862746, 1)
+collide = false
+tint = 3
+
+[node name="Hilt" type="Node3D" parent="LeftHand/LeftArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.34)
+script = ExtResource("block")
+size = Vector3(0.118, 0.118, 0.05)
+color = Color(0.25490196, 0.4117647, 0.88235295, 1)
+collide = false
+tint = 1
+
+[node name="Sleeve" type="Node3D" parent="LeftHand/LeftArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+script = ExtResource("block")
+size = Vector3(0.115, 0.115, 0.34)
+color = Color(0.25490196, 0.4117647, 0.88235295, 1)
 collide = false
 tint = 1

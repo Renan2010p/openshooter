@@ -17,3 +17,5 @@ automatic = true
 spread = 0.012
 reload_time = 2.2
 two_handed = true
+ads_position = Vector3(0, -0.0875, -0.22)
+ads_zoom = 0.8

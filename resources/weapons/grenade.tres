@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="AudioStream" path="res://audio/knife.wav" id="1_f8a4w"]
+[ext_resource type="PackedScene" path="res://scenes/weapons/grenade.tscn" id="2_po5kj"]
+[ext_resource type="Script" path="res://scripts/weapons/weapon_data.gd" id="3_iigv5"]
+
+[resource]
+script = ExtResource("3_iigv5")
+id = "grenade"
+display_name = "Grenade"
+kind = 3
+model = ExtResource("2_po5kj")
+fire_sound = ExtResource("1_f8a4w")
+damage = 130.0
+fire_interval = 0.9
+magazine = 2
+reserve = 0
+view_position = Vector3(0.22, -0.24, -0.4)
+view_scale = 0.6

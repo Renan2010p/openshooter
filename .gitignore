@@ -1,1 +1,33 @@
+# Godot 4 generated files
 .godot/
+.godot/imported/
+*.translation
+
+# Export builds
+build/
+export/
+dist/
+*.exe
+*.pck
+*.apk
+*.aab
+*.idsig
+*.keystore
+*.jks
+*.zip
+*.app/
+*.x86_64
+*.x86_32
+
+# Editor / OS noise
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local test artifacts
+/screenshots/
+*.log
+*.core

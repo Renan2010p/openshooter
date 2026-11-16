@@ -1,0 +1,78 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/block.gd" id="1_5gu7c"]
+
+[node name="Tent" type="Node3D" unique_id=1741015583]
+
+[node name="LampPost" type="Node3D" parent="." unique_id=200963904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.2, -1)
+script = ExtResource("1_5gu7c")
+size = Vector3(0.12, 2.4, 0.12)
+color = Color(0.4, 0.27, 0.15, 1)
+collide = false
+
+[node name="LampPost2" type="Node3D" parent="." unique_id=1508708510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.2, -1)
+script = ExtResource("1_5gu7c")
+size = Vector3(0.12, 2.4, 0.12)
+color = Color(0.4, 0.27, 0.15, 1)
+collide = false
+
+[node name="LampPost3" type="Node3D" parent="." unique_id=737054086]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.2, 1)
+script = ExtResource("1_5gu7c")
+size = Vector3(0.12, 2.4, 0.12)
+color = Color(0.4, 0.27, 0.15, 1)
+collide = false
+
+[node name="LampPost4" type="Node3D" parent="." unique_id=439056508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.2, 1)
+script = ExtResource("1_5gu7c")
+size = Vector3(0.12, 2.4, 0.12)
+color = Color(0.4, 0.27, 0.15, 1)
+collide = false
+
+[node name="Awning" type="Node3D" parent="." unique_id=988103729]
+transform = Transform3D(1, 0, 0, 0, 0.9945219, 0.104528464, 0, -0.104528464, 0.9945219, 0, 2.45, 0)
+script = ExtResource("1_5gu7c")
+size = Vector3(3.2, 0.06, 2.4)
+color = Color(0.9, 0.75, 0.2, 1)
+collide = false
+
+[node name="Counter" type="Node3D" parent="." unique_id=1714724830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.8)
+script = ExtResource("1_5gu7c")
+size = Vector3(2.8, 1, 0.7)
+color = Color(0.55, 0.38, 0.22, 1)
+
+[node name="Goods" type="Node3D" parent="." unique_id=1424030122]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.12, -0.8)
+script = ExtResource("1_5gu7c")
+shape = 2
+size = Vector3(0.4, 0.25, 0.4)
+color = Color(0.9, 0.5, 0.1, 1)
+collide = false
+
+[node name="Goods2" type="Node3D" parent="." unique_id=481871994]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.12, -0.8)
+script = ExtResource("1_5gu7c")
+shape = 2
+size = Vector3(0.4, 0.25, 0.4)
+color = Color(0.5, 0.7, 0.2, 1)
+collide = false
+
+[node name="Goods3" type="Node3D" parent="." unique_id=1363852819]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1.12, -0.8)
+script = ExtResource("1_5gu7c")
+shape = 2
+size = Vector3(0.4, 0.25, 0.4)
+color = Color(0.8, 0.2, 0.2, 1)
+collide = false
+
+[node name="Goods4" type="Node3D" parent="." unique_id=874664450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 1.12, -0.8)
+script = ExtResource("1_5gu7c")
+shape = 2
+size = Vector3(0.4, 0.25, 0.4)
+color = Color(0.95, 0.85, 0.4, 1)
+collide = false

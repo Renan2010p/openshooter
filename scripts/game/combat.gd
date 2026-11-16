@@ -1,12 +1,12 @@
 class_name Combat
 extends Node
-## Tiros, dano, mortes e renascimento. Só o servidor decide acertos; os outros
-## recebem o resultado e mostram os efeitos.
+## Shots, damage, deaths and respawns. Only the server decides what is hit; the
+## other computers receive the result and play the effects.
 
 const TRACER := preload("res://scenes/fx/tracer.tscn")
 const IMPACT := preload("res://scenes/fx/impact.tscn")
 
-## Camadas de física: 1 = mundo, 3 = hitboxes dos jogadores.
+## Physics layers: 1 = world, 3 = player hitboxes.
 const SHOT_MASK := 1 | 4
 
 @export var respawn_time := 3.0
@@ -16,7 +16,7 @@ const SHOT_MASK := 1 | 4
 @onready var world: World = get_parent()
 
 
-# ------------------------------------------------------------------ tiros
+# ------------------------------------------------------------------ shots
 
 func fire(pid: int, origin: Vector3, dirs: PackedVector3Array, widx: int) -> void:
 	if multiplayer.is_server():
@@ -51,7 +51,10 @@ func _server_fire(pid: int, origin: Vector3, dirs: PackedVector3Array, widx: int
 			kinds.append(0)
 			continue
 		points.append(r.position)
-		if r.collider.has_meta("pid"):
+		if r.collider.has_meta("barrier_id"):
+			world.throwables.damage_barrier(r.collider.get_meta("barrier_id"), w.damage)
+			kinds.append(1)
+		elif r.collider.has_meta("pid"):
 			var vid: int = r.collider.get_meta("pid")
 			var is_head: bool = r.shape == 1
 			var amount := w.damage * (w.headshot_multiplier if is_head else 1.0)
@@ -67,7 +70,7 @@ func _server_fire(pid: int, origin: Vector3, dirs: PackedVector3Array, widx: int
 		server_damage(vid, pid, int(round(damage[vid][0])), widx, damage[vid][1])
 
 
-## Efeitos de um disparo para todos: rastro, impactos e marcador de acerto.
+## Shot effects for everyone: tracer, impacts and the hit marker.
 @rpc("authority", "call_local", "unreliable")
 func fx_shot(pid: int, widx: int, points: PackedVector3Array, kinds: PackedByteArray) -> void:
 	var p := world.get_player(pid)
@@ -93,12 +96,14 @@ func fx_shot(pid: int, widx: int, points: PackedVector3Array, kinds: PackedByteA
 		Sfx.play("headshot" if best == 3 else "hit", -2.0)
 
 
-# ------------------------------------------------------------------ dano e mortes
+# ------------------------------------------------------------------ damage and deaths
 
 func server_damage(vid: int, attacker: int, amount: int, widx: int, head: bool) -> void:
 	var v := world.get_player(vid)
 	if v == null or not v.alive or world.match_manager.phase != "play":
 		return
+	if world.mode().one_hit_kill and attacker != vid and amount > 0:
+		amount = 9999
 	var hp := v.hp - amount
 	if hp > 0:
 		on_hit.rpc(vid, hp, attacker)
@@ -109,9 +114,11 @@ func server_damage(vid: int, attacker: int, amount: int, widx: int, head: bool) 
 		Net.players[attacker].kills = int(Net.players[attacker].kills) + 1
 	Net.broadcast_players()
 	on_kill.rpc(vid, attacker, widx, head)
+	if attacker != vid:
+		world.pickups.spawn_health(v.global_position)
 	get_tree().create_timer(respawn_time).timeout.connect(_server_respawn.bind(vid))
 	if attacker != vid:
-		world.match_manager.on_kill_scored(attacker)
+		world.match_manager.on_kill_scored(attacker, widx)
 
 
 @rpc("authority", "call_local", "reliable")
@@ -129,24 +136,49 @@ func on_hit(vid: int, hp: int, attacker: int) -> void:
 			world.hud.damage_from(a.global_position)
 
 
+## Server-side healing used by health pickups.
+func server_heal(vid: int, amount: int) -> void:
+	if not multiplayer.is_server():
+		return
+	var v := world.get_player(vid)
+	if v == null or not v.alive:
+		return
+	var new_hp := mini(100, v.hp + amount)
+	if new_hp <= v.hp:
+		return
+	on_heal.rpc(vid, new_hp, amount)
+
+
+@rpc("authority", "call_local", "reliable")
+func on_heal(vid: int, hp: int, amount: int) -> void:
+	var v := world.get_player(vid)
+	if v == null:
+		return
+	v.hp = hp
+	if v.local:
+		world.hud.toast("+%d health" % amount)
+		Sfx.play("beep", -8.0, 1.35)
+
+
 @rpc("authority", "call_local", "reliable")
 func on_kill(vid: int, attacker: int, widx: int, head: bool) -> void:
 	var v := world.get_player(vid)
 	if v:
 		v.die()
 	var wname := WeaponDB.get_data(widx).display_name
-	print("[abate] %s -> %s (%s%s)" % [world.player_name(attacker), world.player_name(vid), wname, ", cabeça" if head else ""])
+	print("[kill] %s -> %s (%s%s)" % [world.player_name(attacker), world.player_name(vid), wname, ", headshot" if head else ""])
 	if attacker == vid:
-		world.hud.feed("%s se explodiu" % world.player_name(vid))
+		world.hud.feed("%s blew themselves up" % world.player_name(vid))
 	else:
-		world.hud.feed("%s  [%s%s]  %s" % [world.player_name(attacker), wname, " • CABEÇA" if head else "", world.player_name(vid)])
+		world.hud.feed("%s  [%s%s]  %s" % [world.player_name(attacker), wname, " • HEADSHOT" if head else "", world.player_name(vid)])
 	if v and v.local:
-		world.hud.show_death(world.player_name(attacker) if attacker != vid else "você mesmo", respawn_time)
+		world.hud.show_death(world.player_name(attacker) if attacker != vid else "yourself", respawn_time)
 		Config.add_stat("deaths")
 	var a := world.get_player(attacker)
 	if a and a.local and attacker != vid:
 		Sfx.play("kill", -4.0)
-		world.hud.toast("Você eliminou %s" % world.player_name(vid))
+		world.hud.kill_confirmed(head)
+		world.hud.toast("You eliminated %s" % world.player_name(vid))
 		Config.add_stat("kills")
 		if head:
 			Config.add_stat("headshots")

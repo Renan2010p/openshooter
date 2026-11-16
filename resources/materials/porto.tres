@@ -1,8 +1,0 @@
-[gd_resource type="StandardMaterial3D" format=3]
-
-[ext_resource type="Texture2D" path="res://resources/textures/porto.res" id="1_ayj1x"]
-
-[resource]
-albedo_texture = ExtResource("1_ayj1x")
-uv1_scale = Vector3(0.25, 0.25, 0.25)
-uv1_triplanar = true

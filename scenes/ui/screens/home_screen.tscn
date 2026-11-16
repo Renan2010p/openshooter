@@ -1,90 +1,241 @@
 [gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/screens/home_screen.gd" id="gen_script_0"]
 
+[ext_resource type="Script" path="res://scripts/ui/screens/home_screen.gd" id="gen_script_0"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/play.svg" id="2_play"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/locker.svg" id="3_locker"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/settings.svg" id="4_settings"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/stats.svg" id="5_stats"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/quit.svg" id="6_quit"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/user.svg" id="7_user"]
+[ext_resource type="Script" path="res://scripts/ui/menu_icon_button.gd" id="8_iconbtn"]
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
 
 [node name="Home" type="Control" unique_id=1238015931]
 script = ExtResource("gen_script_0")
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Hero" type="Label" parent="." unique_id=1541962883]
+[node name="Content" type="VBoxContainer" parent="." unique_id=1238016001]
 layout_mode = 0
-offset_left = 60.0
-offset_top = 50.0
-offset_right = 700.0
-offset_bottom = 140.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 56.0
+offset_right = 760.0
+offset_bottom = -64.0
+theme_override_constants/separation = 0
+
+[node name="Eyebrow" type="Label" parent="Content" unique_id=1238016002]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "OPEN SOURCE  ·  LAN MULTIPLAYER  ·  GODOT 4"
+
+[node name="Hero" type="Label" parent="Content" unique_id=1238016003]
+layout_mode = 2
 theme_type_variation = &"HeroLabel"
-text = "LINHA DE FOGO"
+text = "OPENSHOOTER"
+theme_override_font_sizes/font_size = 96
 
-[node name="Subtitle" type="Label" parent="." unique_id=859646636]
-layout_mode = 0
-offset_left = 64.0
-offset_top = 138.0
-offset_right = 500.0
-offset_bottom = 170.0
+[node name="AccentLine" type="ColorRect" parent="Content" unique_id=1238016004]
+custom_minimum_size = Vector2(76, 3)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+color = Color(0.96, 0.65, 0.14, 1)
+
+[node name="Tagline" type="Label" parent="Content" unique_id=1238016005]
+layout_mode = 2
 theme_type_variation = &"SubtitleLabel"
-text = "tiroteio em LAN"
+text = "Fast, tactical LAN firefights — no accounts, no launcher."
 
-[node name="Buttons" type="VBoxContainer" parent="." unique_id=499907207]
-layout_mode = 0
-offset_left = 60.0
-offset_top = 220.0
-offset_right = 360.0
-offset_bottom = 560.0
-theme_override_constants/separation = 10
+[node name="Description" type="Label" parent="Content" unique_id=1238016006]
+custom_minimum_size = Vector2(580, 0)
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Pick a game mode, create a server and start shooting. Nine weapons, five modes and four maps built for quick, competitive matches on the local network."
+autowrap_mode = 2
 
-[node name="Play" type="Button" parent="Buttons" unique_id=1694685758]
+[node name="Gap" type="Control" parent="Content" unique_id=1238016007]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Play" type="Button" parent="Content" unique_id=1694685758]
+script = ExtResource("8_iconbtn")
+label_text = "PLAY"
+icon_texture = ExtResource("2_play")
+icon_size = 26
+text_offset = 60
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 56)
+custom_minimum_size = Vector2(430, 58)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_type_variation = &"PrimaryButton"
+
+[node name="Gap2" type="Control" parent="Content" unique_id=1238016008]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Grid" type="GridContainer" parent="Content" unique_id=1238016009]
+custom_minimum_size = Vector2(430, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="Locker" type="Button" parent="Content/Grid" unique_id=1101086580]
+script = ExtResource("8_iconbtn")
+label_text = "Locker"
+icon_texture = ExtResource("3_locker")
+icon_size = 22
+text_offset = 54
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 50)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"MenuBtn"
-text = "▶  Jogar"
 
-[node name="Locker" type="Button" parent="Buttons" unique_id=1101086580]
+[node name="Settings" type="Button" parent="Content/Grid" unique_id=1073311170]
+script = ExtResource("8_iconbtn")
+label_text = "Settings"
+icon_texture = ExtResource("4_settings")
+icon_size = 22
+text_offset = 54
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 56)
+custom_minimum_size = Vector2(210, 50)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"MenuBtn"
-text = "▣  Armário"
 
-[node name="Settings" type="Button" parent="Buttons" unique_id=1073311170]
+[node name="Stats" type="Button" parent="Content/Grid" unique_id=496366077]
+script = ExtResource("8_iconbtn")
+label_text = "Statistics"
+icon_texture = ExtResource("5_stats")
+icon_size = 22
+text_offset = 54
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 56)
+custom_minimum_size = Vector2(210, 50)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"MenuBtn"
-text = "⚙  Configurações"
 
-[node name="Stats" type="Button" parent="Buttons" unique_id=496366077]
+[node name="Quit" type="Button" parent="Content/Grid" unique_id=1699351642]
+script = ExtResource("8_iconbtn")
+label_text = "Quit"
+icon_texture = ExtResource("6_quit")
+icon_size = 22
+text_offset = 54
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 56)
+custom_minimum_size = Vector2(210, 50)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "ℹ  Estatísticas"
+theme_type_variation = &"DangerButton"
 
-[node name="Quit" type="Button" parent="Buttons" unique_id=1699351642]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 56)
+[node name="Spacer" type="Control" parent="Content" unique_id=1238016010]
 layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "✕  Sair"
+size_flags_vertical = 3
+mouse_filter = 2
 
-[node name="PlayerName" type="Label" parent="." unique_id=1499086727]
+[node name="QuickStats" type="HBoxContainer" parent="Content" unique_id=1238016011]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 28
+
+[node name="KdBox" type="VBoxContainer" parent="Content/QuickStats" unique_id=1238016012]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="QuickKd" type="Label" parent="Content/QuickStats/KdBox" unique_id=1238016013]
 unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+text = "0.00"
+
+[node name="KdLabel" type="Label" parent="Content/QuickStats/KdBox" unique_id=1238016014]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "K/D RATIO"
+
+[node name="Sep1" type="VSeparator" parent="Content/QuickStats" unique_id=1238016015]
+layout_mode = 2
+
+[node name="KillsBox" type="VBoxContainer" parent="Content/QuickStats" unique_id=1238016016]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="QuickKills" type="Label" parent="Content/QuickStats/KillsBox" unique_id=1238016017]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+text = "0"
+
+[node name="KillsLabel" type="Label" parent="Content/QuickStats/KillsBox" unique_id=1238016018]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "ELIMINATIONS"
+
+[node name="Sep2" type="VSeparator" parent="Content/QuickStats" unique_id=1238016019]
+layout_mode = 2
+
+[node name="MatchesBox" type="VBoxContainer" parent="Content/QuickStats" unique_id=1238016020]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="QuickMatches" type="Label" parent="Content/QuickStats/MatchesBox" unique_id=1238016021]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+text = "0"
+
+[node name="MatchesLabel" type="Label" parent="Content/QuickStats/MatchesBox" unique_id=1238016022]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "MATCHES PLAYED"
+
+[node name="PlayerCard" type="PanelContainer" parent="." unique_id=1238016023]
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -320.0
-offset_top = 20.0
-offset_right = -24.0
-offset_bottom = 50.0
+offset_left = -336.0
+offset_top = 48.0
+offset_right = -56.0
+offset_bottom = 112.0
+theme_type_variation = &"Card"
+
+[node name="Row" type="HBoxContainer" parent="PlayerCard" unique_id=1238016024]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="PlayerCard/Row" unique_id=1238016025]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("9_animicon")
+texture = ExtResource("7_user")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.58, 0.63, 0.7, 1)
+pulse_amount = 0.05
+tilt_degrees = 0.0
+pulse_speed = 1.2
+
+[node name="Text" type="VBoxContainer" parent="PlayerCard/Row" unique_id=1238016026]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="PlayerCard/Row/Text" unique_id=1238016027]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "SIGNED IN AS"
+
+[node name="PlayerName" type="Label" parent="PlayerCard/Row/Text" unique_id=1499086727]
+unique_name_in_owner = true
+layout_mode = 2
 theme_type_variation = &"HudLabel"
-text = "Jogador"
-horizontal_alignment = 2
+text = "Player"
+horizontal_alignment = 0
+text_overrun_behavior = 3

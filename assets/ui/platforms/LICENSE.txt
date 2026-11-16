@@ -1,0 +1,5 @@
+Platform logos (windows.svg, linux.svg, apple.svg, android.svg) come from
+Simple Icons (https://simpleicons.org), released under CC0 1.0. They are used
+only to indicate the platforms the game runs on. The logos and names are
+trademarks of their respective owners (Microsoft, Linus Torvalds / The Linux
+Foundation, Apple Inc. and Google LLC).

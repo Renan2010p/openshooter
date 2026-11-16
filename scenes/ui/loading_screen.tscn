@@ -1,0 +1,144 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="1_loading"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="2_icon"]
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="3_animicon"]
+[ext_resource type="Shader" path="res://shaders/ui_vignette.gdshader" id="4_vig"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vig"]
+shader = ExtResource("4_vig")
+shader_parameter/color = Color(0.008, 0.012, 0.018, 1)
+shader_parameter/strength = 0.5
+shader_parameter/softness = 0.5
+
+[node name="LoadingScreen" type="CanvasLayer" unique_id=991000001]
+layer = 100
+script = ExtResource("1_loading")
+
+[node name="Root" type="Control" parent="." unique_id=991000002]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Backdrop" type="ColorRect" parent="Root" unique_id=991000003]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.023, 0.031, 0.043, 0.97)
+
+[node name="Vignette" type="ColorRect" parent="Root" unique_id=991000004]
+material = SubResource("ShaderMaterial_vig")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Center" type="CenterContainer" parent="Root" unique_id=991000005]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Card" type="PanelContainer" parent="Root/Center" unique_id=991000006]
+custom_minimum_size = Vector2(660, 0)
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="Content" type="VBoxContainer" parent="Root/Center/Card" unique_id=991000007]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Header" type="HBoxContainer" parent="Root/Center/Card/Content" unique_id=991000008]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Logo" type="TextureRect" parent="Root/Center/Card/Content/Header" unique_id=991000009]
+custom_minimum_size = Vector2(58, 58)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("3_animicon")
+pulse_amount = 0.04
+tilt_degrees = 0.0
+spin_speed = 80.0
+
+[node name="Titles" type="VBoxContainer" parent="Root/Center/Card/Content/Header" unique_id=991000010]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Section" type="Label" parent="Root/Center/Card/Content/Header/Titles" unique_id=991000011]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "NOW LOADING"
+
+[node name="Title" type="Label" parent="Root/Center/Card/Content/Header/Titles" unique_id=991000012]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+text = "LOADING MATCH"
+
+[node name="Subtitle" type="Label" parent="Root/Center/Card/Content/Header/Titles" unique_id=991000013]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Neighborhood  ·  Normal"
+
+[node name="Sep" type="HSeparator" parent="Root/Center/Card/Content" unique_id=991000014]
+layout_mode = 2
+
+[node name="Progress" type="ProgressBar" parent="Root/Center/Card/Content" unique_id=991000015]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(560, 8)
+layout_mode = 2
+theme_type_variation = &"TimeBar"
+max_value = 1.0
+step = 0.001
+value = 0.0
+show_percentage = false
+
+[node name="StatusRow" type="HBoxContainer" parent="Root/Center/Card/Content" unique_id=991000016]
+layout_mode = 2
+
+[node name="Status" type="Label" parent="Root/Center/Card/Content/StatusRow" unique_id=991000017]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Caption"
+text = "PREPARING"
+
+[node name="Percent" type="Label" parent="Root/Center/Card/Content/StatusRow" unique_id=991000018]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "0%"
+horizontal_alignment = 2
+
+[node name="Tip" type="Label" parent="Root/Center/Card/Content" unique_id=991000019]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "TIP: Vote for the next map and game mode between rounds."
+autowrap_mode = 2
+
+[node name="Footer" type="Label" parent="Root" unique_id=991000020]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -38.0
+offset_right = 320.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_type_variation = &"Caption"
+text = "RL PROJECTS  ·  OPENSHOOTER 1.0.0"
+horizontal_alignment = 1

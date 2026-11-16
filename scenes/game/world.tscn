@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://scripts/game/combat.gd" id="gen_script_1"]
 [ext_resource type="Script" path="res://scripts/game/mine_manager.gd" id="gen_script_2"]
 [ext_resource type="Script" path="res://scripts/game/match_manager.gd" id="gen_script_3"]
+[ext_resource type="Script" path="res://scripts/game/throwable_manager.gd" id="throwables_script"]
+[ext_resource type="Script" path="res://scripts/game/pickups.gd" id="pickups_script"]
 
 
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_d8brc"]
@@ -20,7 +22,13 @@ script = ExtResource("gen_script_1")
 [node name="Mines" type="Node3D" parent="." unique_id=477134016]
 script = ExtResource("gen_script_2")
 
+[node name="Throwables" type="Node3D" parent="."]
+script = ExtResource("throwables_script")
+
 [node name="Match" type="Node" parent="." unique_id=286398091]
 script = ExtResource("gen_script_3")
+
+[node name="Pickups" type="Node3D" parent="."]
+script = ExtResource("pickups_script")
 
 [node name="HUD" parent="." unique_id=42742378 instance=ExtResource("2_d8brc")]

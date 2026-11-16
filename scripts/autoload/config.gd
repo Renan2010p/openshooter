@@ -1,12 +1,14 @@
 extends Node
-## Preferências do jogador, qualidade gráfica e estatísticas (user://config.cfg).
-## Os controles ficam em Projeto → Configurações do Projeto → Mapa de Entrada.
+## Player preferences, graphics quality and statistics (user://config.cfg).
+## Key bindings live in Project → Project Settings → Input Map.
 
 signal changed
 
 const PATH := "user://config.cfg"
 
 enum Quality { LOW, MEDIUM, HIGH }
+## Soft magnetic aim for touch players. No auto-fire.
+enum AimAssist { OFF, LIGHT, STANDARD }
 
 var player_name := ""
 var sensitivity := 0.25
@@ -15,11 +17,20 @@ var volume := 0.8
 var fullscreen := false
 var quality: int = Quality.MEDIUM
 var show_fps := false
+var vsync := true
+var fps_limit := 0
+var render_scale := 1.0
+var brightness := 1.05
+var screen_shake := true
+## Mobile touch controls.
+var touch_joystick_size := 1.35
+var touch_opacity := 1.0
+var aim_assist: int = AimAssist.LIGHT
 var shirt := Color(0.2, 0.45, 0.85)
 var pants := Color(0.18, 0.18, 0.22)
 var skin := Color(0.96, 0.8, 0.64)
-var stats := {"kills": 0, "deaths": 0, "matches": 0, "wins": 0, "headshots": 0}
-## Falso nas execuções de teste (--host, --name, --bench...): nada é gravado.
+var stats := {"kills": 0, "deaths": 0, "matches": 0, "wins": 0, "headshots": 0, "history": []}
+## False during test runs (--host, --name, --bench...): nothing is persisted.
 var persist := true
 
 
@@ -31,7 +42,8 @@ func _ready() -> void:
 
 func load_cfg() -> void:
 	var c := ConfigFile.new()
-	if c.load(PATH) == OK:
+	var loaded := c.load(PATH) == OK
+	if loaded:
 		player_name = c.get_value("player", "name", "")
 		sensitivity = c.get_value("player", "sensitivity", sensitivity)
 		fov = c.get_value("player", "fov", fov)
@@ -39,12 +51,22 @@ func load_cfg() -> void:
 		fullscreen = c.get_value("player", "fullscreen", fullscreen)
 		quality = c.get_value("player", "quality", quality)
 		show_fps = c.get_value("player", "show_fps", show_fps)
+		vsync = c.get_value("player", "vsync", vsync)
+		fps_limit = c.get_value("player", "fps_limit", fps_limit)
+		render_scale = c.get_value("player", "render_scale", render_scale)
+		brightness = c.get_value("player", "brightness", brightness)
+		screen_shake = c.get_value("player", "screen_shake", screen_shake)
+		touch_joystick_size = clampf(c.get_value("player", "touch_joystick_size", touch_joystick_size), 0.8, 2.0)
+		touch_opacity = clampf(c.get_value("player", "touch_opacity", touch_opacity), 0.4, 1.0)
+		aim_assist = clampi(c.get_value("player", "aim_assist", aim_assist), 0, 2)
 		shirt = c.get_value("look", "shirt", shirt)
 		pants = c.get_value("look", "pants", pants)
 		skin = c.get_value("look", "skin", skin)
 		stats.merge(c.get_value("stats", "all", {}), true)
+	if not loaded and OS.has_feature("mobile"):
+		quality = Quality.LOW
 	if player_name == "":
-		player_name = "Jogador%d" % (randi() % 9000 + 1000)
+		player_name = "Player%d" % (randi() % 9000 + 1000)
 
 
 func save_cfg() -> void:
@@ -52,7 +74,9 @@ func save_cfg() -> void:
 		changed.emit()
 		return
 	var c := ConfigFile.new()
-	for key in ["name", "sensitivity", "fov", "volume", "fullscreen", "quality", "show_fps"]:
+	for key in ["name", "sensitivity", "fov", "volume", "fullscreen", "quality", "show_fps",
+			"vsync", "fps_limit", "render_scale", "brightness", "screen_shake",
+			"touch_joystick_size", "touch_opacity", "aim_assist"]:
 		c.set_value("player", key, player_name if key == "name" else get(key))
 	for key in ["shirt", "pants", "skin"]:
 		c.set_value("look", key, get(key))
@@ -63,13 +87,16 @@ func save_cfg() -> void:
 
 func apply() -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(maxf(volume, 0.001)))
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
+	if not OS.has_feature("mobile"):
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if vsync else DisplayServer.VSYNC_DISABLED)
+	Engine.max_fps = fps_limit
 
 
-## Até onde o mapa e os jogadores são desenhados (metros), por qualidade.
-const DRAW_DISTANCE := [55.0, 80.0, 120.0]
-## Até onde os detalhes pequenos aparecem (metros), por qualidade.
-const DETAIL_DISTANCE := [22.0, 38.0, 60.0]
+## How far the map and players are drawn (meters), by quality level.
+const DRAW_DISTANCE := [65.0, 95.0, 140.0]
+## How far small details are drawn (meters), by quality level.
+const DETAIL_DISTANCE := [26.0, 46.0, 72.0]
 
 
 func draw_distance() -> float:
@@ -80,31 +107,45 @@ func detail_distance() -> float:
 	return DETAIL_DISTANCE[clampi(quality, 0, 2)]
 
 
-## Ajusta o custo gráfico de um mapa conforme a qualidade escolhida.
+## Adjusts the rendering cost of a map to the selected quality level.
 func apply_quality(sun: DirectionalLight3D, env: Environment, vp: Viewport) -> void:
 	if sun:
 		sun.shadow_enabled = quality >= Quality.MEDIUM
-		sun.directional_shadow_max_distance = 25.0 if quality == Quality.MEDIUM else 45.0
+		sun.directional_shadow_max_distance = 34.0 if quality == Quality.MEDIUM else 58.0
 	if env:
-		# Névoa por profundidade: limpa de perto e total na distância de desenho,
-		# então o que deixa de ser desenhado some dentro dela, sem "pular".
+		# Global brightness control (Settings → Advanced).
+		env.adjustment_enabled = true
+		env.adjustment_brightness = brightness
+		# Depth fog: clear up close and total at the draw distance, so whatever
+		# stops being drawn fades into it without popping.
 		env.fog_enabled = true
 		env.fog_mode = Environment.FOG_MODE_DEPTH
-		env.fog_depth_begin = draw_distance() * 0.45
+		env.fog_depth_begin = draw_distance() * 0.5
 		env.fog_depth_end = draw_distance()
-		env.fog_depth_curve = 1.4
+		env.fog_depth_curve = 1.5
 		env.fog_density = 1.0
 	if vp:
 		vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
-		vp.scaling_3d_scale = [0.6, 0.8, 1.0][clampi(quality, 0, 2)]
+		var base_scale: float = [0.6, 0.8, 1.0][clampi(quality, 0, 2)]
+		vp.scaling_3d_scale = clampf(base_scale * render_scale, 0.35, 1.0)
 		vp.msaa_3d = Viewport.MSAA_2X if quality >= Quality.HIGH else Viewport.MSAA_DISABLED
 
 
-## Dados enviados ao servidor ao entrar numa partida.
+## Data sent to the server when joining a match.
 func profile() -> Dictionary:
 	return {"name": player_name.substr(0, 20), "shirt": shirt, "pants": pants, "skin": skin}
 
 
 func add_stat(key: String, amount := 1) -> void:
 	stats[key] = int(stats.get(key, 0)) + amount
+	save_cfg()
+
+
+## Adds one match to the local performance history (last 12 matches).
+func record_match(kills: int, deaths: int, won: bool) -> void:
+	var history: Array = stats.get("history", [])
+	history.append({"kills": kills, "deaths": deaths, "won": won})
+	while history.size() > 12:
+		history.pop_front()
+	stats["history"] = history
 	save_cfg()

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GameModeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/weapon_data.gd" id="1_70faq"]
+[ext_resource type="Resource" path="res://resources/weapons/sniper.tres" id="2_e6wa8"]
+[ext_resource type="Resource" path="res://resources/weapons/grenade.tres" id="4_gren"]
+[ext_resource type="Script" path="res://scripts/game/mode_data.gd" id="3_xdj84"]
+
+[resource]
+script = ExtResource("3_xdj84")
+id = "duel"
+display_name = "Duel"
+description = "Sniper plus one grenade. Every hit is lethal; aim is everything."
+loadout = Array[ExtResource("1_70faq")]([ExtResource("2_e6wa8"), ExtResource("4_gren")])
+start_weapon = ExtResource("2_e6wa8")
+one_hit_kill = true

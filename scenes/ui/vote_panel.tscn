@@ -1,0 +1,101 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/vote_panel.gd" id="gen_script_0"]
+
+[node name="VotePanel" type="PanelContainer" unique_id=1213162630]
+script = ExtResource("gen_script_0")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -270.0
+offset_right = 440.0
+offset_bottom = 270.0
+theme_type_variation = &"ModalCard"
+
+[node name="Content" type="VBoxContainer" parent="." unique_id=465746336]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Eyebrow" type="Label" parent="Content" unique_id=1213162631]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "NEXT MATCH"
+
+[node name="Header" type="HBoxContainer" parent="Content" unique_id=1213162632]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="VoteTitle" type="Label" parent="Content/Header" unique_id=688991861]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"TitleLabel"
+text = "VOTE"
+theme_override_font_sizes/font_size = 44
+
+[node name="VoteTimer" type="Label" parent="Content/Header" unique_id=56066088]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"HudAccent"
+text = "Match starts in 20 s"
+horizontal_alignment = 2
+
+[node name="Sep" type="HSeparator" parent="Content" unique_id=1213162633]
+layout_mode = 2
+
+[node name="Columns" type="HBoxContainer" parent="Content" unique_id=1789408651]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="Maps" type="VBoxContainer" parent="Content/Columns" unique_id=442652436]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="MapsHeader" type="Label" parent="Content/Columns/Maps" unique_id=776211877]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "MAP"
+
+[node name="MapList" type="VBoxContainer" parent="Content/Columns/Maps" unique_id=1342575394]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Modes" type="VBoxContainer" parent="Content/Columns" unique_id=824934161]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="ModesHeader" type="Label" parent="Content/Columns/Modes" unique_id=1581829827]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "MODE"
+
+[node name="ModeList" type="VBoxContainer" parent="Content/Columns/Modes" unique_id=2884977]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="DescCard" type="PanelContainer" parent="Content" unique_id=1213162634]
+layout_mode = 2
+theme_type_variation = &"SubCard"
+
+[node name="ModeDescription" type="Label" parent="Content/DescCard" unique_id=568822430]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(780, 0)
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+autowrap_mode = 2
+
+[node name="Hint" type="Label" parent="Content" unique_id=940339375]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "CLICK TO VOTE. STARTS EARLY IF EVERYONE VOTES."
+horizontal_alignment = 1

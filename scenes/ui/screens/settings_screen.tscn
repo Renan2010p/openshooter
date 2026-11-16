@@ -1,157 +1,528 @@
 [gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/screens/settings_screen.gd" id="gen_script_0"]
 
+[ext_resource type="Script" path="res://scripts/ui/screens/settings_screen.gd" id="gen_script_0"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/settings.svg" id="3_settings"]
+
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
 
 [node name="Settings" type="Control" unique_id=551390996]
 script = ExtResource("gen_script_0")
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="." unique_id=1918326655]
-unique_name_in_owner = true
+[node name="Content" type="VBoxContainer" parent="." unique_id=55139001]
 layout_mode = 0
 anchor_right = 1.0
-offset_top = 36.0
-offset_bottom = 106.0
-theme_type_variation = &"TitleLabel"
-text = "CONFIGURAÇÕES"
-horizontal_alignment = 1
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 48.0
+offset_right = -56.0
+offset_bottom = -56.0
+theme_override_constants/separation = 0
 
-[node name="Card" type="PanelContainer" parent="." unique_id=1650287695]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -220.0
-offset_right = 340.0
-offset_bottom = 280.0
-theme_type_variation = &"Card"
-
-[node name="Content" type="VBoxContainer" parent="Card" unique_id=1748927471]
+[node name="Eyebrow" type="Label" parent="Content" unique_id=55139002]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_type_variation = &"SectionLabel"
+text = "OPTIONS"
 
-[node name="SensitivityRow" type="HBoxContainer" parent="Card/Content" unique_id=1212541163]
+[node name="Header" type="HBoxContainer" parent="Content" unique_id=55139003]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Card/Content/SensitivityRow" unique_id=859174546]
-custom_minimum_size = Vector2(240, 0)
-layout_mode = 2
-theme_type_variation = &"FieldLabel"
-text = "Sensibilidade do mouse"
-
-[node name="Sensitivity" type="HSlider" parent="Card/Content/SensitivityRow" unique_id=488081341]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 32)
+[node name="Titles" type="VBoxContainer" parent="Content/Header" unique_id=55139004]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Header/Titles" unique_id=1918326655]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "SETTINGS"
+
+[node name="Subtitle" type="Label" parent="Content/Header/Titles" unique_id=55139005]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Tune your aim, display and graphics. Settings are stored per player."
+
+[node name="Back" type="Button" parent="Content/Header" unique_id=1608461083]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 44)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"GhostButton"
+text = "Back"
+icon = ExtResource("2_back")
+
+[node name="Gap" type="Control" parent="Content" unique_id=55139006]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Content" unique_id=55139007]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="Card" type="PanelContainer" parent="Content/Body" unique_id=1650287695]
+custom_minimum_size = Vector2(720, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Card"
+
+[node name="Form" type="VBoxContainer" parent="Content/Body/Card" unique_id=1748927471]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="InputSection" type="Label" parent="Content/Body/Card/Form" unique_id=55139008]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "INPUT"
+
+[node name="SensitivityRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=1212541163]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Card/Form/SensitivityRow" unique_id=859174546]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Mouse sensitivity"
+
+[node name="Sensitivity" type="HSlider" parent="Content/Body/Card/Form/SensitivityRow" unique_id=488081341]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 min_value = 0.05
 max_value = 1.0
 step = 0.01
 value = 0.05
 
-[node name="FovRow" type="HBoxContainer" parent="Card/Content" unique_id=416065841]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="Card/Content/FovRow" unique_id=1938713374]
-custom_minimum_size = Vector2(240, 0)
-layout_mode = 2
-theme_type_variation = &"FieldLabel"
-text = "Campo de visão"
-
-[node name="Fov" type="HSlider" parent="Card/Content/FovRow" unique_id=1346461059]
+[node name="SensitivityValue" type="Label" parent="Content/Body/Card/Form/SensitivityRow" unique_id=55139009]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 32)
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"HudLabel"
+text = "0.25"
+horizontal_alignment = 2
+
+[node name="FovRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=416065841]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Card/Form/FovRow" unique_id=1938713374]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Field of view"
+
+[node name="Fov" type="HSlider" parent="Content/Body/Card/Form/FovRow" unique_id=1346461059]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 min_value = 60.0
 max_value = 110.0
 value = 60.0
 
-[node name="VolumeRow" type="HBoxContainer" parent="Card/Content" unique_id=1318567360]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="Card/Content/VolumeRow" unique_id=1178996242]
-custom_minimum_size = Vector2(240, 0)
-layout_mode = 2
-theme_type_variation = &"FieldLabel"
-text = "Volume"
-
-[node name="Volume" type="HSlider" parent="Card/Content/VolumeRow" unique_id=2096530693]
+[node name="FovValue" type="Label" parent="Content/Body/Card/Form/FovRow" unique_id=55139010]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 32)
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"HudLabel"
+text = "80°"
+horizontal_alignment = 2
+
+[node name="Sep1" type="HSeparator" parent="Content/Body/Card/Form" unique_id=55139011]
+layout_mode = 2
+
+[node name="DisplaySection" type="Label" parent="Content/Body/Card/Form" unique_id=55139012]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "DISPLAY"
+
+[node name="VolumeRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=1318567360]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Card/Form/VolumeRow" unique_id=1178996242]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Master volume"
+
+[node name="Volume" type="HSlider" parent="Content/Body/Card/Form/VolumeRow" unique_id=2096530693]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 max_value = 1.0
 step = 0.01
 
-[node name="FullscreenRow" type="HBoxContainer" parent="Card/Content" unique_id=826757449]
+[node name="VolumeValue" type="Label" parent="Content/Body/Card/Form/VolumeRow" unique_id=55139013]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
-theme_override_constants/separation = 12
+size_flags_vertical = 4
+theme_type_variation = &"HudLabel"
+text = "80%"
+horizontal_alignment = 2
 
-[node name="Label" type="Label" parent="Card/Content/FullscreenRow" unique_id=889582908]
-custom_minimum_size = Vector2(240, 0)
+[node name="FullscreenRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=826757449]
 layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Card/Form/FullscreenRow" unique_id=889582908]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"FieldLabel"
-text = "Tela cheia"
+text = "Fullscreen"
 
-[node name="Fullscreen" type="CheckBox" parent="Card/Content/FullscreenRow" unique_id=905453242]
+[node name="Fullscreen" type="CheckBox" parent="Content/Body/Card/Form/FullscreenRow" unique_id=905453242]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 
-[node name="QualityRow" type="HBoxContainer" parent="Card/Content" unique_id=262333244]
+[node name="Sep2" type="HSeparator" parent="Content/Body/Card/Form" unique_id=55139014]
 layout_mode = 2
-theme_override_constants/separation = 12
 
-[node name="Label" type="Label" parent="Card/Content/QualityRow" unique_id=991086081]
-custom_minimum_size = Vector2(240, 0)
+[node name="GraphicsSection" type="Label" parent="Content/Body/Card/Form" unique_id=55139015]
 layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "GRAPHICS"
+
+[node name="QualityRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=262333244]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Card/Form/QualityRow" unique_id=991086081]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"FieldLabel"
-text = "Qualidade gráfica"
+text = "Graphics quality"
 
-[node name="Quality" type="OptionButton" parent="Card/Content/QualityRow" unique_id=2104757244]
+[node name="Quality" type="OptionButton" parent="Content/Body/Card/Form/QualityRow" unique_id=2104757244]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 0)
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ShowFpsRow" type="HBoxContainer" parent="Card/Content" unique_id=811542340]
+[node name="ShowFpsRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=811542340]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Card/Form/ShowFpsRow" unique_id=968692121]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Show FPS"
+
+[node name="ShowFps" type="CheckBox" parent="Content/Body/Card/Form/ShowFpsRow" unique_id=1914769314]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Spacer" type="Control" parent="Content/Body/Card/Form" unique_id=55139016]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Save" type="Button" parent="Content/Body/Card/Form" unique_id=33374303]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"PrimaryButton"
+text = "Save settings"
+
+[node name="Side" type="VBoxContainer" parent="Content/Body" unique_id=55139026]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="AdvancedCard" type="PanelContainer" parent="Content/Body/Side" unique_id=55139027]
+layout_mode = 2
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Body/Side/AdvancedCard" unique_id=55139028]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139045]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Content/Body/Side/AdvancedCard/Box/Header" unique_id=55139046]
+script = ExtResource("9_animicon")
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("3_settings")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.96, 0.65, 0.14, 1)
+pulse_amount = 0.06
+
+[node name="Section" type="Label" parent="Content/Body/Side/AdvancedCard/Box/Header" unique_id=55139029]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "ADVANCED"
+
+[node name="Hint" type="Label" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139030]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Fine-tune the renderer and feedback. Applied when you save."
+autowrap_mode = 2
+
+[node name="VsyncRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139031]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Label" type="Label" parent="Card/Content/ShowFpsRow" unique_id=968692121]
-custom_minimum_size = Vector2(240, 0)
+[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/VsyncRow" unique_id=55139032]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"FieldLabel"
-text = "Mostrar FPS"
+text = "Vertical sync"
 
-[node name="ShowFps" type="CheckBox" parent="Card/Content/ShowFpsRow" unique_id=1914769314]
+[node name="Vsync" type="CheckBox" parent="Content/Body/Side/AdvancedCard/Box/VsyncRow" unique_id=55139033]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 
-[node name="Actions" type="HBoxContainer" parent="Card/Content" unique_id=832056879]
+[node name="FpsLimitRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139034]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
 
-[node name="Save" type="Button" parent="Card/Content/Actions" unique_id=33374303]
+[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/FpsLimitRow" unique_id=55139035]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Frame limit"
+
+[node name="FpsLimit" type="OptionButton" parent="Content/Body/Side/AdvancedCard/Box/FpsLimitRow" unique_id=55139036]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(220, 52)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "Salvar"
+size_flags_horizontal = 3
 
-[node name="Back" type="Button" parent="Card/Content/Actions" unique_id=1608461083]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 52)
+[node name="RenderScaleRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139037]
 layout_mode = 2
-focus_mode = 0
-text = "Voltar"
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/RenderScaleRow" unique_id=55139038]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Render scale"
+
+[node name="RenderScale" type="HSlider" parent="Content/Body/Side/AdvancedCard/Box/RenderScaleRow" unique_id=55139039]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 50.0
+max_value = 100.0
+step = 5.0
+value = 100.0
+
+[node name="RenderScaleValue" type="Label" parent="Content/Body/Side/AdvancedCard/Box/RenderScaleRow" unique_id=55139040]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"HudLabel"
+text = "100%"
+horizontal_alignment = 2
+
+[node name="BrightnessRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139047]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/BrightnessRow" unique_id=55139048]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Brightness"
+
+[node name="Brightness" type="HSlider" parent="Content/Body/Side/AdvancedCard/Box/BrightnessRow" unique_id=55139049]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 80.0
+max_value = 125.0
+step = 5.0
+value = 105.0
+
+[node name="BrightnessValue" type="Label" parent="Content/Body/Side/AdvancedCard/Box/BrightnessRow" unique_id=55139050]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"HudLabel"
+text = "105%"
+horizontal_alignment = 2
+
+[node name="ShakeRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139041]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/ShakeRow" unique_id=55139042]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Screen shake"
+
+[node name="ScreenShake" type="CheckBox" parent="Content/Body/Side/AdvancedCard/Box/ShakeRow" unique_id=55139043]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Foot" type="Label" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139044]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "RENDER SCALE MULTIPLIES THE QUALITY PRESET"
+autowrap_mode = 2
+
+[node name="MobileCard" type="PanelContainer" parent="Content/Body/Side" unique_id=55139061]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"SubCard"
+
+[node name="MobileOptions" type="VBoxContainer" parent="Content/Body/Side/MobileCard" unique_id=55139051]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Section" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions" unique_id=55139052]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "MOBILE"
+
+[node name="TouchStickRow" type="HBoxContainer" parent="Content/Body/Side/MobileCard/MobileOptions" unique_id=55139053]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/TouchStickRow" unique_id=55139054]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Movement stick"
+
+[node name="TouchStick" type="HSlider" parent="Content/Body/Side/MobileCard/MobileOptions/TouchStickRow" unique_id=55139055]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 80.0
+max_value = 200.0
+step = 5.0
+value = 135.0
+
+[node name="TouchStickValue" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/TouchStickRow" unique_id=55139056]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"HudLabel"
+text = "135%"
+horizontal_alignment = 2
+
+[node name="TouchOpacityRow" type="HBoxContainer" parent="Content/Body/Side/MobileCard/MobileOptions" unique_id=55139057]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/TouchOpacityRow" unique_id=55139058]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Touch opacity"
+
+[node name="TouchOpacity" type="HSlider" parent="Content/Body/Side/MobileCard/MobileOptions/TouchOpacityRow" unique_id=55139059]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 40.0
+max_value = 100.0
+step = 5.0
+value = 100.0
+
+[node name="TouchOpacityValue" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/TouchOpacityRow" unique_id=55139060]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"HudLabel"
+text = "100%"
+horizontal_alignment = 2
+
+[node name="AimAssistRow" type="HBoxContainer" parent="Content/Body/Side/MobileCard/MobileOptions" unique_id=55139062]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/AimAssistRow" unique_id=55139063]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Aim assist"
+
+[node name="AimAssist" type="OptionButton" parent="Content/Body/Side/MobileCard/MobileOptions/AimAssistRow" unique_id=55139064]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Info" type="PanelContainer" parent="Content/Body/Side" unique_id=55139017]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Body/Side/Info" unique_id=55139018]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Content/Body/Side/Info/Box" unique_id=55139020]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "PERFORMANCE NOTE"
+
+[node name="Text" type="Label" parent="Content/Body/Side/Info/Box" unique_id=55139021]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Quality presets change 3D resolution, shadows and draw distance. Use Low on integrated graphics or very old laptops."
+autowrap_mode = 2
+
+[node name="Fps" type="Label" parent="Content/Body/Side/Info/Box" unique_id=55139023]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "SHOW FPS ADDS A FRAME COUNTER"
+autowrap_mode = 2

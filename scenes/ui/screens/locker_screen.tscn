@@ -1,119 +1,201 @@
 [gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/screens/locker_screen.gd" id="gen_script_0"]
 
+[ext_resource type="Script" path="res://scripts/ui/screens/locker_screen.gd" id="gen_script_0"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/locker.svg" id="3_locker"]
+
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
 
 [node name="Locker" type="Control" unique_id=36384331]
 script = ExtResource("gen_script_0")
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="." unique_id=559392055]
-unique_name_in_owner = true
+[node name="Content" type="VBoxContainer" parent="." unique_id=36384301]
 layout_mode = 0
 anchor_right = 1.0
-offset_top = 36.0
-offset_bottom = 106.0
-theme_type_variation = &"TitleLabel"
-text = "ARMÁRIO"
-horizontal_alignment = 1
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 48.0
+offset_right = -56.0
+offset_bottom = -56.0
+theme_override_constants/separation = 0
 
-[node name="Card" type="PanelContainer" parent="." unique_id=1075774293]
-layout_mode = 0
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 60.0
-offset_top = -200.0
-offset_right = 560.0
-offset_bottom = 200.0
+[node name="Eyebrow" type="Label" parent="Content" unique_id=36384302]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "PROFILE"
+
+[node name="Header" type="HBoxContainer" parent="Content" unique_id=36384303]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Content/Header" unique_id=36384304]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Header/Titles" unique_id=559392055]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "LOCKER"
+
+[node name="Subtitle" type="Label" parent="Content/Header/Titles" unique_id=36384305]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Set your callsign and pick the colors of your operative."
+
+[node name="Back" type="Button" parent="Content/Header" unique_id=437962760]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 44)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"GhostButton"
+text = "Back"
+icon = ExtResource("2_back")
+
+[node name="Gap" type="Control" parent="Content" unique_id=36384306]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Content" unique_id=36384307]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="Card" type="PanelContainer" parent="Content/Body" unique_id=1075774293]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
 theme_type_variation = &"Card"
 
-[node name="Content" type="VBoxContainer" parent="Card" unique_id=896698299]
+[node name="Form" type="VBoxContainer" parent="Content/Body/Card" unique_id=896698299]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 14
 
-[node name="NameRow" type="HBoxContainer" parent="Card/Content" unique_id=72654049]
+[node name="Icon" type="TextureRect" parent="Content/Body/Card/Form" unique_id=36384308]
+script = ExtResource("9_animicon")
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-theme_override_constants/separation = 12
+size_flags_horizontal = 0
+texture = ExtResource("3_locker")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.96, 0.65, 0.14, 1)
 
-[node name="Label" type="Label" parent="Card/Content/NameRow" unique_id=38902323]
-custom_minimum_size = Vector2(240, 0)
+[node name="Section" type="Label" parent="Content/Body/Card/Form" unique_id=36384309]
 layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "OPERATIVE"
+
+[node name="NameRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=72654049]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Card/Form/NameRow" unique_id=38902323]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"FieldLabel"
-text = "Nome"
+text = "Callsign"
 
-[node name="PlayerName" type="LineEdit" parent="Card/Content/NameRow" unique_id=667542293]
+[node name="PlayerName" type="LineEdit" parent="Content/Body/Card/Form/NameRow" unique_id=667542293]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 0)
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 size_flags_horizontal = 3
 max_length = 20
 
-[node name="ShirtRow" type="HBoxContainer" parent="Card/Content" unique_id=1706567104]
+[node name="Sep" type="HSeparator" parent="Content/Body/Card/Form" unique_id=36384310]
 layout_mode = 2
-theme_override_constants/separation = 12
 
-[node name="Label" type="Label" parent="Card/Content/ShirtRow" unique_id=1222309572]
-custom_minimum_size = Vector2(240, 0)
+[node name="ShirtRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=1706567104]
 layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/Card/Form/ShirtRow" unique_id=1222309572]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"FieldLabel"
-text = "Camisa"
+text = "Shirt"
 
-[node name="Shirt" type="ColorPickerButton" parent="Card/Content/ShirtRow" unique_id=1466590112]
+[node name="Shirt" type="ColorPickerButton" parent="Content/Body/Card/Form/ShirtRow" unique_id=1466590112]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 42)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PantsRow" type="HBoxContainer" parent="Card/Content" unique_id=254058519]
+[node name="PantsRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=254058519]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Card/Content/PantsRow" unique_id=1453870513]
-custom_minimum_size = Vector2(240, 0)
+[node name="Label" type="Label" parent="Content/Body/Card/Form/PantsRow" unique_id=1453870513]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"FieldLabel"
-text = "Calça"
+text = "Pants"
 
-[node name="Pants" type="ColorPickerButton" parent="Card/Content/PantsRow" unique_id=1346556806]
+[node name="Pants" type="ColorPickerButton" parent="Content/Body/Card/Form/PantsRow" unique_id=1346556806]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 42)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SkinRow" type="HBoxContainer" parent="Card/Content" unique_id=271235003]
+[node name="SkinRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=271235003]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Card/Content/SkinRow" unique_id=1499806178]
-custom_minimum_size = Vector2(240, 0)
+[node name="Label" type="Label" parent="Content/Body/Card/Form/SkinRow" unique_id=1499806178]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"FieldLabel"
-text = "Pele"
+text = "Skin"
 
-[node name="Skin" type="ColorPickerButton" parent="Card/Content/SkinRow" unique_id=1313054110]
+[node name="Skin" type="ColorPickerButton" parent="Content/Body/Card/Form/SkinRow" unique_id=1313054110]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 42)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Actions" type="HBoxContainer" parent="Card/Content" unique_id=1152794928]
+[node name="Spacer" type="Control" parent="Content/Body/Card/Form" unique_id=36384311]
 layout_mode = 2
-theme_override_constants/separation = 10
+size_flags_vertical = 3
 
-[node name="Save" type="Button" parent="Card/Content/Actions" unique_id=637221533]
+[node name="Save" type="Button" parent="Content/Body/Card/Form" unique_id=637221533]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(220, 52)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "Salvar"
+theme_type_variation = &"PrimaryButton"
+text = "Save profile"
 
-[node name="Back" type="Button" parent="Card/Content/Actions" unique_id=437962760]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 52)
+[node name="Note" type="Label" parent="Content/Body/Card/Form" unique_id=36384312]
 layout_mode = 2
-focus_mode = 0
-text = "Voltar"
+theme_type_variation = &"Caption"
+text = "COLORS APPLY TO YOUR CHARACTER AND FIRST-PERSON ARMS."
+autowrap_mode = 2
+
+[node name="Preview" type="VBoxContainer" parent="Content/Body" unique_id=36384313]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_constants/separation = 2
+alignment = 2
+
+[node name="PreviewTitle" type="Label" parent="Content/Body/Preview" unique_id=36384314]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "LIVE CHARACTER PREVIEW"
+horizontal_alignment = 2
+
+[node name="PreviewHint" type="Label" parent="Content/Body/Preview" unique_id=36384315]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Your operative rotates while you edit."
+horizontal_alignment = 2

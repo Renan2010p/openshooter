@@ -1,129 +1,328 @@
 [gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/ui/screens/stats_screen.gd" id="gen_script_0"]
 
+[ext_resource type="Script" path="res://scripts/ui/screens/stats_screen.gd" id="gen_script_0"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/stats.svg" id="3_stats"]
+[ext_resource type="Script" path="res://scripts/ui/stats_chart.gd" id="4_chart"]
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="5_animicon"]
 
 [node name="Stats" type="Control" unique_id=1773158599]
 script = ExtResource("gen_script_0")
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="." unique_id=1016912427]
-unique_name_in_owner = true
+[node name="Content" type="VBoxContainer" parent="." unique_id=1773158001]
 layout_mode = 0
 anchor_right = 1.0
-offset_top = 36.0
-offset_bottom = 106.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 48.0
+offset_right = -56.0
+offset_bottom = -56.0
+theme_override_constants/separation = 0
+
+[node name="Eyebrow" type="Label" parent="Content" unique_id=1773158002]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "CAREER"
+
+[node name="Header" type="HBoxContainer" parent="Content" unique_id=1773158003]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Content/Header" unique_id=1773158004]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Header/Titles" unique_id=1016912427]
+layout_mode = 2
 theme_type_variation = &"TitleLabel"
-text = "ESTATÍSTICAS"
-horizontal_alignment = 1
+text = "STATISTICS"
 
-[node name="Card" type="PanelContainer" parent="." unique_id=364840353]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -170.0
-offset_right = 220.0
-offset_bottom = 230.0
-theme_type_variation = &"Card"
-
-[node name="Content" type="VBoxContainer" parent="Card" unique_id=948398297]
+[node name="Subtitle" type="Label" parent="Content/Header/Titles" unique_id=1773158005]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_type_variation = &"HintLabel"
+text = "Lifetime performance and the last twelve matches on this computer."
 
-[node name="Grid" type="GridContainer" parent="Card/Content" unique_id=1814588046]
-layout_mode = 2
-theme_override_constants/h_separation = 40
-theme_override_constants/v_separation = 10
-columns = 2
-
-[node name="KillsLabel" type="Label" parent="Card/Content/Grid" unique_id=1678251304]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"FieldLabel"
-text = "Abates"
-
-[node name="Kills" type="Label" parent="Card/Content/Grid" unique_id=185407280]
+[node name="Back" type="Button" parent="Content/Header" unique_id=1452230985]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 44)
 layout_mode = 2
-theme_type_variation = &"SubtitleLabel"
-text = "0"
-horizontal_alignment = 2
-
-[node name="DeathsLabel" type="Label" parent="Card/Content/Grid" unique_id=1114652966]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"FieldLabel"
-text = "Mortes"
-
-[node name="Deaths" type="Label" parent="Card/Content/Grid" unique_id=1728882187]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SubtitleLabel"
-text = "0"
-horizontal_alignment = 2
-
-[node name="RatioLabel" type="Label" parent="Card/Content/Grid" unique_id=1215701790]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"FieldLabel"
-text = "Abates/Mortes"
-
-[node name="Ratio" type="Label" parent="Card/Content/Grid" unique_id=520820999]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SubtitleLabel"
-text = "0"
-horizontal_alignment = 2
-
-[node name="HeadshotsLabel" type="Label" parent="Card/Content/Grid" unique_id=2122197913]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"FieldLabel"
-text = "Tiros na cabeça"
-
-[node name="Headshots" type="Label" parent="Card/Content/Grid" unique_id=1746129630]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SubtitleLabel"
-text = "0"
-horizontal_alignment = 2
-
-[node name="MatchesLabel" type="Label" parent="Card/Content/Grid" unique_id=204535276]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"FieldLabel"
-text = "Partidas"
-
-[node name="Matches" type="Label" parent="Card/Content/Grid" unique_id=254674541]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SubtitleLabel"
-text = "0"
-horizontal_alignment = 2
-
-[node name="WinsLabel" type="Label" parent="Card/Content/Grid" unique_id=84101580]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"FieldLabel"
-text = "Vitórias"
-
-[node name="Wins" type="Label" parent="Card/Content/Grid" unique_id=268138692]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SubtitleLabel"
-text = "0"
-horizontal_alignment = 2
-
-[node name="Back" type="Button" parent="Card/Content" unique_id=1452230985]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 46)
-layout_mode = 2
-size_flags_horizontal = 0
+size_flags_vertical = 4
 focus_mode = 0
-text = "Voltar"
+theme_type_variation = &"GhostButton"
+text = "Back"
+icon = ExtResource("2_back")
+
+[node name="Gap" type="Control" parent="Content" unique_id=1773158006]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="Grid" type="GridContainer" parent="Content" unique_id=1814588046]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 4
+
+[node name="KillsCard" type="PanelContainer" parent="Content/Grid" unique_id=1773158007]
+custom_minimum_size = Vector2(250, 102)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Grid/KillsCard" unique_id=1773158008]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Kills" type="Label" parent="Content/Grid/KillsCard/Box" unique_id=185407280]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 38
+text = "0"
+
+[node name="Label" type="Label" parent="Content/Grid/KillsCard/Box" unique_id=1678251304]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "ELIMINATIONS"
+
+[node name="DeathsCard" type="PanelContainer" parent="Content/Grid" unique_id=1773158009]
+custom_minimum_size = Vector2(250, 102)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Grid/DeathsCard" unique_id=1773158010]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Deaths" type="Label" parent="Content/Grid/DeathsCard/Box" unique_id=1728882187]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 38
+text = "0"
+
+[node name="Label" type="Label" parent="Content/Grid/DeathsCard/Box" unique_id=1114652966]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "DEATHS"
+
+[node name="RatioCard" type="PanelContainer" parent="Content/Grid" unique_id=1773158011]
+custom_minimum_size = Vector2(250, 102)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Grid/RatioCard" unique_id=1773158012]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Ratio" type="Label" parent="Content/Grid/RatioCard/Box" unique_id=520820999]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 38
+text = "0.00"
+
+[node name="Label" type="Label" parent="Content/Grid/RatioCard/Box" unique_id=1215701790]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "K/D RATIO"
+
+[node name="HeadshotsCard" type="PanelContainer" parent="Content/Grid" unique_id=1773158013]
+custom_minimum_size = Vector2(250, 102)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Grid/HeadshotsCard" unique_id=1773158014]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Headshots" type="Label" parent="Content/Grid/HeadshotsCard/Box" unique_id=1746129630]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 38
+text = "0"
+
+[node name="Label" type="Label" parent="Content/Grid/HeadshotsCard/Box" unique_id=2122197913]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "HEADSHOTS"
+
+[node name="MatchesCard" type="PanelContainer" parent="Content/Grid" unique_id=1773158015]
+custom_minimum_size = Vector2(250, 102)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Grid/MatchesCard" unique_id=1773158016]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Matches" type="Label" parent="Content/Grid/MatchesCard/Box" unique_id=254674541]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 38
+text = "0"
+
+[node name="Label" type="Label" parent="Content/Grid/MatchesCard/Box" unique_id=204535276]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "MATCHES"
+
+[node name="WinsCard" type="PanelContainer" parent="Content/Grid" unique_id=1773158017]
+custom_minimum_size = Vector2(250, 102)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Grid/WinsCard" unique_id=1773158018]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Wins" type="Label" parent="Content/Grid/WinsCard/Box" unique_id=268138692]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 38
+text = "0"
+
+[node name="Label" type="Label" parent="Content/Grid/WinsCard/Box" unique_id=84101580]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "MATCH WINS"
+
+[node name="WinRateCard" type="PanelContainer" parent="Content/Grid" unique_id=1773158022]
+custom_minimum_size = Vector2(250, 102)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Grid/WinRateCard" unique_id=1773158023]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="WinRate" type="Label" parent="Content/Grid/WinRateCard/Box" unique_id=1773158024]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 38
+text = "0%"
+
+[node name="Label" type="Label" parent="Content/Grid/WinRateCard/Box" unique_id=1773158025]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "WIN RATE"
+
+[node name="BestMatchCard" type="PanelContainer" parent="Content/Grid" unique_id=1773158026]
+custom_minimum_size = Vector2(250, 102)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/Grid/BestMatchCard" unique_id=1773158027]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="BestMatch" type="Label" parent="Content/Grid/BestMatchCard/Box" unique_id=1773158028]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudBig"
+theme_override_font_sizes/font_size = 38
+text = "0"
+
+[node name="Label" type="Label" parent="Content/Grid/BestMatchCard/Box" unique_id=1773158029]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "BEST MATCH KILLS"
+
+[node name="Gap2" type="Control" parent="Content" unique_id=1773158030]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="ChartCard" type="PanelContainer" parent="Content" unique_id=1773158031]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"SubCard"
+
+[node name="Box" type="VBoxContainer" parent="Content/ChartCard" unique_id=1773158032]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ChartHeader" type="HBoxContainer" parent="Content/ChartCard/Box" unique_id=1773158033]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Content/ChartCard/Box/ChartHeader" unique_id=1773158034]
+script = ExtResource("5_animicon")
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("3_stats")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.96, 0.65, 0.14, 1)
+pulse_amount = 0.05
+
+[node name="Title" type="Label" parent="Content/ChartCard/Box/ChartHeader" unique_id=1773158035]
+layout_mode = 2
+theme_type_variation = &"HudLabel"
+text = "PERFORMANCE"
+
+[node name="Spacer" type="Control" parent="Content/ChartCard/Box/ChartHeader" unique_id=1773158036]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="KillDot" type="ColorRect" parent="Content/ChartCard/Box/ChartHeader" unique_id=1773158037]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.96, 0.65, 0.14, 1)
+
+[node name="KillLegend" type="Label" parent="Content/ChartCard/Box/ChartHeader" unique_id=1773158038]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "KILLS"
+
+[node name="DeathDot" type="ColorRect" parent="Content/ChartCard/Box/ChartHeader" unique_id=1773158039]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.9, 0.28, 0.3, 0.75)
+
+[node name="DeathLegend" type="Label" parent="Content/ChartCard/Box/ChartHeader" unique_id=1773158040]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "DEATHS"
+
+[node name="Note" type="Label" parent="Content/ChartCard/Box/ChartHeader" unique_id=1773158041]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "LAST 12 MATCHES  ·  GOLD DOT = WIN"
+
+[node name="Chart" type="Control" parent="Content/ChartCard/Box" unique_id=1773158042]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 176)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("4_chart")

@@ -19,8 +19,9 @@ size = Vector3(0.56, 0.56, 0.56)
 [node name="Player" type="CharacterBody3D" unique_id=92067135]
 script = ExtResource("gen_script_0")
 collision_layer = 2
-floor_max_angle = 0.80285144
-floor_snap_length = 0.3
+floor_constant_speed = true
+floor_max_angle = 0.87266463
+floor_snap_length = 0.45
 
 [node name="Collision" type="CollisionShape3D" parent="." unique_id=1933360237]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -51,6 +52,14 @@ near = 0.03
 [node name="ViewModel" type="Node3D" parent="Head/Camera" unique_id=1650078189]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.2, -0.21, -0.36)
 
+[node name="ViewLight" type="OmniLight3D" parent="Head/Camera" unique_id=1594588352]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -0.08, -0.18)
+light_color = Color(1, 0.94, 0.86, 1)
+light_energy = 0.9
+light_cull_mask = 4
+omni_range = 1.6
+shadow_enabled = false
+
 [node name="MuzzleFlash" type="OmniLight3D" parent="." unique_id=1594588351]
 visible = false
 light_color = Color(1, 0.8, 0.4, 1)
@@ -61,7 +70,7 @@ omni_range = 4.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45, 0)
 pixel_size = 0.006
 billboard = 1
-text = "Jogador"
+text = "Player"
 font_size = 40
 outline_size = 10
 
