@@ -665,6 +665,10 @@ node with `theme_type_variation`.
 
 ## Trailer
 
+<p align="center">
+  <a href="https://github.com/Renan2010p/openshooter/releases/download/v1.0.0/OpenShooter-1.0.0-trailer.mp4"><img src="docs/releases/1.0.0/trailer-thumb.png" alt="Watch the OpenShooter 1.0 trailer" width="80%"></a>
+</p>
+
 The trailer is recorded from real matches with bots, so it can be remade after
 any visual change:
 

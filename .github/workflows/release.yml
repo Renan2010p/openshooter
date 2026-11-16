@@ -1,7 +1,9 @@
 # Builds OpenShooter for Windows, Linux, macOS and Android and publishes a
 # GitHub release. Manual only: Actions → Release → Run workflow.
 #
-# The release notes come from docs/releases/<version>.md (required).
+# The release notes come from docs/releases/<version>.md (required). An
+# optional docs/releases/<version>/trailer.mp4 is attached to the release.
+# Banners for the notes: tools/release/make_banners.gd.
 #
 # Android signing: set these repository secrets to sign with your own release
 # key (needed so future versions install over this one):
@@ -240,6 +242,12 @@ jobs:
           path: dist
           pattern: openshooter-*
           merge-multiple: true
+
+      - name: Add trailer
+        run: |
+          if [ -f "docs/releases/$VERSION/trailer.mp4" ]; then
+            cp "docs/releases/$VERSION/trailer.mp4" "dist/OpenShooter-$VERSION-trailer.mp4"
+          fi
 
       - name: Checksums
         run: |
