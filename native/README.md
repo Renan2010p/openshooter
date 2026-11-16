@@ -34,6 +34,7 @@ Linux/Android toolchain needs to be installed on the host:
 ```sh
 ./build.sh linux     # bin/libopenshooter_native.so
 ./build.sh windows   # bin/openshooter_native.dll
+./build.sh macos     # bin/libopenshooter_native.macos.dylib (universal, via lipo.py)
 ./build.sh android   # bin/libopenshooter_native.android*.so (NDK 27+)
 ./build.sh freebsd   # bin/libopenshooter_native.freebsd.so
 ./build.sh all

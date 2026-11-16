@@ -1,6 +1,6 @@
 #!/bin/sh
 # Builds the C GDExtension. C is compiled by zig's clang, which can target
-# Linux, Windows and Android from the FreeBSD host.
+# Linux, Windows, macOS and Android from the FreeBSD host.
 set -e
 cd "$(dirname "$0")"
 
@@ -28,17 +28,25 @@ case "${1:-linux}" in
     ANDROID_CC32="$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
     "$ANDROID_CC32" $CFLAGS $SRC -lm -s -o bin/libopenshooter_native.android-arm32.so
     ;;
+  macos)
+    # One universal library for Intel and Apple Silicon Macs.
+    $CC -target x86_64-macos $CFLAGS $SRC -lm -o bin/macos-x86_64.dylib
+    $CC -target aarch64-macos $CFLAGS $SRC -lm -o bin/macos-arm64.dylib
+    python3 lipo.py bin/libopenshooter_native.macos.dylib bin/macos-x86_64.dylib bin/macos-arm64.dylib
+    rm -f bin/macos-x86_64.dylib bin/macos-arm64.dylib
+    ;;
   freebsd)
     cc -std=c11 -O2 -fPIC -shared -Wall -Wextra -Wno-unused-parameter -Wno-cast-function-type       $SRC -lm -o bin/libopenshooter_native.freebsd.so
     ;;
   all)
     "$0" linux
     "$0" windows
+    "$0" macos
     "$0" android
     "$0" freebsd
     ;;
   *)
-    echo "usage: $0 [linux|windows|android|freebsd|all]" >&2
+    echo "usage: $0 [linux|windows|macos|android|freebsd|all]" >&2
     exit 2
     ;;
 esac

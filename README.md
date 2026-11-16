@@ -8,16 +8,19 @@
   <a href="https://godotengine.org/"><img src="https://img.shields.io/badge/Godot-4.7-478cbf?style=for-the-badge&logo=godotengine&logoColor=white" alt="Godot 4.7"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-f5a524?style=for-the-badge" alt="GPL-3.0"></a>
   <a href="https://docs.godotengine.org/en/stable/tutorials/rendering/renderers.html"><img src="https://img.shields.io/badge/Renderer-Compatibility-2b3240?style=for-the-badge" alt="Compatibility renderer"></a>
+  <a href="https://github.com/Renan2010p/openshooter/releases/latest"><img src="https://img.shields.io/github/v/release/Renan2010p/openshooter?style=for-the-badge&color=f5a524&label=Download" alt="Download"></a>
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=windows&logoColor=white" alt="Windows">
+  <img src="https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0wLDBIMTEuMzc3VjExLjM3MkgwWk0xMi42MjMsMEgyNFYxMS4zNzJIMTIuNjIzWk0wLDEyLjYyM0gxMS4zNzdWMjRIMFptMTIuNjIzLDBIMjRWMjRIMTIuNjIzIi8%2BPC9zdmc%2B" alt="Windows">
   <img src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black" alt="Linux">
+  <img src="https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS">
   <img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android">
   <img src="https://img.shields.io/badge/FreeBSD-AB2B28?style=flat-square&logo=freebsd&logoColor=white" alt="FreeBSD">
 </p>
 
 <p>
+  <a href="https://github.com/Renan2010p/openshooter/releases/latest"><b>Download</b></a> ·
   <a href="#getting-started"><b>Getting started</b></a> ·
   <a href="#how-to-play"><b>How to play</b></a> ·
   <a href="#android"><b>Android</b></a> ·
@@ -132,7 +135,7 @@ game modes.
 |---|---|
 | Engine | Godot **4.7** (standard build, not .NET required) |
 | Renderer | Compatibility (OpenGL 3.3 / OpenGL ES 3.0) |
-| OS | Linux, Windows, FreeBSD, Android 7.0+ (macOS should work but is not tested) |
+| OS | Windows, Linux, macOS, FreeBSD, Android 7.0+ |
 | Network | LAN with UDP ports **24540** and **24541** open |
 | Native module (optional) | C compiler (the scripts use `zig cc`); Android NDK 27+ for the Android library |
 
@@ -170,6 +173,7 @@ optional: without it the game uses the GDScript mesher. To build it:
 ```sh
 ./native/build.sh linux     # desktop Linux .so
 ./native/build.sh windows   # .dll
+./native/build.sh macos     # universal macOS .dylib (Intel + Apple Silicon)
 ./native/build.sh android   # Android arm64 + arm32 (needs the NDK)
 ./native/build.sh freebsd   # native FreeBSD .so
 ./native/build.sh all
@@ -195,37 +199,54 @@ second time.
 
 ### Prebuilt builds
 
-Ready-to-run packages are generated under `dist/`:
+Download the latest version from the
+**[Releases page](https://github.com/Renan2010p/openshooter/releases/latest)**:
 
-| Platform | Package |
+| Platform | File |
 |---|---|
-| Windows x86_64 | `dist/OpenShooter-1.0.0-windows-x86_64.zip` |
-| Linux x86_64 | `dist/OpenShooter-1.0.0-linux-x86_64.tar.xz` (19 MB, recommended for sharing) |
-| Linux x86_64 (alternative) | `dist/OpenShooter-1.0.0-linux-x86_64.tar.gz` / `.zip` |
-| FreeBSD x86_64 (native) | `dist/OpenShooter-1.0.0-freebsd-x86_64.tar.gz` / `.zip` |
-| Android arm64 | `dist/OpenShooter-1.0.0-android-arm64.apk` (~27 MB, recommended) |
-| Android universal | `dist/OpenShooter-1.0.0-android-universal.apk` (~51 MB, arm64 + armeabi) |
+| Windows x86_64 | `OpenShooter-<version>-windows-x86_64.zip` |
+| Linux x86_64 | `OpenShooter-<version>-linux-x86_64.tar.gz` |
+| macOS (Intel + Apple Silicon) | `OpenShooter-<version>-macos-universal.zip` |
+| Android (arm64 + armv7) | `OpenShooter-<version>-android.apk` |
 
-Checksums are in `dist/SHA256SUMS.txt`. These are local build artifacts and are
-ignored by Git; attach them to a GitHub release if you want to distribute them.
+Each release also has `SHA256SUMS.txt`. On Windows and Linux, keep the native
+library (`.dll` / `.so`) next to the executable. The builds are not signed by
+Microsoft or Apple: Windows SmartScreen may ask for confirmation, and on macOS
+right-click `OpenShooter.app` → **Open** the first time.
 
-The Windows build is a single unsigned `.exe`. The Linux package contains the
-executable, a launcher script, the GPL license, the application icon and a
-short README; the executable bit is preserved in the tar.xz, tar.gz and zip.
-The `.tar.xz` uses the x86 BCJ filter and is about 20 MiB, small enough for
-Discord's upload limit.
+### Publishing a release
+
+Releases are built by GitHub Actions (`.github/workflows/release.yml`), and
+only when started by hand:
+
+1. Write the release notes in `docs/releases/<version>.md`.
+2. Open **Actions → Release → Run workflow**, type the version (for example
+   `1.0.0`) and run it.
+
+The workflow sets the version in the project and export presets, exports the
+four platforms with Godot 4.7.2 on Linux, packages them, and creates the tag
+`v<version>` with the notes and the files. To sign the Android APK with your
+own key (so new versions install over old ones), add the repository secrets
+`ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_USER` and
+`ANDROID_KEYSTORE_PASSWORD`; without them a throwaway key is used.
 
 ### Export a build
 
-The project includes `export_presets.cfg` with single-file Windows and Linux
-presets (`embed_pck = true`). Install the matching **Godot 4.7.2 export
+The project includes `export_presets.cfg` with Windows, Linux, macOS and Android
+presets (the desktop executables embed the game data, `embed_pck = true`). Install the matching **Godot 4.7.2 export
 templates** (Editor → Manage Export Templates, or the official `.tpz` package),
 then run:
 
 ```sh
 godot --headless --path . --export-release "Windows Desktop" build/windows/OpenShooter.exe
 godot --headless --path . --export-release "Linux" build/linux/OpenShooter.x86_64
+godot --headless --path . --export-release "macOS" build/macos/OpenShooter.zip
+godot --headless --path . --export-release "Android" build/android/OpenShooter.apk
 ```
+
+The macOS build is a universal app (Intel and Apple Silicon) with an ad-hoc
+signature, and can be exported from Linux. Android needs the Android SDK, a JDK
+and a keystore configured in the editor settings.
 
 The Windows preset embeds `assets/icons/openshooter.ico` as the executable
 icon. The project uses the Compatibility renderer, so no special rendering
@@ -268,17 +289,15 @@ A full Android port is included, with a touch HUD designed for landscape play.
 
 ### Install
 
-1. Copy one of the APKs to the phone.
+1. Download `OpenShooter-<version>-android.apk` from the
+   [Releases page](https://github.com/Renan2010p/openshooter/releases/latest)
+   and copy it to the phone. It runs on 64-bit (arm64) and older 32-bit
+   (armv7) phones.
 2. Allow **Install unknown apps** for the file manager or browser.
 3. Tap the APK and install.
 
-| APK | When to use |
-|---|---|
-| `OpenShooter-1.0.0-android-arm64.apk` | Most modern phones. Smaller download. |
-| `OpenShooter-1.0.0-android-universal.apk` | Older 32-bit devices or if the arm64 APK is rejected. |
-
-The APKs are signed with a development key for sideloading. They are not
-signed for Google Play; use your own release keystore for store publishing.
+The APK is meant for sideloading and is not published on Google Play; use your
+own release keystore for store publishing.
 
 ### Mobile controls
 
