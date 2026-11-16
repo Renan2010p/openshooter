@@ -187,7 +187,7 @@ Godot 4.7 port (`pkg install godot-4.7`).
 ### Startup and loading
 
 The game opens with two short splash cards — **RL PROJECTS** and then
-**Feito por Renan Hilário** — before the main menu. Click, tap or
+**Made by Renan Hilário** — before the main menu. Click, tap or
 press any key to skip them. The default Godot boot splash is disabled, so the
 dark OpenShooter background is the first thing on screen.
 

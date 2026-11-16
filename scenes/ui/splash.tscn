@@ -92,7 +92,7 @@ alignment = 1
 [node name="MadeBy" type="Label" parent="Center/Phase2" unique_id=990000011]
 layout_mode = 2
 theme_type_variation = &"SubtitleLabel"
-text = "Feito por"
+text = "Made by"
 horizontal_alignment = 1
 
 [node name="Author" type="Label" parent="Center/Phase2" unique_id=990000012]
