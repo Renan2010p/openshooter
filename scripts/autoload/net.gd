@@ -95,7 +95,8 @@ func register(profile: Dictionary, code: String) -> void:
 		return
 	var p := {"name": str(profile.get("name", "Player")).substr(0, 20), "shirt": profile.get("shirt", Color.GRAY),
 		"pants": profile.get("pants", Color.DIM_GRAY), "skin": profile.get("skin", Color.BISQUE), "kills": 0, "deaths": 0, "bot": false,
-		"look": Cosmetics.sanitize(profile.get("look", {})), "hair": _color_or(profile.get("hair"), Cosmetics.DEFAULT_HAIR)}
+		"look": Cosmetics.sanitize(profile.get("look", {})), "hair": _color_or(profile.get("hair"), Cosmetics.DEFAULT_HAIR),
+		"xp_level": clampi(int(profile.get("xp_level", 1)), 1, 999)}
 	players[id] = p
 	welcome.rpc_id(id, server_info)
 	broadcast_players()
@@ -199,6 +200,8 @@ func _process(delta: float) -> void:
 				"hash": code_hash(server_info.get("code", "")), "players": humans(),
 				"max": server_info.get("max", 12), "bots": server_info.get("bots", 0),
 				"map": MapDB.display_name(int(server_info.get("map", 0))),
+				"map_id": MapDB.info(int(server_info.get("map", 0))).id,
+				"mode_idx": int(server_info.get("mode_idx", 0)),
 				"mode_name": ModeDB.get_mode(int(server_info.get("mode_idx", 0))).display_name,
 			}
 			var data := JSON.stringify(msg).to_utf8_buffer()

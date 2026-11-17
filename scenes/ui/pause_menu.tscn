@@ -1,84 +1,170 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="gen_script_0"]
+[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="1_pause"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="2_black"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf" id="3_xbold"]
+[ext_resource type="FontFile" path="res://assets/fonts/Barlow-Bold.ttf" id="4_bold"]
 
-[node name="PauseMenu" type="PanelContainer" unique_id=3012850]
-script = ExtResource("gen_script_0")
+[sub_resource type="StyleBoxFlat" id="SideStyle"]
+content_margin_left = 36.0
+content_margin_top = 40.0
+content_margin_right = 36.0
+content_margin_bottom = 40.0
+bg_color = Color(0.043, 0.047, 0.063, 0.92)
+border_width_right = 3
+border_color = Color(1, 0.541, 0.122, 1)
+
+[sub_resource type="StyleBoxFlat" id="ResumeNormal"]
+content_margin_left = 22.0
+bg_color = Color(1, 0.541, 0.122, 1)
+
+[sub_resource type="StyleBoxFlat" id="ResumeHover"]
+content_margin_left = 22.0
+bg_color = Color(1, 0.69, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="ItemNormal"]
+content_margin_left = 22.0
+bg_color = Color(1, 1, 1, 0.08)
+
+[sub_resource type="StyleBoxFlat" id="ItemHover"]
+content_margin_left = 22.0
+bg_color = Color(1, 1, 1, 0.14)
+border_width_left = 4
+border_color = Color(1, 0.541, 0.122, 1)
+
+[sub_resource type="StyleBoxFlat" id="LeaveNormal"]
+content_margin_left = 22.0
+bg_color = Color(0.588, 0.055, 0.094, 0.85)
+
+[sub_resource type="StyleBoxFlat" id="LeaveHover"]
+content_margin_left = 22.0
+bg_color = Color(0.72, 0.07, 0.11, 0.95)
+
+[sub_resource type="StyleBoxFlat" id="HelpStyle"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 1, 1, 0.05)
+border_width_left = 2
+border_color = Color(1, 0.541, 0.122, 0.6)
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("1_pause")
+
+[node name="Side" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -230.0
-offset_top = -235.0
-offset_right = 230.0
-offset_bottom = 235.0
-theme_type_variation = &"ModalCard"
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 380.0
+theme_override_styles/panel = SubResource("SideStyle")
 
-[node name="Content" type="VBoxContainer" parent="." unique_id=619359462]
+[node name="Content" type="VBoxContainer" parent="Side"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
-[node name="Eyebrow" type="Label" parent="Content" unique_id=3012851]
+[node name="Eyebrow" type="Label" parent="Side/Content"]
 layout_mode = 2
-theme_type_variation = &"SectionLabel"
-text = "IN MATCH"
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("4_bold")
+theme_override_font_sizes/font_size = 12
+text = "M A T C H   I N   P R O G R E S S"
 
-[node name="Title" type="Label" parent="Content" unique_id=1270714370]
+[node name="Title" type="Label" parent="Side/Content"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"TitleLabel"
-text = "MENU"
-theme_override_font_sizes/font_size = 46
+theme_override_constants/line_spacing = -10
+theme_override_fonts/font = ExtResource("2_black")
+theme_override_font_sizes/font_size = 72
+text = "PAUSED"
 
-[node name="Subtitle" type="Label" parent="Content" unique_id=3012852]
+[node name="Subtitle" type="Label" parent="Side/Content"]
 layout_mode = 2
-theme_type_variation = &"HintLabel"
-text = "The match keeps running while this menu is open."
-autowrap_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "The match keeps going for everyone else."
 
-[node name="Gap" type="Control" parent="Content" unique_id=3012853]
-custom_minimum_size = Vector2(0, 8)
+[node name="Gap" type="Control" parent="Side/Content"]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="Resume" type="Button" parent="Content" unique_id=1167162453]
+[node name="Resume" type="Button" parent="Side/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"PrimaryButton"
-text = "Resume"
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_colors/font_hover_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_colors/font_pressed_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("2_black")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("ResumeNormal")
+theme_override_styles/hover = SubResource("ResumeHover")
+theme_override_styles/pressed = SubResource("ResumeHover")
+text = "RESUME"
+alignment = 0
 
-[node name="Leave" type="Button" parent="Content" unique_id=230295217]
+[node name="Settings" type="Button" parent="Side/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"DangerButton"
-text = "Leave match"
+theme_override_fonts/font = ExtResource("3_xbold")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("ItemNormal")
+theme_override_styles/hover = SubResource("ItemHover")
+theme_override_styles/pressed = SubResource("ItemHover")
+text = "SETTINGS"
+alignment = 0
 
-[node name="Sep" type="HSeparator" parent="Content" unique_id=3012854]
+[node name="Controls" type="Button" parent="Side/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-
-[node name="HelpCard" type="PanelContainer" parent="Content" unique_id=3012855]
-layout_mode = 2
-theme_type_variation = &"SubCard"
-
-[node name="Box" type="VBoxContainer" parent="Content/HelpCard" unique_id=3012856]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="Heading" type="Label" parent="Content/HelpCard/Box" unique_id=3012857]
-layout_mode = 2
-theme_type_variation = &"Caption"
+focus_mode = 0
+toggle_mode = true
+theme_override_fonts/font = ExtResource("3_xbold")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("ItemNormal")
+theme_override_styles/hover = SubResource("ItemHover")
+theme_override_styles/pressed = SubResource("ItemHover")
 text = "CONTROLS"
+alignment = 0
 
-[node name="Help" type="Label" parent="Content/HelpCard/Box" unique_id=1207936462]
+[node name="HelpCard" type="PanelContainer" parent="Side/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("HelpStyle")
+
+[node name="Help" type="Label" parent="Side/Content/HelpCard"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"HudSmall"
+theme_override_colors/font_color = Color(0.769, 0.788, 0.824, 1)
+theme_override_font_sizes/font_size = 13
 text = "WASD move  ·  SPACE jump  ·  SHIFT sprint
 CTRL crouch  ·  R reload  ·  1-9 weapons
 RIGHT MOUSE aim  ·  TAB scoreboard"
 autowrap_mode = 2
+
+[node name="Push" type="Control" parent="Side/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Leave" type="Button" parent="Side/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_xbold")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("LeaveNormal")
+theme_override_styles/hover = SubResource("LeaveHover")
+theme_override_styles/pressed = SubResource("LeaveHover")
+text = "LEAVE MATCH"
+alignment = 0

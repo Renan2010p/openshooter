@@ -1,7 +1,8 @@
 class_name MatchManager
 extends Node
 ## Session flow, decided by the server:
-##   "vote" — everyone votes on the map and mode (you can walk, but not shoot);
+##   "vote" — everyone votes on the next map (you can walk, but not shoot); the
+##            game mode is the server's and never changes;
 ##   "play" — the match, with a countdown;
 ##   "end"  — shows the winner and returns to voting.
 
@@ -37,7 +38,9 @@ var _broadcast_t := 0.0
 func _ready() -> void:
 	if not multiplayer.is_server():
 		return
-	if Net.server_info.get("vote", true):
+	# The first match uses the map picked when the server was created; the
+	# vote only happens between matches (--vote forces one at the start).
+	if Net.server_info.get("vote", false):
 		start_vote.call_deferred()
 	else:
 		time_left = duration()
@@ -96,24 +99,23 @@ func start_vote() -> void:
 	vote_state.rpc(map_votes, mode_votes)
 
 
+## A player's map vote. `mode_idx` is ignored: the server's mode is fixed
+## (the parameter stays so the network call keeps its shape).
 @rpc("any_peer", "call_local", "reliable")
 func cast_vote(map_idx: int, mode_idx: int) -> void:
 	if not multiplayer.is_server() or phase != "vote":
 		return
 	var id := multiplayer.get_remote_sender_id()
-	_votes[id] = [clampi(map_idx, -1, MapDB.count() - 1), clampi(mode_idx, -1, ModeDB.count() - 1)]
+	_votes[id] = clampi(map_idx, -1, MapDB.count() - 1)
 	map_votes.clear()
-	mode_votes.clear()
 	for v in _votes.values():
-		if v[0] >= 0:
-			map_votes[v[0]] = int(map_votes.get(v[0], 0)) + 1
-		if v[1] >= 0:
-			mode_votes[v[1]] = int(mode_votes.get(v[1], 0)) + 1
+		if v >= 0:
+			map_votes[v] = int(map_votes.get(v, 0)) + 1
 	vote_state.rpc(map_votes, mode_votes)
-	# Everyone voted for both: no need to wait.
+	# Everyone voted: no need to wait.
 	var complete := 0
 	for v in _votes.values():
-		if v[0] >= 0 and v[1] >= 0:
+		if v >= 0:
 			complete += 1
 	if complete >= Net.humans() and time_left > vote_rush_time:
 		time_left = vote_rush_time
@@ -126,22 +128,27 @@ func vote_state(maps: Dictionary, modes: Dictionary) -> void:
 	votes_changed.emit(map_votes, mode_votes)
 
 
-## Highest vote wins; ties are broken randomly; with no votes, anything can win.
-static func tally(votes: Dictionary, count: int) -> int:
+## Highest vote wins; ties are broken randomly. With no votes, any option
+## except `avoid` (the map just played, so maps rotate).
+static func tally(votes: Dictionary, count: int, avoid := -1) -> int:
 	var best := 0
 	for k in votes:
 		best = maxi(best, int(votes[k]))
 	var options := []
 	for i in count:
-		if best == 0 or int(votes.get(i, 0)) == best:
+		if best == 0:
+			if i != avoid or count == 1:
+				options.append(i)
+		elif int(votes.get(i, 0)) == best:
 			options.append(i)
 	return options.pick_random()
 
 
+## Next match: the voted map, and the same mode as always.
 func _finish_vote() -> void:
-	var new_map := tally(map_votes, MapDB.count())
-	var new_mode := tally(mode_votes, ModeDB.count())
-	world.set_match.rpc(new_map, new_mode)
+	var new_map := tally(map_votes, MapDB.count(), world.map_index)
+	print("[vote] next map: %s, mode: %s" % [MapDB.display_name(new_map), ModeDB.get_mode(world.mode_index).display_name])
+	world.set_match.rpc(new_map, world.mode_index)
 	_begin_match()
 
 

@@ -4,8 +4,10 @@ extends CanvasLayer
 ## (%Name), so the layout can be rearranged freely in the editor.
 
 const SLOT_SCENE := preload("res://scenes/ui/hotbar_slot.tscn")
+const FEED_FONT := preload("res://assets/fonts/Barlow-Bold.ttf")
 
-@export var health_colors: Array[Color] = [Color(0.95, 0.2, 0.15), Color(0.95, 0.75, 0.1), Color(0.2, 0.85, 0.3)]
+## Health bar color: low, medium, high.
+@export var health_colors: Array[Color] = [Color("#c7161f"), Color("#ff8a1f"), Color("#39d0e0")]
 @export var feed_max_lines := 6
 @export var feed_line_seconds := 6.0
 
@@ -20,22 +22,26 @@ var paused := false
 @onready var timer_label: AnimatedNumber = %Timer
 @onready var time_bar: ProgressBar = %TimeBar
 @onready var leaders: Array[Label] = [%First, %Second, %Third]
+@onready var map_label: Label = %MapLabel
+@onready var rank_label: Label = %RankLabel
 @onready var kill_feed: VBoxContainer = %KillFeed
 @onready var fps_label: Label = %FpsLabel
 @onready var server_info: Label = %ServerInfo
-@onready var health_bar: ProgressBar = %HealthBar
+@onready var health_bar: SegmentBar = %HealthBar
 @onready var health_value: AnimatedNumber = %HealthValue
 @onready var hotbar: HBoxContainer = %Hotbar
 @onready var weapon_name: Label = %WeaponName
+@onready var weapon_icon: TextureRect = %WeaponIcon
 @onready var ammo_label: AnimatedNumber = %Ammo
 @onready var ammo_reserve: Label = %AmmoReserve
 @onready var reload_hint: Label = %ReloadHint
-@onready var death_label: Label = %DeathLabel
+@onready var reload_key: Label = %Key
+@onready var ammo_bar: ProgressBar = %AmmoBar
+@onready var death_screen: Control = %DeathScreen
+@onready var respawn_ring: CountdownRing = %RespawnRing
+@onready var toast_panel: PanelContainer = %ToastPanel
 @onready var toast_label: Label = %Toast
-@onready var end_label: Label = %EndLabel
-@onready var reward_card: PanelContainer = %RewardCard
-@onready var reward_total: Label = %RewardTotal
-@onready var reward_label: Label = %RewardLabel
+@onready var toast_accent: Label = %ToastAccent
 @onready var scoreboard: Scoreboard = %Scoreboard
 @onready var pause_menu: PauseMenu = %PauseMenu
 @onready var vote_panel: VotePanel = %VotePanel
@@ -58,12 +64,17 @@ var _slow_t := 0.0
 var _slots: Array[HotbarSlot] = []
 var _slot_weapons: Array[int] = []
 var _hooked: Player
-var _health_fill: StyleBoxFlat
+var _death_total := 1.0
+var _key_on := _key_style(true)
+var _key_off := _key_style(false)
+var _shown_weapon := -1
 
 
 func _ready() -> void:
-	_health_fill = (health_bar.get_theme_stylebox("fill") as StyleBoxFlat).duplicate()
-	health_bar.add_theme_stylebox_override("fill", _health_fill)
+	timer_label.set_text_color(Color.WHITE)
+	# The tilted ELIMINATED band turns around its own centre.
+	var band: Control = %Band
+	band.resized.connect(func(): band.pivot_offset = band.size / 2.0)
 	pause_menu.resume_pressed.connect(toggle_pause)
 	pause_menu.leave_pressed.connect(func(): world.leave_requested.emit())
 	pause_menu.visible = false
@@ -73,10 +84,9 @@ func _ready() -> void:
 	if Touch.active:
 		pause_menu.set_touch_help()
 		_layout_mobile()
-	var mode_name: String = {"normal": "Normal", "private": "Private", "duel": "Duel Only"}.get(Net.server_info.get("mode", "normal"), "")
-	server_info.text = "%s  •  %s" % [Net.server_info.get("name", ""), mode_name]
+	server_info.text = "%s · LV %d" % [Config.player_name.to_upper(), int(Progression.level_info(Config.xp).level)]
 	if Net.server_info.get("private", false) and Net.server_info.get("code", "") != "":
-		server_info.text += "  •  Private Code: %s" % Net.server_info.code
+		server_info.text += "  ·  CODE %s" % Net.server_info.code
 
 
 ## Called by [World] when it is ready (children become ready before the parent).
@@ -92,8 +102,8 @@ func setup(w: World) -> void:
 ## Informational HUD nodes must not steal touches from the look area.
 func _ignore_informational_ui() -> void:
 	for path in ["Root/TopBar", "Root/BottomLeft", "Root/AmmoBox", "Root/Hotbar",
-			"Root/DeathLabel", "Root/Toast", "Root/FpsLabel", "Root/HitMarker",
-			"Root/DamageIndicator", "Root/EndLabel"]:
+			"Root/DeathScreen", "Root/ToastBox", "Root/FpsLabel", "Root/HitMarker",
+			"Root/DamageIndicator"]:
 		var node := get_node_or_null(path)
 		if node:
 			_make_ignore(node)
@@ -106,26 +116,25 @@ func _make_ignore(node: Node) -> void:
 		_make_ignore(child)
 
 
-## Re-arranges the HUD around the virtual controls on phones.
+## Phone layout (the touch controls bring their own weapon switcher):
+## small health at the top left beside the pause and scoreboard buttons, the
+## clock alone at the top with a one-line rank chip, the kill feed top right.
 func _layout_mobile() -> void:
 	hotbar.visible = false
-	kill_feed.visible = false
+	$Root/AmmoBox.visible = false
+	for path in ["Root/TopBar/Clock/ModePlate", "Root/TopBar/Clock/RankPlate", "Root/TopBar/TimeBar",
+			"Root/TopBar/Leaders", "Root/BottomLeft/ServerInfo", "Root/BottomLeft/HealthHeader/Plus"]:
+		(get_node(path) as CanvasItem).visible = false
+	%MobileChip.visible = true
 	var bottom_left := $Root/BottomLeft as Control
 	bottom_left.anchor_top = 0.0
 	bottom_left.anchor_bottom = 0.0
-	bottom_left.offset_left = 24.0
-	bottom_left.offset_top = 142.0
-	bottom_left.offset_right = 344.0
-	bottom_left.offset_bottom = 232.0
-	var score_hint := $Root/Scoreboard/Content/Hint as Label
-	score_hint.text = "TAP SCORE TO TOGGLE"
-	var ammo_box := $Root/AmmoBox as Control
-	ammo_box.anchor_top = 0.0
-	ammo_box.anchor_bottom = 0.0
-	ammo_box.offset_left = -340.0
-	ammo_box.offset_top = 16.0
-	ammo_box.offset_right = -24.0
-	ammo_box.offset_bottom = 120.0
+	bottom_left.offset_left = 145.0
+	bottom_left.offset_top = 10.0
+	bottom_left.offset_right = 465.0
+	bottom_left.offset_bottom = 90.0
+	bottom_left.scale = Vector2(0.58, 0.58)
+	scoreboard.hint = "TAP THE MENU BUTTON TO TOGGLE"
 
 
 # ------------------------------------------------------------------ events
@@ -141,56 +150,39 @@ func rebuild_hotbar(loadout: Array[int]) -> void:
 	for i in loadout.size():
 		var s: HotbarSlot = SLOT_SCENE.instantiate()
 		hotbar.add_child(s)
-		s.setup(i + 1, WeaponDB.get_data(loadout[i]).display_name)
+		s.setup(i + 1, loadout[i])
 		_slots.append(s)
 
 
 func _on_phase_changed(phase: String) -> void:
-	# The XP of the previous match is only shown on its match-over screen.
-	if phase != "end":
+	# The XP of the previous match stays on its match-over screen.
+	if phase == "play":
 		Config.last_reward = {}
-	var voting := phase == "vote"
-	vote_panel.visible = voting
-	if voting:
-		vote_panel.reset()
-		vote_panel.show_state(world.match_manager.time_left, world.match_manager.map_votes, world.match_manager.mode_votes)
+	# Match over: results first, then the vote, on the same screen.
+	var over := phase == "end" or phase == "vote"
+	if over and not vote_panel.visible:
+		vote_panel.reset(world)
 		UiMotion.pop_in(vote_panel)
+	vote_panel.visible = over
+	if over:
+		vote_panel.show_state(world.match_manager.time_left, world.match_manager.map_votes, world.match_manager.mode_votes)
+		hide_death()
 		if not Touch.active:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif not paused and not Touch.active:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-## XP earned in the match that just ended, in a card beside the scoreboard:
-##   +310 XP
-##   Match played      +50
-##   6 eliminations    +60
-##   Victory          +250
-##   LEVEL UP!  Level 4
-func _update_reward(end_now: bool) -> void:
-	var reward := Config.last_reward
-	var show := end_now and not reward.is_empty()
-	if show and not reward_card.visible:
-		UiMotion.pop_in(reward_card, 0.3)
-	reward_card.visible = show
-	if not show:
-		return
-	reward_total.text = "+%d XP" % reward.total
-	var text := ""
-	for line in reward.lines:
-		text += "%s   +%d\n" % [line[0], line[1]]
-	if int(reward.level_after) > int(reward.level_before):
-		text += "\nLEVEL UP!  Level %d" % reward.level_after
-	reward_label.text = text.strip_edges()
-
 
 func hitmarker(head: bool) -> void:
-	_pop_marker(Color(1, 0.25, 0.2) if head else Color.WHITE, 1.35 if head else 1.2, 0.22)
+	_pop_marker(Color("#ff8a1f") if head else Color.WHITE, 1.35 if head else 1.2, 0.22)
 
 
-## Bigger, longer red marker when the local player gets the elimination.
-func kill_confirmed(head: bool) -> void:
-	_pop_marker(Color(1, 0.18, 0.14), 1.9 if head else 1.6, 0.45)
-	crosshair.flash(Color(1, 0.3, 0.25))
+## Elimination by the local player: orange diamond around the crosshair.
+func kill_confirmed(_head: bool) -> void:
+	# The orange diamond replaces the hit cross for eliminations.
+	hit_marker.visible = false
+	crosshair.flash(Color("#ff8a1f"))
+	crosshair.kill_mark()
 
 
 func _pop_marker(color: Color, start_scale: float, duration: float) -> void:
@@ -222,17 +214,81 @@ func damage_from(pos: Vector3) -> void:
 	_dir_t = 1.0
 
 
+## A plain line in the kill feed ("X left the match").
 func feed(text: String) -> void:
 	if not kill_feed.visible:
 		return
+	var chip := _feed_chip(false)
+	chip.get_child(0).add_child(_feed_label(text, Color("#f2f1ec")))
+	_push_feed(chip)
+
+
+## An elimination in the kill feed: attacker, weapon silhouette, victim.
+## `mine` (the local player got it) gets the orange bar and name.
+func feed_kill(attacker: String, victim: String, weapon: int, head: bool, mine: bool) -> void:
+	if not kill_feed.visible:
+		return
+	var chip := _feed_chip(mine)
+	var row := chip.get_child(0)
+	row.add_child(_feed_label(attacker, Color("#ff8a1f") if mine else Color("#f2f1ec")))
+	var icon := TextureRect.new()
+	icon.texture = weapon_texture(weapon)
+	icon.custom_minimum_size = Vector2(44, 22)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(icon)
+	if head:
+		var tag := _feed_label("HS", Color("#ff8a1f"))
+		tag.add_theme_font_size_override("font_size", 11)
+		row.add_child(tag)
+	row.add_child(_feed_label(victim, Color("#f2f1ec")))
+	_push_feed(chip)
+
+
+## The key chip of "R RELOAD": solid when it matters, outlined otherwise.
+static func _key_style(on: bool) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.content_margin_left = 6
+	style.content_margin_right = 6
+	style.content_margin_top = 1
+	style.content_margin_bottom = 1
+	style.bg_color = Color("#ff8a1f") if on else Color(0, 0, 0, 0)
+	style.border_color = Color("#a8afbb")
+	style.set_border_width_all(0 if on else 1)
+	return style
+
+
+## The silhouette picture of a weapon (assets/ui/weapons, white: tint it).
+static func weapon_texture(weapon: int) -> Texture2D:
+	return load("res://assets/ui/weapons/%s.png" % WeaponDB.get_data(weapon).resource_path.get_file().get_basename())
+
+
+func _feed_chip(mine: bool) -> PanelContainer:
 	var chip := PanelContainer.new()
-	chip.theme_type_variation = &"FeedChip"
+	chip.theme_type_variation = &"FeedChipMine" if mine else &"FeedChip"
 	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.size_flags_horizontal = Control.SIZE_SHRINK_END
+	chip.custom_minimum_size = Vector2(0, 32)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.add_child(row)
+	return chip
+
+
+func _feed_label(text: String, color: Color) -> Label:
 	var l := Label.new()
 	l.text = text
-	l.theme_type_variation = &"FeedLabel"
-	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	chip.add_child(l)
+	l.add_theme_font_override("font", FEED_FONT)
+	l.add_theme_font_size_override("font_size", 14)
+	l.add_theme_color_override("font_color", color)
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return l
+
+
+func _push_feed(chip: PanelContainer) -> void:
 	kill_feed.add_child(chip)
 	if kill_feed.get_child_count() > feed_max_lines:
 		kill_feed.get_child(0).queue_free()
@@ -248,24 +304,41 @@ func feed(text: String) -> void:
 	t.tween_callback(chip.queue_free)
 
 
-func show_death(by: String, seconds: float) -> void:
+## The ELIMINATED screen: who, with what, and the respawn countdown.
+## `weapon` < 0 means no weapon (fell, blew up).
+func show_death(by: String, seconds: float, weapon := -1, head := false) -> void:
 	_death_by = by
 	_death_t = seconds
+	_death_total = maxf(seconds, 0.1)
+	%DeathBy.text = by.to_upper()
+	var icon: TextureRect = %DeathWeapon
+	icon.visible = weapon >= 0
+	var detail := ""
+	if weapon >= 0:
+		icon.texture = weapon_texture(weapon)
+		detail = WeaponDB.get_data(weapon).display_name
+	if head:
+		detail += " · Headshot"
+	%DeathDetail.text = detail
 
 
 func hide_death() -> void:
 	_death_t = 0.0
 
 
-func toast(text: String) -> void:
-	toast_label.text = text
+## A short message under the crosshair; `accent` follows it in orange
+## ("ELIMINATED" + "BOT MIA · HEADSHOT").
+func toast(text: String, accent := "") -> void:
+	toast_label.text = text.to_upper()
+	toast_accent.text = accent.to_upper()
+	toast_accent.visible = accent != ""
 	_toast_t = 2.0
-	toast_label.pivot_offset = toast_label.size / 2.0
-	toast_label.scale = Vector2(0.85, 0.85)
+	toast_panel.pivot_offset = toast_panel.size / 2.0
+	toast_panel.scale = Vector2(0.85, 0.85)
 	if _toast_tween and _toast_tween.is_valid():
 		_toast_tween.kill()
 	_toast_tween = create_tween()
-	_toast_tween.tween_property(toast_label, "scale", Vector2.ONE, 0.28).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_toast_tween.tween_property(toast_panel, "scale", Vector2.ONE, 0.28).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func shake(amount: float) -> void:
@@ -281,7 +354,7 @@ func toggle_pause() -> void:
 	if paused:
 		UiMotion.pop_in(pause_menu)
 	if not Touch.active:
-		var free_mouse := paused or world.match_manager.phase == "vote"
+		var free_mouse := paused or vote_panel.visible
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if free_mouse else Input.MOUSE_MODE_CAPTURED
 
 
@@ -292,11 +365,21 @@ func _process(delta: float) -> void:
 		return
 	_update_player()
 	_update_timers(delta)
-	var show_board := Input.is_action_pressed("scoreboard") or Touch.scoreboard_held or world.match_manager.phase == "end"
+	# TAB shows the scoreboard; the pause menu shows it beside its panel.
+	var playing := world.match_manager.phase == "play"
+	var show_board := playing and (paused or Input.is_action_pressed("scoreboard") or Touch.scoreboard_held)
 	if show_board and not scoreboard.visible:
 		UiMotion.pop_in(scoreboard)
+		scoreboard.refresh(world)
 	scoreboard.visible = show_board
+	# Beside the pause panel, or centred on its own.
+	scoreboard.offset_left = 420.0 if paused else 180.0
+	scoreboard.offset_right = -40.0 if paused else -180.0
 	modal_dim.visible = paused or scoreboard.visible or vote_panel.visible
+	# Panels over the match: the gameplay HUD steps back behind them.
+	var hud_alpha := 0.0 if modal_dim.visible else 1.0
+	for node: CanvasItem in [$Root/TopBar, $Root/Hotbar, $Root/AmmoBox, $Root/BottomLeft, kill_feed, crosshair]:
+		node.modulate.a = hud_alpha
 	var show_touch := Touch.active and not paused and not vote_panel.visible and world.match_manager.phase != "end"
 	if touch_controls.visible != show_touch:
 		touch_controls.visible = show_touch
@@ -309,7 +392,7 @@ func _process(delta: float) -> void:
 	_slow_t = 0.1
 	_update_match()
 	if scoreboard.visible:
-		scoreboard.refresh()
+		scoreboard.refresh(world)
 
 
 func _update_player() -> void:
@@ -329,13 +412,30 @@ func _update_player() -> void:
 		_scope_aspect = aspect
 		(scope_overlay.material as ShaderMaterial).set_shader_parameter("aspect", aspect)
 	var hp := clampi(p.hp, 0, 100)
-	health_bar.value = hp
+	health_bar.value = hp / 100.0
 	health_value.text = str(hp)
 	var health_color: Color = health_colors[2] if hp > 50 else (health_colors[1] if hp > 25 else health_colors[0])
-	health_value.set_text_color(health_color)
-	_health_fill.bg_color = health_color
-	weapon_name.text = w.display_name
-	reload_hint.visible = p.weapons.is_reloading()
+	health_value.set_text_color(Color("#f2f1ec") if hp > 25 else health_color)
+	health_bar.color = health_color
+	weapon_name.text = w.display_name.to_upper()
+	if _shown_weapon != p.weapons.index:
+		_shown_weapon = p.weapons.index
+		weapon_icon.texture = weapon_texture(p.weapons.index)
+	# Magazine bar, and "R RELOAD": grey normally, orange when the magazine
+	# runs low; "RELOADING" while it reloads.
+	var reloading := p.weapons.is_reloading()
+	var gun := w.is_gun()
+	var low := gun and p.weapons.mag() <= maxi(1, w.magazine / 4) and p.weapons.reserve() > 0
+	ammo_bar.visible = gun
+	reload_hint.get_parent().visible = gun
+	if gun:
+		ammo_bar.value = 100.0 * p.weapons.mag() / maxf(1.0, w.magazine)
+	reload_key.visible = not reloading
+	reload_hint.text = "RELOADING" if reloading else "RELOAD"
+	var alert := low or reloading
+	reload_hint.add_theme_color_override("font_color", Color("#ff8a1f") if alert else Color("#a8afbb"))
+	reload_key.add_theme_stylebox_override("normal", _key_on if low else _key_off)
+	reload_key.add_theme_color_override("font_color", Color("#111111") if low else Color("#c4c9d2"))
 	if w.is_melee():
 		ammo_label.text = "∞"
 		ammo_reserve.text = ""
@@ -345,12 +445,19 @@ func _update_player() -> void:
 	else:
 		ammo_label.text = str(p.weapons.mag())
 		ammo_reserve.text = "/ %d" % p.weapons.reserve()
+	if Touch.active:
+		if w.is_melee():
+			touch_controls.set_weapon(p.weapons.index, -1, -1)
+		else:
+			touch_controls.set_weapon(p.weapons.index, p.weapons.mag(), -1 if w.is_equipment() else p.weapons.reserve())
 	if _hooked != p:
 		_hooked = p
 		p.weapons.loadout_changed.connect(rebuild_hotbar)
 		rebuild_hotbar(p.weapons.loadout)
 	for i in _slots.size():
 		_slots[i].set_selected(_slot_weapons[i] == p.weapons.index)
+		var slot_data := WeaponDB.get_data(_slot_weapons[i])
+		_slots[i].set_count(p.weapons.ammo[_slot_weapons[i]][0] if slot_data.is_equipment() else -1)
 	if p.local and is_instance_valid(p.camera):
 		if _shake > 0.0:
 			# Smooth, decaying shake (layered sines) instead of per-frame noise.
@@ -374,20 +481,25 @@ func _update_timers(delta: float) -> void:
 	_dir_t = maxf(0.0, _dir_t - delta)
 	damage_indicator.modulate.a = _dir_t
 	_toast_t = maxf(0.0, _toast_t - delta)
-	toast_label.modulate.a = minf(1.0, _toast_t * 2.0)
+	toast_panel.modulate.a = minf(1.0, _toast_t * 2.0)
 	if _death_t > 0.0:
 		_death_t = maxf(0.0, _death_t - delta)
-		death_label.text = "Killed by %s\nRespawning in %d..." % [_death_by, ceili(_death_t)]
+		respawn_ring.total = _death_total
+		respawn_ring.left = _death_t
 	var show_death := _death_t > 0.0
 	if show_death and not _death_shown:
-		death_label.modulate.a = 0.0
-		death_label.pivot_offset = death_label.size / 2.0
-		death_label.scale = Vector2(1.15, 1.15)
+		var band: Control = %Band
+		death_screen.modulate.a = 0.0
+		band.scale = Vector2(1.0, 0.2)
 		var t := create_tween().set_parallel()
-		t.tween_property(death_label, "modulate:a", 1.0, 0.35)
-		t.tween_property(death_label, "scale", Vector2.ONE, 0.45).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		t.tween_property(death_screen, "modulate:a", 1.0, 0.3)
+		t.tween_property(band, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	_death_shown = show_death
-	death_label.visible = show_death
+	death_screen.visible = show_death
+	# While dead, only the death screen (and the top bar) shows.
+	for path in ["Root/BottomLeft", "Root/AmmoBox", "Root/Hotbar"]:
+		# On phones the hotbar and the ammo block stay hidden (touch controls).
+		(get_node(path) as Control).visible = not show_death and (path == "Root/BottomLeft" or not Touch.active)
 
 
 func _update_match() -> void:
@@ -397,24 +509,26 @@ func _update_match() -> void:
 	time_bar.value = 100.0 * clampf(mm.time_left / maxf(mm.duration(), 1.0), 0.0, 1.0)
 	var ranking := Scoreboard.ranking()
 	for i in leaders.size():
-		if i < ranking.size():
+		var chip := leaders[i].get_parent() as Control
+		chip.visible = i < ranking.size()
+		if chip.visible:
 			var info: Dictionary = Net.players[ranking[i]]
-			leaders[i].text = "%s  ·  %d" % [info.name, int(info.kills)]
-		else:
-			leaders[i].text = "Nobody"
-	if mm.phase == "vote":
+			leaders[i].text = "%d  %s · %d" % [i + 1, str(info.name).to_upper(), int(info.kills)]
+	var me := multiplayer.get_unique_id() if multiplayer.has_multiplayer_peer() else 0
+	var rank := ranking.find(me) + 1
+	var my_kills := int(Net.players[me].kills) if Net.players.has(me) else 0
+	rank_label.text = "#%d · %d ELIMS" % [maxi(rank, 1), my_kills]
+	%MobileInfo.text = "#%d · %d ELIMS · %s" % [maxi(rank, 1), my_kills, world.mode().display_name.to_upper()]
+	%DeathRank.text = "YOU: #%d · %d ELIMS" % [maxi(rank, 1), my_kills]
+	%DeathMatch.text = "%s · %02d:%02d LEFT" % [world.mode().display_name.to_upper(), t / 60, t % 60]
+	if vote_panel.visible:
 		vote_panel.show_state(mm.time_left, mm.map_votes, mm.mode_votes)
 	var mode := world.mode()
-	mode_label.text = "Mode: %s  •  Map: %s" % [mode.display_name, MapDB.display_name(world.map_index)]
+	mode_label.text = mode.display_name.to_upper()
+	map_label.text = MapDB.display_name(world.map_index)
 	if mode.is_gun_game() and world.local_player:
 		var level := world.level_of(world.local_player.pid)
-		mode_label.text += "  •  Weapon %d of %d" % [level + 1, mode.progression.size()]
-	var end_now := mm.phase == "end"
-	if end_now and not end_label.visible:
-		UiMotion.pop_in(end_label, 0.24)
-	end_label.visible = end_now
-	end_label.text = "MATCH OVER\nWinner: %s" % mm.winner
-	_update_reward(end_now)
+		map_label.text += " · Weapon %d/%d" % [level + 1, mode.progression.size()]
 	fps_label.visible = Config.show_fps
 	if fps_label.visible:
 		fps_label.text = "%d FPS" % Engine.get_frames_per_second()

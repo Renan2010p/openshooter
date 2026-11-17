@@ -80,13 +80,15 @@ func reset() -> void:
 	_release()
 
 
+## Big translucent base with a light ring and a small arrow on top, and a
+## solid white knob.
 func _draw() -> void:
 	var center := _center()
 	var radius := _radius()
-	draw_circle(center, radius, Color(0.02, 0.03, 0.04, 0.40))
-	draw_arc(center, radius, 0.0, TAU, 48, Color(0.96, 0.65, 0.14, 0.40), 2.0, true)
-	draw_circle(center, radius * 0.09, Color(0.96, 0.65, 0.14, 0.28))
+	draw_circle(center, radius, Color(0.06, 0.07, 0.09, 0.35))
+	draw_arc(center, radius, 0.0, TAU, 64, Color(1, 1, 1, 0.45), 2.5, true)
+	var tip := center + Vector2(0, -radius + 10.0)
+	draw_colored_polygon(PackedVector2Array([tip, tip + Vector2(-7, 8), tip + Vector2(7, 8)]), Color(1, 1, 1, 0.75))
 	var knob := center + _knob
-	draw_circle(knob, radius * 0.43, Color(0.02, 0.03, 0.04, 0.35))
-	draw_circle(knob, radius * 0.38, Color(0.88, 0.92, 0.97, 0.78))
-	draw_arc(knob, radius * 0.38, 0.0, TAU, 36, Color(0.96, 0.65, 0.14, 0.85), 2.0, true)
+	draw_circle(knob + Vector2(0, 2), radius * 0.37, Color(0, 0, 0, 0.18))
+	draw_circle(knob, radius * 0.37, Color(0.93, 0.93, 0.91, 0.95))

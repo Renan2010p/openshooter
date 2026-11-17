@@ -1,528 +1,804 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/ui/screens/settings_screen.gd" id="gen_script_0"]
+[ext_resource type="Script" path="res://scripts/ui/screens/settings_screen.gd" id="1_settings"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/settings.svg" id="3_settings"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="3_black"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf" id="4_xbold"]
 
-[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+content_margin_left = 26.0
+content_margin_top = 22.0
+content_margin_right = 26.0
+content_margin_bottom = 22.0
+bg_color = Color(0.063, 0.071, 0.094, 0.95)
+corner_radius_top_left = 24
+corner_detail = 1
 
-[node name="Settings" type="Control" unique_id=551390996]
-script = ExtResource("gen_script_0")
+[sub_resource type="StyleBoxFlat" id="RowStyle"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(0.11, 0.122, 0.153, 0.9)
+border_width_left = 3
+border_color = Color(1, 1, 1, 0.12)
+
+[node name="Settings" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+script = ExtResource("1_settings")
 
-[node name="Content" type="VBoxContainer" parent="." unique_id=55139001]
-layout_mode = 0
+[node name="Content" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = 48.0
-offset_right = -56.0
-offset_bottom = -56.0
+mouse_filter = 2
+
+[node name="Header" type="VBoxContainer" parent="Content"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 30.0
+offset_right = 250.0
+offset_bottom = 140.0
+mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="Eyebrow" type="Label" parent="Content" unique_id=55139002]
+[node name="Eyebrow" type="Label" parent="Content/Header"]
 layout_mode = 2
 theme_type_variation = &"SectionLabel"
-text = "OPTIONS"
+text = "OPTIONS  /  05"
 
-[node name="Header" type="HBoxContainer" parent="Content" unique_id=55139003]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Titles" type="VBoxContainer" parent="Content/Header" unique_id=55139004]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Title" type="Label" parent="Content/Header/Titles" unique_id=1918326655]
+[node name="Title" type="Label" parent="Content/Header"]
 layout_mode = 2
 theme_type_variation = &"TitleLabel"
 text = "SETTINGS"
 
-[node name="Subtitle" type="Label" parent="Content/Header/Titles" unique_id=55139005]
+[node name="Subtitle" type="Label" parent="Content/Header"]
 layout_mode = 2
 theme_type_variation = &"HintLabel"
-text = "Tune your aim, display and graphics. Settings are stored per player."
+text = "Saved per player."
 
-[node name="Back" type="Button" parent="Content/Header" unique_id=1608461083]
+[node name="Tabs" type="VBoxContainer" parent="Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 44)
-layout_mode = 2
-size_flags_vertical = 4
+layout_mode = 0
+offset_left = 40.0
+offset_top = 160.0
+offset_right = 230.0
+offset_bottom = 560.0
+theme_override_constants/separation = 6
+
+[node name="Back" type="Button" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -104.0
+offset_right = 230.0
+offset_bottom = -58.0
 focus_mode = 0
 theme_type_variation = &"GhostButton"
-text = "Back"
+text = "BACK"
 icon = ExtResource("2_back")
 
-[node name="Gap" type="Control" parent="Content" unique_id=55139006]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
+[node name="Panel" type="PanelContainer" parent="Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 270.0
+offset_top = 30.0
+offset_right = -40.0
+offset_bottom = -30.0
+theme_override_styles/panel = SubResource("PanelStyle")
 
-[node name="Body" type="HBoxContainer" parent="Content" unique_id=55139007]
+[node name="Rows" type="VBoxContainer" parent="Content/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Head" type="VBoxContainer" parent="Content/Panel/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PageTitle" type="Label" parent="Content/Panel/Rows/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_black")
+theme_override_font_sizes/font_size = 34
+text = "CONTROLS"
+
+[node name="PageHint" type="Label" parent="Content/Panel/Rows/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = ""
+
+[node name="Pages" type="Control" parent="Content/Panel/Rows"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 24
+mouse_filter = 2
 
-[node name="Card" type="PanelContainer" parent="Content/Body" unique_id=1650287695]
-custom_minimum_size = Vector2(720, 0)
+[node name="Controls" type="VBoxContainer" parent="Content/Panel/Rows/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 6
+
+[node name="SensitivityRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Controls"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"Card"
+theme_override_styles/panel = SubResource("RowStyle")
 
-[node name="Form" type="VBoxContainer" parent="Content/Body/Card" unique_id=1748927471]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="InputSection" type="Label" parent="Content/Body/Card/Form" unique_id=55139008]
-layout_mode = 2
-theme_type_variation = &"SectionLabel"
-text = "INPUT"
-
-[node name="SensitivityRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=1212541163]
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Controls/SensitivityRow"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Content/Body/Card/Form/SensitivityRow" unique_id=859174546]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Mouse sensitivity"
-
-[node name="Sensitivity" type="HSlider" parent="Content/Body/Card/Form/SensitivityRow" unique_id=488081341]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 28)
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Controls/SensitivityRow/Line"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Controls/SensitivityRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "MOUSE SENSITIVITY"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Controls/SensitivityRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "How fast the camera turns with the mouse."
+
+[node name="Box" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Controls/SensitivityRow/Line"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 14
+
+[node name="Sensitivity" type="HSlider" parent="Content/Panel/Rows/Pages/Controls/SensitivityRow/Line/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
 min_value = 0.05
 max_value = 1.0
 step = 0.01
-value = 0.05
 
-[node name="SensitivityValue" type="Label" parent="Content/Body/Card/Form/SensitivityRow" unique_id=55139009]
+[node name="SensitivityValue" type="Label" parent="Content/Panel/Rows/Pages/Controls/SensitivityRow/Line/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"HudLabel"
-text = "0.25"
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 22
+text = "0"
 horizontal_alignment = 2
 
-[node name="FovRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=416065841]
+[node name="FovRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Controls"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Controls/FovRow"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Content/Body/Card/Form/FovRow" unique_id=1938713374]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Field of view"
-
-[node name="Fov" type="HSlider" parent="Content/Body/Card/Form/FovRow" unique_id=1346461059]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 28)
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Controls/FovRow/Line"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Controls/FovRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "FIELD OF VIEW"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Controls/FovRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Wider shows more around you; narrower looks closer."
+
+[node name="Box" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Controls/FovRow/Line"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 14
+
+[node name="Fov" type="HSlider" parent="Content/Panel/Rows/Pages/Controls/FovRow/Line/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
 min_value = 60.0
 max_value = 110.0
-value = 60.0
+step = 1.0
 
-[node name="FovValue" type="Label" parent="Content/Body/Card/Form/FovRow" unique_id=55139010]
+[node name="FovValue" type="Label" parent="Content/Panel/Rows/Pages/Controls/FovRow/Line/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"HudLabel"
-text = "80°"
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 22
+text = "0"
 horizontal_alignment = 2
 
-[node name="Sep1" type="HSeparator" parent="Content/Body/Card/Form" unique_id=55139011]
+[node name="ShakeRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Controls"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
 
-[node name="DisplaySection" type="Label" parent="Content/Body/Card/Form" unique_id=55139012]
-layout_mode = 2
-theme_type_variation = &"SectionLabel"
-text = "DISPLAY"
-
-[node name="VolumeRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=1318567360]
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Controls/ShakeRow"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Content/Body/Card/Form/VolumeRow" unique_id=1178996242]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Master volume"
-
-[node name="Volume" type="HSlider" parent="Content/Body/Card/Form/VolumeRow" unique_id=2096530693]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 28)
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Controls/ShakeRow/Line"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-max_value = 1.0
-step = 0.01
+theme_override_constants/separation = 0
 
-[node name="VolumeValue" type="Label" parent="Content/Body/Card/Form/VolumeRow" unique_id=55139013]
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Controls/ShakeRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "SCREEN SHAKE"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Controls/ShakeRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Camera kick from shots and explosions."
+
+[node name="ScreenShake" type="CheckBox" parent="Content/Panel/Rows/Pages/Controls/ShakeRow/Line"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_vertical = 4
-theme_type_variation = &"HudLabel"
-text = "80%"
-horizontal_alignment = 2
-
-[node name="FullscreenRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=826757449]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="Content/Body/Card/Form/FullscreenRow" unique_id=889582908]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Fullscreen"
-
-[node name="Fullscreen" type="CheckBox" parent="Content/Body/Card/Form/FullscreenRow" unique_id=905453242]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="Sep2" type="HSeparator" parent="Content/Body/Card/Form" unique_id=55139014]
-layout_mode = 2
-
-[node name="GraphicsSection" type="Label" parent="Content/Body/Card/Form" unique_id=55139015]
-layout_mode = 2
-theme_type_variation = &"SectionLabel"
-text = "GRAPHICS"
-
-[node name="QualityRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=262333244]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="Content/Body/Card/Form/QualityRow" unique_id=991086081]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Graphics quality"
-
-[node name="Quality" type="OptionButton" parent="Content/Body/Card/Form/QualityRow" unique_id=2104757244]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 46)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ShowFpsRow" type="HBoxContainer" parent="Content/Body/Card/Form" unique_id=811542340]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="Content/Body/Card/Form/ShowFpsRow" unique_id=968692121]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Show FPS"
-
-[node name="ShowFps" type="CheckBox" parent="Content/Body/Card/Form/ShowFpsRow" unique_id=1914769314]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="Spacer" type="Control" parent="Content/Body/Card/Form" unique_id=55139016]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Save" type="Button" parent="Content/Body/Card/Form" unique_id=33374303]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"PrimaryButton"
-text = "Save settings"
 
-[node name="Side" type="VBoxContainer" parent="Content/Body" unique_id=55139026]
-custom_minimum_size = Vector2(390, 0)
+[node name="Display" type="VBoxContainer" parent="Content/Panel/Rows/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 6
+
+[node name="FullscreenRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Display"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Display/FullscreenRow"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="AdvancedCard" type="PanelContainer" parent="Content/Body/Side" unique_id=55139027]
-layout_mode = 2
-theme_type_variation = &"SubCard"
-
-[node name="Box" type="VBoxContainer" parent="Content/Body/Side/AdvancedCard" unique_id=55139028]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Header" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139045]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Icon" type="TextureRect" parent="Content/Body/Side/AdvancedCard/Box/Header" unique_id=55139046]
-script = ExtResource("9_animicon")
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("3_settings")
-expand_mode = 1
-stretch_mode = 5
-modulate = Color(0.96, 0.65, 0.14, 1)
-pulse_amount = 0.06
-
-[node name="Section" type="Label" parent="Content/Body/Side/AdvancedCard/Box/Header" unique_id=55139029]
-layout_mode = 2
-theme_type_variation = &"SectionLabel"
-text = "ADVANCED"
-
-[node name="Hint" type="Label" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139030]
-layout_mode = 2
-theme_type_variation = &"HintLabel"
-text = "Fine-tune the renderer and feedback. Applied when you save."
-autowrap_mode = 2
-
-[node name="VsyncRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139031]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/VsyncRow" unique_id=55139032]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Vertical sync"
-
-[node name="Vsync" type="CheckBox" parent="Content/Body/Side/AdvancedCard/Box/VsyncRow" unique_id=55139033]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="FpsLimitRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139034]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/FpsLimitRow" unique_id=55139035]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Frame limit"
-
-[node name="FpsLimit" type="OptionButton" parent="Content/Body/Side/AdvancedCard/Box/FpsLimitRow" unique_id=55139036]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="RenderScaleRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139037]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/RenderScaleRow" unique_id=55139038]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Render scale"
-
-[node name="RenderScale" type="HSlider" parent="Content/Body/Side/AdvancedCard/Box/RenderScaleRow" unique_id=55139039]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 24)
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Display/FullscreenRow/Line"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-min_value = 50.0
-max_value = 100.0
-step = 5.0
-value = 100.0
+theme_override_constants/separation = 0
 
-[node name="RenderScaleValue" type="Label" parent="Content/Body/Side/AdvancedCard/Box/RenderScaleRow" unique_id=55139040]
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Display/FullscreenRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "FULLSCREEN"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Display/FullscreenRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Use the whole screen."
+
+[node name="Fullscreen" type="CheckBox" parent="Content/Panel/Rows/Pages/Display/FullscreenRow/Line"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(54, 0)
 layout_mode = 2
 size_flags_vertical = 4
-theme_type_variation = &"HudLabel"
-text = "100%"
-horizontal_alignment = 2
+focus_mode = 0
 
-[node name="BrightnessRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139047]
+[node name="VsyncRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Display"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_styles/panel = SubResource("RowStyle")
 
-[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/BrightnessRow" unique_id=55139048]
-custom_minimum_size = Vector2(150, 0)
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Display/VsyncRow"]
 layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Brightness"
+theme_override_constants/separation = 16
 
-[node name="Brightness" type="HSlider" parent="Content/Body/Side/AdvancedCard/Box/BrightnessRow" unique_id=55139049]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 24)
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Display/VsyncRow/Line"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Display/VsyncRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "VERTICAL SYNC"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Display/VsyncRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "No tearing, a little more input delay."
+
+[node name="Vsync" type="CheckBox" parent="Content/Panel/Rows/Pages/Display/VsyncRow/Line"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="FpsLimitRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Display"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Display/FpsLimitRow"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Display/FpsLimitRow/Line"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Display/FpsLimitRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "FRAME LIMIT"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Display/FpsLimitRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Caps the frame rate to save power."
+
+[node name="FpsLimit" type="OptionButton" parent="Content/Panel/Rows/Pages/Display/FpsLimitRow/Line"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 42)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="BrightnessRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Display"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Display/BrightnessRow"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Display/BrightnessRow/Line"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Display/BrightnessRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "BRIGHTNESS"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Display/BrightnessRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Overall image brightness."
+
+[node name="Box" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Display/BrightnessRow/Line"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 14
+
+[node name="Brightness" type="HSlider" parent="Content/Panel/Rows/Pages/Display/BrightnessRow/Line/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
 min_value = 80.0
 max_value = 125.0
 step = 5.0
-value = 105.0
 
-[node name="BrightnessValue" type="Label" parent="Content/Body/Side/AdvancedCard/Box/BrightnessRow" unique_id=55139050]
+[node name="BrightnessValue" type="Label" parent="Content/Panel/Rows/Pages/Display/BrightnessRow/Line/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(54, 0)
+custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"HudLabel"
-text = "105%"
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 22
+text = "0"
 horizontal_alignment = 2
 
-[node name="ShakeRow" type="HBoxContainer" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139041]
+[node name="ShowFpsRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Display"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_styles/panel = SubResource("RowStyle")
 
-[node name="Label" type="Label" parent="Content/Body/Side/AdvancedCard/Box/ShakeRow" unique_id=55139042]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Screen shake"
-
-[node name="ScreenShake" type="CheckBox" parent="Content/Body/Side/AdvancedCard/Box/ShakeRow" unique_id=55139043]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="Foot" type="Label" parent="Content/Body/Side/AdvancedCard/Box" unique_id=55139044]
-layout_mode = 2
-theme_type_variation = &"Caption"
-text = "RENDER SCALE MULTIPLIES THE QUALITY PRESET"
-autowrap_mode = 2
-
-[node name="MobileCard" type="PanelContainer" parent="Content/Body/Side" unique_id=55139061]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_type_variation = &"SubCard"
-
-[node name="MobileOptions" type="VBoxContainer" parent="Content/Body/Side/MobileCard" unique_id=55139051]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Section" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions" unique_id=55139052]
-layout_mode = 2
-theme_type_variation = &"SectionLabel"
-text = "MOBILE"
-
-[node name="TouchStickRow" type="HBoxContainer" parent="Content/Body/Side/MobileCard/MobileOptions" unique_id=55139053]
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Display/ShowFpsRow"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/TouchStickRow" unique_id=55139054]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Movement stick"
-
-[node name="TouchStick" type="HSlider" parent="Content/Body/Side/MobileCard/MobileOptions/TouchStickRow" unique_id=55139055]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 24)
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Display/ShowFpsRow/Line"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Display/ShowFpsRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "SHOW FPS"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Display/ShowFpsRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Frame counter in the corner during a match."
+
+[node name="ShowFps" type="CheckBox" parent="Content/Panel/Rows/Pages/Display/ShowFpsRow/Line"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="Graphics" type="VBoxContainer" parent="Content/Panel/Rows/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 6
+
+[node name="QualityRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Graphics"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Graphics/QualityRow"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Graphics/QualityRow/Line"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Graphics/QualityRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "GRAPHICS QUALITY"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Graphics/QualityRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "3D resolution, shadows and draw distance."
+
+[node name="Quality" type="OptionButton" parent="Content/Panel/Rows/Pages/Graphics/QualityRow/Line"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 42)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="RenderScaleRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Graphics"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Graphics/RenderScaleRow"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Graphics/RenderScaleRow/Line"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Graphics/RenderScaleRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "RENDER SCALE"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Graphics/RenderScaleRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Multiplies the quality preset resolution."
+
+[node name="Box" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Graphics/RenderScaleRow/Line"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 14
+
+[node name="RenderScale" type="HSlider" parent="Content/Panel/Rows/Pages/Graphics/RenderScaleRow/Line/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 50.0
+max_value = 100.0
+step = 5.0
+
+[node name="RenderScaleValue" type="Label" parent="Content/Panel/Rows/Pages/Graphics/RenderScaleRow/Line/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 22
+text = "0"
+horizontal_alignment = 2
+
+[node name="Info" type="Label" parent="Content/Panel/Rows/Pages/Graphics"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Use Low on integrated graphics or very old laptops."
+autowrap_mode = 2
+
+[node name="Audio" type="VBoxContainer" parent="Content/Panel/Rows/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 6
+
+[node name="VolumeRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Audio"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Audio/VolumeRow"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Audio/VolumeRow/Line"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Audio/VolumeRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "MASTER VOLUME"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Audio/VolumeRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Every sound in the game."
+
+[node name="Box" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Audio/VolumeRow/Line"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 14
+
+[node name="Volume" type="HSlider" parent="Content/Panel/Rows/Pages/Audio/VolumeRow/Line/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+
+[node name="VolumeValue" type="Label" parent="Content/Panel/Rows/Pages/Audio/VolumeRow/Line/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 22
+text = "0"
+horizontal_alignment = 2
+
+[node name="Mobile" type="VBoxContainer" parent="Content/Panel/Rows/Pages"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 6
+
+[node name="TouchStickRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Mobile"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Mobile/TouchStickRow"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Mobile/TouchStickRow/Line"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Mobile/TouchStickRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "JOYSTICK SIZE"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Mobile/TouchStickRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Size of the on-screen movement stick."
+
+[node name="Box" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Mobile/TouchStickRow/Line"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 14
+
+[node name="TouchStick" type="HSlider" parent="Content/Panel/Rows/Pages/Mobile/TouchStickRow/Line/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
 min_value = 80.0
 max_value = 200.0
 step = 5.0
-value = 135.0
 
-[node name="TouchStickValue" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/TouchStickRow" unique_id=55139056]
+[node name="TouchStickValue" type="Label" parent="Content/Panel/Rows/Pages/Mobile/TouchStickRow/Line/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"HudLabel"
-text = "135%"
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 22
+text = "0"
 horizontal_alignment = 2
 
-[node name="TouchOpacityRow" type="HBoxContainer" parent="Content/Body/Side/MobileCard/MobileOptions" unique_id=55139057]
+[node name="TouchOpacityRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Mobile"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Mobile/TouchOpacityRow"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/TouchOpacityRow" unique_id=55139058]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Touch opacity"
-
-[node name="TouchOpacity" type="HSlider" parent="Content/Body/Side/MobileCard/MobileOptions/TouchOpacityRow" unique_id=55139059]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 24)
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Mobile/TouchOpacityRow/Line"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Mobile/TouchOpacityRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "CONTROLS OPACITY"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Mobile/TouchOpacityRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "How visible the touch buttons are."
+
+[node name="Box" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Mobile/TouchOpacityRow/Line"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 14
+
+[node name="TouchOpacity" type="HSlider" parent="Content/Panel/Rows/Pages/Mobile/TouchOpacityRow/Line/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
 min_value = 40.0
 max_value = 100.0
 step = 5.0
-value = 100.0
 
-[node name="TouchOpacityValue" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/TouchOpacityRow" unique_id=55139060]
+[node name="TouchOpacityValue" type="Label" parent="Content/Panel/Rows/Pages/Mobile/TouchOpacityRow/Line/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"HudLabel"
-text = "100%"
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 22
+text = "0"
 horizontal_alignment = 2
 
-[node name="AimAssistRow" type="HBoxContainer" parent="Content/Body/Side/MobileCard/MobileOptions" unique_id=55139062]
+[node name="AimAssistRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Mobile"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Mobile/AimAssistRow"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Content/Body/Side/MobileCard/MobileOptions/AimAssistRow" unique_id=55139063]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"FieldLabel"
-text = "Aim assist"
-
-[node name="AimAssist" type="OptionButton" parent="Content/Body/Side/MobileCard/MobileOptions/AimAssistRow" unique_id=55139064]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 38)
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Mobile/AimAssistRow/Line"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_override_constants/separation = 0
 
-[node name="Info" type="PanelContainer" parent="Content/Body/Side" unique_id=55139017]
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Mobile/AimAssistRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "AIM ASSIST"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Mobile/AimAssistRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Helps keep the crosshair on targets."
+
+[node name="AimAssist" type="OptionButton" parent="Content/Panel/Rows/Pages/Mobile/AimAssistRow/Line"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 42)
 layout_mode = 2
-theme_type_variation = &"SubCard"
+size_flags_vertical = 4
+focus_mode = 0
 
-[node name="Box" type="VBoxContainer" parent="Content/Body/Side/Info" unique_id=55139018]
+[node name="Buttons" type="HBoxContainer" parent="Content/Panel/Rows"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 10
 
-[node name="Title" type="Label" parent="Content/Body/Side/Info/Box" unique_id=55139020]
+[node name="Discard" type="Button" parent="Content/Panel/Rows/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_type_variation = &"Caption"
-text = "PERFORMANCE NOTE"
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"GhostButton"
+text = "DISCARD"
 
-[node name="Text" type="Label" parent="Content/Body/Side/Info/Box" unique_id=55139021]
+[node name="Save" type="Button" parent="Content/Panel/Rows/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_type_variation = &"HintLabel"
-text = "Quality presets change 3D resolution, shadows and draw distance. Use Low on integrated graphics or very old laptops."
-autowrap_mode = 2
-
-[node name="Fps" type="Label" parent="Content/Body/Side/Info/Box" unique_id=55139023]
-layout_mode = 2
-theme_type_variation = &"Caption"
-text = "SHOW FPS ADDS A FRAME COUNTER"
-autowrap_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+focus_mode = 0
+theme_type_variation = &"PrimaryButton"
+text = "SAVE SETTINGS"

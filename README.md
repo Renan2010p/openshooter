@@ -108,7 +108,7 @@ game modes.
 - **Up to 12 players** per server, plus up to **8 bots** for offline play.
 - **4 large maps**: a handcrafted core plus a themed outer district (about
   150 × 150 m) with extra streets, buildings, rooftops and cover.
-- **5 game modes** with map/mode voting between rounds.
+- **5 game modes**; each server keeps its mode and players vote for the next map between rounds.
 - **9 weapons and equipment items**, each with its own data sheet that can be
   edited in the Inspector.
 - **Procedural character animation**: walking, sprinting, crouching, jumping,
@@ -272,9 +272,12 @@ match duration and player slots.
 
 ### Between rounds
 
-Every match begins with a **vote** for the next map and game mode. You can walk
-around during voting, but weapons are disabled. If every human player votes,
-the countdown is shortened automatically. Ties are broken randomly.
+Between matches everyone **votes for the next map**. The game mode is the
+server's (picked when it was created) and stays the same, so a server always
+shows up under the same mode in the server list. You can walk around during
+voting, but weapons are disabled. If every human player votes, the countdown is
+shortened automatically. Ties are broken randomly; with no votes, a different
+map is picked.
 
 ### In a match
 

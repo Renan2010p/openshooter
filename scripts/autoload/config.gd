@@ -157,7 +157,8 @@ func apply_quality(sun: DirectionalLight3D, env: Environment, vp: Viewport) -> v
 ## Data sent to the server when joining a match.
 func profile() -> Dictionary:
 	return {"name": player_name.substr(0, 20), "shirt": shirt, "pants": pants, "skin": skin,
-		"hair": hair, "look": look, "version": Net.GAME_VERSION}
+		"hair": hair, "look": look, "version": Net.GAME_VERSION,
+		"xp_level": int(Progression.level_info(xp).level)}
 
 
 func add_stat(key: String, amount := 1) -> void:
@@ -171,6 +172,7 @@ func award_match_xp(kills: int, won: bool) -> void:
 	reward["level_before"] = Progression.level_info(xp).level
 	xp += int(reward.total)
 	reward["level_after"] = Progression.level_info(xp).level
+	reward["won"] = won
 	last_reward = reward
 	save_cfg()
 

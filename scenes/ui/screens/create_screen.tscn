@@ -41,6 +41,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
 [node name="Title" type="Label" parent="Content/Header/Titles" unique_id=2017398056]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TitleLabel"
 text = "CREATE SERVER"
@@ -101,6 +102,23 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="ModeRow" type="HBoxContainer" parent="Content/Body/FormCard/Form"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Content/Body/FormCard/Form/ModeRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"FieldLabel"
+text = "Mode"
+
+[node name="Mode" type="OptionButton" parent="Content/Body/FormCard/Form/ModeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="MapRow" type="HBoxContainer" parent="Content/Body/FormCard/Form" unique_id=1540711010]
 layout_mode = 2
 theme_override_constants/separation = 16
@@ -117,12 +135,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="ModeLabel" type="Label" parent="Content/Body/FormCard/Form"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"FieldLabel"
-text = "Mode: Normal"
 
 [node name="MapDescription" type="Label" parent="Content/Body/FormCard/Form" unique_id=1540711013]
 unique_name_in_owner = true

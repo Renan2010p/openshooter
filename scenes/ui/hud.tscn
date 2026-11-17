@@ -11,6 +11,13 @@
 [ext_resource type="Shader" path="res://shaders/ui_gradient.gdshader" id="4_grad"]
 [ext_resource type="PackedScene" path="res://scenes/ui/touch_controls.tscn" id="6_touch"]
 
+[ext_resource type="Script" path="res://scripts/ui/segment_bar.gd" id="seg_bar"]
+[ext_resource type="Script" path="res://scripts/ui/countdown_ring.gd" id="ring"]
+[ext_resource type="Texture2D" path="res://assets/ui/patterns/hazard.svg" id="hazard"]
+[ext_resource type="FontFile" path="res://assets/fonts/Barlow-Bold.ttf" id="f_bold"]
+[ext_resource type="FontFile" path="res://assets/fonts/Barlow-SemiBold.ttf" id="f_semibold"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf" id="f_xbold"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="f_black"]
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8qguk"]
 shader = ExtResource("1_hqnrr")
 shader_parameter/aspect = null
@@ -28,10 +35,45 @@ shader = ExtResource("4_grad")
 shader_parameter/color = Color(0.008, 0.012, 0.018, 1)
 shader_parameter/horizontal = false
 shader_parameter/invert = true
-shader_parameter/start = 0.55
-shader_parameter/end = 0.98
-shader_parameter/max_alpha = 0.5
+shader_parameter/start = 0.0
+shader_parameter/end = 0.236
+shader_parameter/max_alpha = 0.6
 shader_parameter/curve = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hudtop"]
+shader = ExtResource("4_grad")
+shader_parameter/color = Color(0.043, 0.047, 0.063, 1)
+shader_parameter/horizontal = false
+shader_parameter/invert = false
+shader_parameter/start = 0.0
+shader_parameter/end = 1.0
+shader_parameter/max_alpha = 0.55
+shader_parameter/curve = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_deathvig"]
+shader = ExtResource("3_vig")
+shader_parameter/color = Color(0.63, 0.04, 0.08, 1)
+shader_parameter/strength = 0.85
+shader_parameter/softness = 0.55
+
+[sub_resource type="StyleBoxFlat" id="KeyChip"]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.949, 0.945, 0.925, 1)
+
+[sub_resource type="StyleBoxFlat" id="KillerCard"]
+content_margin_left = 22.0
+content_margin_top = 18.0
+content_margin_right = 22.0
+content_margin_bottom = 18.0
+bg_color = Color(0.043, 0.047, 0.063, 0.9)
+corner_radius_top_left = 18
+corner_radius_bottom_right = 18
+corner_detail = 1
+
+[sub_resource type="StyleBoxEmpty" id="EmptyStyle"]
 
 [node name="HUD" type="CanvasLayer" unique_id=42742378]
 script = ExtResource("gen_script_0")
@@ -50,6 +92,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+visible = false
 
 [node name="BottomFade" type="ColorRect" parent="Root" unique_id=42742401]
 material = SubResource("ShaderMaterial_hudfade")
@@ -122,93 +165,177 @@ theme_override_colors/font_color = Color(1, 0.2, 0.2, 1)
 text = "◆"
 horizontal_alignment = 1
 
-[node name="TopBar" type="PanelContainer" parent="Root" unique_id=1846878670]
-custom_minimum_size = Vector2(560, 0)
+[node name="TopFade" type="ColorRect" parent="Root"]
+material = SubResource("ShaderMaterial_hudtop")
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 130.0
+mouse_filter = 2
+
+[node name="TopBar" type="VBoxContainer" parent="Root"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -280.0
-offset_top = 12.0
-offset_right = 280.0
-offset_bottom = 124.0
+offset_left = -320.0
+offset_top = 14.0
+offset_right = 320.0
+offset_bottom = 120.0
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Clock" type="HBoxContainer" parent="Root/TopBar"]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ModePlate" type="PanelContainer" parent="Root/TopBar/Clock"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
 theme_type_variation = &"TopBarPanel"
 
-[node name="Box" type="VBoxContainer" parent="Root/TopBar" unique_id=1846878671]
+[node name="Box" type="VBoxContainer" parent="Root/TopBar/Clock/ModePlate"]
 layout_mode = 2
-theme_override_constants/separation = 1
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="Timer" type="Control" parent="Root/TopBar/Box" unique_id=705072062]
+[node name="ModeLabel" type="Label" parent="Root/TopBar/Clock/ModePlate/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 10
+text = "NORMAL"
+horizontal_alignment = 2
+
+[node name="MapLabel" type="Label" parent="Root/TopBar/Clock/ModePlate/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.769, 0.788, 0.824, 1)
+theme_override_fonts/font = ExtResource("f_semibold")
+theme_override_font_sizes/font_size = 12
+text = "Map"
+horizontal_alignment = 2
+
+[node name="ClockPlate" type="PanelContainer" parent="Root/TopBar/Clock"]
+layout_mode = 2
+theme_type_variation = &"ClockPlate"
+
+[node name="Timer" type="Control" parent="Root/TopBar/Clock/ClockPlate"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(104, 50)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("5_anim")
 font_variation = &"HudBig"
-font_size = 34
+font_size = 40
 initial_text = "05:00"
 horizontal_alignment = 1
 
-[node name="TimeBar" type="ProgressBar" parent="Root/TopBar/Box" unique_id=1303181058]
+[node name="RankPlate" type="PanelContainer" parent="Root/TopBar/Clock"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_type_variation = &"TopBarPanel"
+
+[node name="Box" type="VBoxContainer" parent="Root/TopBar/Clock/RankPlate"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Caption" type="Label" parent="Root/TopBar/Clock/RankPlate/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 10
+text = "YOUR RANK"
+
+[node name="RankLabel" type="Label" parent="Root/TopBar/Clock/RankPlate/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 4)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_xbold")
+theme_override_font_sizes/font_size = 18
+text = "#1 · 0 ELIMS"
+
+[node name="TimeBar" type="ProgressBar" parent="Root/TopBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 4)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"TimeBar"
 value = 100.0
 show_percentage = false
 
-[node name="ModeLabel" type="Label" parent="Root/TopBar/Box" unique_id=42742402]
-unique_name_in_owner = true
+[node name="Leaders" type="HBoxContainer" parent="Root/TopBar"]
 layout_mode = 2
 mouse_filter = 2
-theme_type_variation = &"HudSmall"
-text = "Mode"
-horizontal_alignment = 1
-
-[node name="Leaders" type="HBoxContainer" parent="Root/TopBar/Box" unique_id=2019645140]
-layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 alignment = 1
 
-[node name="First" type="Label" parent="Root/TopBar/Box/Leaders" unique_id=710707026]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(170, 0)
+[node name="FirstChip" type="PanelContainer" parent="Root/TopBar/Leaders"]
 layout_mode = 2
-theme_type_variation = &"Gold"
-text = "Nobody"
-horizontal_alignment = 1
+theme_type_variation = &"LeaderChipFirst"
 
-[node name="Second" type="Label" parent="Root/TopBar/Box/Leaders" unique_id=836823945]
+[node name="First" type="Label" parent="Root/TopBar/Leaders/FirstChip"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
-theme_type_variation = &"Silver"
-text = "Nobody"
-horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 12
+text = "1  NOBODY"
 
-[node name="Third" type="Label" parent="Root/TopBar/Box/Leaders" unique_id=2005398275]
+[node name="SecondChip" type="PanelContainer" parent="Root/TopBar/Leaders"]
+layout_mode = 2
+theme_type_variation = &"LeaderChip"
+
+[node name="Second" type="Label" parent="Root/TopBar/Leaders/SecondChip"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
-theme_type_variation = &"Bronze"
-text = "Nobody"
-horizontal_alignment = 1
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 12
+text = "2  NOBODY"
 
-[node name="KillFeed" type="VBoxContainer" parent="Root" unique_id=27992968]
+[node name="ThirdChip" type="PanelContainer" parent="Root/TopBar/Leaders"]
+layout_mode = 2
+theme_type_variation = &"LeaderChip"
+
+[node name="Third" type="Label" parent="Root/TopBar/Leaders/ThirdChip"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 12
+text = "3  NOBODY"
+
+[node name="MobileChip" type="PanelContainer" parent="Root/TopBar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"InfoChip"
+
+[node name="MobileInfo" type="Label" parent="Root/TopBar/MobileChip"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+text = "#1 · 0 ELIMS"
+
+[node name="KillFeed" type="VBoxContainer" parent="Root"]
 unique_name_in_owner = true
 layout_mode = 1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -440.0
-offset_top = 136.0
-offset_right = -20.0
-offset_bottom = 380.0
+offset_left = -460.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = 260.0
 mouse_filter = 2
-theme_override_constants/separation = 4
-alignment = 0
+theme_override_constants/separation = 6
 
-[node name="FpsLabel" type="Label" parent="Root" unique_id=1804465531]
+[node name="FpsLabel" type="Label" parent="Root"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 18.0
@@ -219,53 +346,70 @@ theme_type_variation = &"HudSmall"
 theme_override_colors/font_color = Color(0.6, 1, 0.6, 1)
 text = "60 FPS"
 
-[node name="BottomLeft" type="VBoxContainer" parent="Root" unique_id=23423200]
+[node name="BottomLeft" type="VBoxContainer" parent="Root"]
 layout_mode = 1
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = -104.0
-offset_right = 320.0
-offset_bottom = -20.0
-theme_override_constants/separation = 4
+offset_left = 26.0
+offset_top = -120.0
+offset_right = 400.0
+offset_bottom = -26.0
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 2
 
-[node name="HealthHeader" type="HBoxContainer" parent="Root/BottomLeft" unique_id=42742403]
+[node name="HealthHeader" type="HBoxContainer" parent="Root/BottomLeft"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 8
 
-[node name="Label" type="Label" parent="Root/BottomLeft/HealthHeader" unique_id=42742404]
+[node name="Plus" type="Label" parent="Root/BottomLeft/HealthHeader"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"HudSmall"
-text = "HEALTH"
-vertical_alignment = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("f_black")
+theme_override_font_sizes/font_size = 36
+text = "+"
 
-[node name="HealthValue" type="Control" parent="Root/BottomLeft/HealthHeader" unique_id=42742405]
+[node name="HealthValue" type="Control" parent="Root/BottomLeft/HealthHeader"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 24)
+custom_minimum_size = Vector2(80, 44)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("5_anim")
-font_variation = &"HudAccent"
-font_size = 20
+font_variation = &"HudBig"
+fit_width = true
+font_size = 54
 initial_text = "100"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
-[node name="HealthBar" type="ProgressBar" parent="Root/BottomLeft" unique_id=716557061]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 12)
+[node name="Label" type="Label" parent="Root/BottomLeft/HealthHeader"]
 layout_mode = 2
-theme_type_variation = &"HealthBar"
-value = 100.0
-show_percentage = false
+size_flags_vertical = 8
+theme_override_constants/line_spacing = 0
+theme_override_colors/font_color = Color(0.769, 0.788, 0.824, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 12
+text = "HP"
 
-[node name="ServerInfo" type="Label" parent="Root/BottomLeft" unique_id=1190836414]
+[node name="HealthBar" type="Control" parent="Root/BottomLeft"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+script = ExtResource("seg_bar")
+
+[node name="ServerInfo" type="Label" parent="Root/BottomLeft"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"HudSmall"
-text = "Server • Normal"
+theme_override_colors/font_color = Color(0.769, 0.788, 0.824, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+text = "PLAYER · LV 1"
 
-[node name="Hotbar" type="HBoxContainer" parent="Root" unique_id=1773507536]
+[node name="Hotbar" type="HBoxContainer" parent="Root"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -273,90 +417,359 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -320.0
-offset_top = -72.0
-offset_right = 320.0
-offset_bottom = -18.0
+offset_left = -340.0
+offset_top = -84.0
+offset_right = 340.0
+offset_bottom = -22.0
 mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 5
 alignment = 1
 
-[node name="AmmoBox" type="VBoxContainer" parent="Root" unique_id=523654618]
+[node name="AmmoBox" type="VBoxContainer" parent="Root"]
 layout_mode = 1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -320.0
-offset_top = -116.0
-offset_right = -24.0
-offset_bottom = -20.0
-theme_override_constants/separation = 0
+offset_left = -360.0
+offset_top = -140.0
+offset_right = -26.0
+offset_bottom = -24.0
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 2
 
-[node name="WeaponName" type="Label" parent="Root/AmmoBox" unique_id=1977009037]
+[node name="WeaponRow" type="HBoxContainer" parent="Root/AmmoBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="WeaponIcon" type="TextureRect" parent="Root/AmmoBox/WeaponRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 30)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponName" type="Label" parent="Root/AmmoBox/WeaponRow"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"HudLabel"
+theme_override_colors/font_color = Color(0.769, 0.788, 0.824, 1)
+theme_override_fonts/font = ExtResource("f_xbold")
+theme_override_font_sizes/font_size = 22
 text = "AK-47"
-horizontal_alignment = 2
 
-[node name="AmmoRow" type="HBoxContainer" parent="Root/AmmoBox" unique_id=42742406]
+[node name="AmmoRow" type="HBoxContainer" parent="Root/AmmoBox"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="Ammo" type="Control" parent="Root/AmmoBox/AmmoRow" unique_id=2081600093]
+[node name="Ammo" type="Control" parent="Root/AmmoBox/AmmoRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(112, 62)
+custom_minimum_size = Vector2(100, 52)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("5_anim")
 font_variation = &"HudBig"
-font_size = 54
+font_size = 64
 initial_text = "30"
 horizontal_alignment = 2
 
-[node name="AmmoReserve" type="Label" parent="Root/AmmoBox/AmmoRow" unique_id=42742407]
+[node name="AmmoReserve" type="Label" parent="Root/AmmoBox/AmmoRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 size_flags_vertical = 8
-theme_type_variation = &"HudSmall"
+theme_override_colors/font_color = Color(0.769, 0.788, 0.824, 1)
+theme_override_fonts/font = ExtResource("f_xbold")
+theme_override_font_sizes/font_size = 22
 text = "/ 90"
-vertical_alignment = 2
 
-[node name="ReloadHint" type="Label" parent="Root/AmmoBox" unique_id=42742408]
+[node name="AmmoBar" type="ProgressBar" parent="Root/AmmoBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 4)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"TimeBar"
+value = 100.0
+show_percentage = false
+
+[node name="ReloadRow" type="HBoxContainer" parent="Root/AmmoBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="Key" type="Label" parent="Root/AmmoBox/ReloadRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("KeyChip")
+text = "R"
+
+[node name="ReloadHint" type="Label" parent="Root/AmmoBox/ReloadRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+text = "RELOAD"
+
+[node name="DeathScreen" type="Control" parent="Root"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Dim" type="ColorRect" parent="Root/DeathScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.02, 0.02, 0.03, 0.45)
+
+[node name="RedEdge" type="ColorRect" parent="Root/DeathScreen"]
+material = SubResource("ShaderMaterial_deathvig")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Band" type="Control" parent="Root/DeathScreen"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_top = 0.29
+anchor_right = 1.0
+anchor_bottom = 0.29
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 130.0
+rotation = -0.0524
+mouse_filter = 2
+
+[node name="Red" type="ColorRect" parent="Root/DeathScreen/Band"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -10.0
+mouse_filter = 2
+color = Color(0.588, 0.055, 0.094, 0.92)
+
+[node name="Stripes" type="TextureRect" parent="Root/DeathScreen/Band"]
+modulate = Color(0.8, 0.12, 0.2, 1)
+texture_repeat = 2
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -10.0
+mouse_filter = 2
+texture = ExtResource("hazard")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Text" type="VBoxContainer" parent="Root/DeathScreen/Band"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -10.0
+mouse_filter = 2
+theme_override_constants/separation = -8
+alignment = 1
+
+[node name="Small" type="Label" parent="Root/DeathScreen/Band/Text"]
 layout_mode = 2
-theme_type_variation = &"Caption"
-theme_override_colors/font_color = Color(0.96, 0.65, 0.14, 1)
-text = "RELOADING"
-horizontal_alignment = 2
+theme_override_colors/font_color = Color(1, 0.851, 0.824, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 13
+text = "Y O U   W E R E"
+horizontal_alignment = 1
 
-[node name="DeathLabel" type="Label" parent="Root" unique_id=1969440607]
-unique_name_in_owner = true
+[node name="Big" type="Label" parent="Root/DeathScreen/Band/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_black")
+theme_override_font_sizes/font_size = 92
+text = "ELIMINATED"
+horizontal_alignment = 1
+
+[node name="Killer" type="PanelContainer" parent="Root/DeathScreen"]
 layout_mode = 1
-anchor_top = 0.42
-anchor_right = 1.0
-anchor_bottom = 0.42
-offset_top = -60.0
-offset_bottom = 60.0
-theme_type_variation = &"HudBig"
+anchors_preset = 5
+anchor_left = 0.5
+anchor_top = 0.528
+anchor_right = 0.5
+anchor_bottom = 0.528
+offset_left = -230.0
+offset_right = 230.0
+offset_bottom = 100.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("KillerCard")
+
+[node name="Row" type="HBoxContainer" parent="Root/DeathScreen/Killer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="DeathWeapon" type="TextureRect" parent="Root/DeathScreen/Killer/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 64)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Root/DeathScreen/Killer/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="By" type="Label" parent="Root/DeathScreen/Killer/Row/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+text = "BY"
+
+[node name="DeathBy" type="Label" parent="Root/DeathScreen/Killer/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_black")
+theme_override_font_sizes/font_size = 34
+text = "BOT JOE"
+clip_text = true
+
+[node name="DeathDetail" type="Label" parent="Root/DeathScreen/Killer/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("f_semibold")
+theme_override_font_sizes/font_size = 14
+text = "Sniper · Headshot"
+
+[node name="Respawn" type="HBoxContainer" parent="Root/DeathScreen"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_top = 0.722
+anchor_right = 0.5
+anchor_bottom = 0.722
+offset_left = -230.0
+offset_right = 230.0
+offset_bottom = 72.0
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="RespawnRing" type="Control" parent="Root/DeathScreen/Respawn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("ring")
+
+[node name="Text" type="VBoxContainer" parent="Root/DeathScreen/Respawn"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Root/DeathScreen/Respawn/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_xbold")
 theme_override_font_sizes/font_size = 26
-theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
-horizontal_alignment = 1
+text = "RESPAWNING"
 
-[node name="Toast" type="Label" parent="Root" unique_id=423998205]
-unique_name_in_owner = true
+[node name="Hint" type="Label" parent="Root/DeathScreen/Respawn/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_semibold")
+theme_override_font_sizes/font_size = 13
+text = "At the safest spawn point, away from enemies."
+
+[node name="Chips" type="HBoxContainer" parent="Root/DeathScreen"]
 layout_mode = 1
-anchor_top = 0.64
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 0.64
-offset_top = -15.0
-offset_bottom = 15.0
-theme_type_variation = &"HudAccent"
-horizontal_alignment = 1
+anchor_bottom = 1.0
+offset_top = -58.0
+offset_bottom = -30.0
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="MatchChip" type="PanelContainer" parent="Root/DeathScreen/Chips"]
+layout_mode = 2
+theme_type_variation = &"InfoChip"
+
+[node name="DeathMatch" type="Label" parent="Root/DeathScreen/Chips/MatchChip"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 12
+text = "NORMAL · 04:12 LEFT"
+
+[node name="RankChip" type="PanelContainer" parent="Root/DeathScreen/Chips"]
+layout_mode = 2
+theme_type_variation = &"InfoChip"
+
+[node name="DeathRank" type="Label" parent="Root/DeathScreen/Chips/RankChip"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 12
+text = "YOU: #1 · 0 ELIMS"
+
+[node name="ToastBox" type="CenterContainer" parent="Root"]
+layout_mode = 1
+anchor_top = 0.57
+anchor_right = 1.0
+anchor_bottom = 0.57
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="ToastPanel" type="PanelContainer" parent="Root/ToastBox"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"ConfirmPanel"
+
+[node name="Row" type="HBoxContainer" parent="Root/ToastBox/ToastPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Toast" type="Label" parent="Root/ToastBox/ToastPanel/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_black")
+theme_override_font_sizes/font_size = 22
+text = "ELIMINATED"
+
+[node name="ToastAccent" type="Label" parent="Root/ToastBox/ToastPanel/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("f_black")
+theme_override_font_sizes/font_size = 22
+text = "BOT MIA"
 
 [node name="ModalDim" type="ColorRect" parent="Root" unique_id=42742411]
 unique_name_in_owner = true
@@ -366,81 +779,150 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(0.008, 0.012, 0.018, 0.55)
+color = Color(0.043, 0.047, 0.063, 0.72)
 
 [node name="TouchControls" parent="Root" unique_id=42742416 instance=ExtResource("6_touch")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
-[node name="Scoreboard" type="PanelContainer" parent="Root" unique_id=922148846]
-script = ExtResource("gen_script_2")
+[node name="Scoreboard" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -190.0
-offset_right = 340.0
-offset_bottom = 230.0
-theme_type_variation = &"ModalCard"
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = -40.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("EmptyStyle")
+script = ExtResource("gen_script_2")
 
-[node name="Content" type="VBoxContainer" parent="Root/Scoreboard" unique_id=400000000]
+[node name="Content" type="VBoxContainer" parent="Root/Scoreboard"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 14
 
-[node name="Title" type="Label" parent="Root/Scoreboard/Content" unique_id=1387643782]
+[node name="Head" type="HBoxContainer" parent="Root/Scoreboard/Content"]
 layout_mode = 2
-theme_type_variation = &"TitleSmall"
-text = "SCOREBOARD"
-horizontal_alignment = 1
 
-[node name="Hint" type="Label" parent="Root/Scoreboard/Content" unique_id=42742409]
-layout_mode = 2
-theme_type_variation = &"Caption"
-text = "HOLD TAB TO VIEW"
-horizontal_alignment = 1
-
-[node name="Headers" type="HBoxContainer" parent="Root/Scoreboard/Content" unique_id=42742412]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="HeaderPlayer" type="Label" parent="Root/Scoreboard/Content/Headers" unique_id=890253364]
+[node name="Titles" type="VBoxContainer" parent="Root/Scoreboard/Content/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"ScoreHeader"
+theme_override_constants/separation = -4
+
+[node name="SbEyebrow" type="Label" parent="Root/Scoreboard/Content/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 12
+text = "NORMAL  ·  MAP  ·  LAN"
+
+[node name="Title" type="Label" parent="Root/Scoreboard/Content/Head/Titles"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("f_black")
+theme_override_font_sizes/font_size = 46
+text = "SCOREBOARD"
+
+[node name="ClockPlate" type="PanelContainer" parent="Root/Scoreboard/Content/Head"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"ClockPlate"
+
+[node name="SbClock" type="Label" parent="Root/Scoreboard/Content/Head/ClockPlate"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("f_black")
+theme_override_font_sizes/font_size = 30
+text = "05:00"
+vertical_alignment = 1
+
+[node name="Headers" type="HBoxContainer" parent="Root/Scoreboard/Content"]
+layout_mode = 2
+
+[node name="Pad" type="Control" parent="Root/Scoreboard/Content/Headers"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Rank" type="Label" parent="Root/Scoreboard/Content/Headers"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+text = "#"
+
+[node name="Player" type="Label" parent="Root/Scoreboard/Content/Headers"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
 text = "PLAYER"
 
-[node name="HeaderKills" type="Label" parent="Root/Scoreboard/Content/Headers" unique_id=2144669914]
-custom_minimum_size = Vector2(76, 0)
+[node name="Level" type="Label" parent="Root/Scoreboard/Content/Headers"]
+custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
-theme_type_variation = &"ScoreHeader"
-text = "KILLS"
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+text = "LEVEL"
 horizontal_alignment = 2
 
-[node name="HeaderDeaths" type="Label" parent="Root/Scoreboard/Content/Headers" unique_id=767775253]
-custom_minimum_size = Vector2(76, 0)
+[node name="Elims" type="Label" parent="Root/Scoreboard/Content/Headers"]
+custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
-theme_type_variation = &"ScoreHeader"
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+text = "ELIMS"
+horizontal_alignment = 2
+
+[node name="Deaths" type="Label" parent="Root/Scoreboard/Content/Headers"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
 text = "DEATHS"
 horizontal_alignment = 2
 
-[node name="Sep" type="HSeparator" parent="Root/Scoreboard/Content" unique_id=42742413]
+[node name="Kd" type="Label" parent="Root/Scoreboard/Content/Headers"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+text = "K/D"
+horizontal_alignment = 2
+
+[node name="Pad2" type="Control" parent="Root/Scoreboard/Content/Headers"]
+custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 
-[node name="Scroll" type="ScrollContainer" parent="Root/Scoreboard/Content" unique_id=42742414]
+[node name="Scroll" type="ScrollContainer" parent="Root/Scoreboard/Content"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Rows" type="VBoxContainer" parent="Root/Scoreboard/Content/Scroll" unique_id=42742415]
+[node name="Rows" type="VBoxContainer" parent="Root/Scoreboard/Content/Scroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 2
+theme_override_constants/separation = 5
+
+[node name="Hint" type="Label" parent="Root/Scoreboard/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("f_bold")
+theme_override_font_sizes/font_size = 11
+text = "HOLD TAB"
+clip_text = true
 
 [node name="PauseMenu" parent="Root" unique_id=3012850 instance=ExtResource("2_bo48s")]
 unique_name_in_owner = true
@@ -450,48 +932,3 @@ layout_mode = 1
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
-
-[node name="EndLabel" type="Label" parent="Root" unique_id=1182441257]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchor_top = 0.3
-anchor_right = 1.0
-anchor_bottom = 0.3
-offset_top = -60.0
-offset_bottom = 60.0
-theme_type_variation = &"HudBig"
-theme_override_font_sizes/font_size = 40
-theme_override_colors/font_color = Color(0.96, 0.65, 0.14, 1)
-horizontal_alignment = 1
-
-[node name="RewardCard" type="PanelContainer" parent="Root"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchor_left = 1.0
-anchor_top = 0.3
-anchor_right = 1.0
-anchor_bottom = 0.3
-offset_left = -296.0
-offset_top = -50.0
-offset_right = -24.0
-offset_bottom = 110.0
-theme_type_variation = &"Card"
-
-[node name="RewardBox" type="VBoxContainer" parent="Root/RewardCard"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="RewardTotal" type="Label" parent="Root/RewardCard/RewardBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"HudBig"
-theme_override_font_sizes/font_size = 32
-theme_override_colors/font_color = Color(0.96, 0.65, 0.14, 1)
-
-[node name="RewardLabel" type="Label" parent="Root/RewardCard/RewardBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"HudLabel"
-theme_override_font_sizes/font_size = 18

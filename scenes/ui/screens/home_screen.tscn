@@ -2,79 +2,91 @@
 
 [ext_resource type="Script" path="res://scripts/ui/screens/home_screen.gd" id="1_home"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/play.svg" id="2_play"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/locker.svg" id="3_locker"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/settings.svg" id="4_settings"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/stats.svg" id="5_stats"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/quit.svg" id="6_quit"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/user.svg" id="7_user"]
-[ext_resource type="Script" path="res://scripts/ui/menu_icon_button.gd" id="8_iconbtn"]
-[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/store.svg" id="10_store"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/swords.svg" id="11_swords"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/hex.svg" id="7_hex"]
+[ext_resource type="Texture2D" path="res://assets/ui/patterns/candy.svg" id="8_candy"]
+[ext_resource type="Texture2D" path="res://assets/ui/maps/desert.png" id="10_map"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="11_black"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf" id="12_xbold"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-Bold.ttf" id="13_cond"]
+[ext_resource type="FontFile" path="res://assets/fonts/Barlow-Bold.ttf" id="14_bold"]
 
-[sub_resource type="StyleBoxFlat" id="EventStyle"]
-content_margin_left = 18.0
-content_margin_top = 14.0
-content_margin_right = 18.0
-content_margin_bottom = 14.0
-bg_color = Color(0.48, 0.07, 0.09, 0.94)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 3
-border_color = Color(1, 0.78, 0.2, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-
-[sub_resource type="StyleBoxFlat" id="PlayNormal"]
-bg_color = Color(0.96, 0.65, 0.14, 1)
-skew = Vector2(0.28, 0)
-border_width_bottom = 4
-border_color = Color(0.71, 0.44, 0.05, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.35)
-shadow_size = 10
-
-[sub_resource type="StyleBoxFlat" id="PlayHover"]
-bg_color = Color(1, 0.77, 0.42, 1)
-skew = Vector2(0.28, 0)
-border_width_bottom = 4
-border_color = Color(0.71, 0.44, 0.05, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0.96, 0.65, 0.14, 0.45)
-shadow_size = 16
-
-[sub_resource type="StyleBoxFlat" id="PlayPressed"]
-bg_color = Color(0.86, 0.55, 0.08, 1)
-skew = Vector2(0.28, 0)
+[sub_resource type="StyleBoxFlat" id="PlayFrame"]
+draw_center = false
+border_width_left = 2
 border_width_top = 2
-border_color = Color(0.71, 0.44, 0.05, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.541, 0.122, 0.55)
+skew = Vector2(0.24, 0)
+
+[sub_resource type="StyleBoxFlat" id="PlayGo"]
+bg_color = Color(0.067, 0.067, 0.067, 1)
+corner_radius_top_left = 27
+corner_radius_top_right = 27
+corner_radius_bottom_right = 27
+corner_radius_bottom_left = 27
 
 [sub_resource type="StyleBoxFlat" id="XpTrack"]
 bg_color = Color(1, 1, 1, 0.14)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+skew = Vector2(0.35, 0)
 
 [sub_resource type="StyleBoxFlat" id="XpFill"]
-bg_color = Color(0.96, 0.65, 0.14, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+bg_color = Color(1, 0.541, 0.122, 1)
+skew = Vector2(0.35, 0)
+
+[sub_resource type="StyleBoxFlat" id="EventStyle"]
+bg_color = Color(0.43, 0.07, 0.094, 0.96)
+corner_radius_top_right = 22
+corner_radius_bottom_left = 22
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="ModeNormal"]
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.063, 0.071, 0.094, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.541, 0.122, 1)
+corner_radius_top_left = 22
+corner_radius_bottom_right = 22
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="ModeHover"]
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.17, 0.11, 0.06, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.69, 0.4, 1)
+corner_radius_top_left = 22
+corner_radius_bottom_right = 22
+corner_detail = 1
+shadow_color = Color(1, 0.541, 0.122, 0.25)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="Chip"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.078, 0.086, 0.11, 0.82)
+
+[sub_resource type="StyleBoxFlat" id="ChipCyan"]
+content_margin_left = 8.0
+content_margin_top = 3.0
+content_margin_right = 8.0
+content_margin_bottom = 3.0
+bg_color = Color(0.224, 0.816, 0.878, 1)
 
 [node name="Home" type="Control"]
 layout_mode = 3
@@ -91,314 +103,525 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="TopBar" type="PanelContainer" parent="Content"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 16.0
-offset_top = 12.0
-offset_right = -16.0
-offset_bottom = 76.0
-theme_type_variation = &"TopBarPanel"
-
-[node name="Row" type="HBoxContainer" parent="Content/TopBar"]
-layout_mode = 2
+[node name="PlayerPlate" type="HBoxContainer" parent="Content"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 22.0
+offset_right = 420.0
+offset_bottom = 80.0
+mouse_filter = 2
 theme_override_constants/separation = 14
 
-[node name="Avatar" type="TextureRect" parent="Content/TopBar/Row"]
-custom_minimum_size = Vector2(30, 30)
+[node name="Badge" type="Control" parent="Content/PlayerPlate"]
+custom_minimum_size = Vector2(58, 58)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Hex" type="TextureRect" parent="Content/PlayerPlate/Badge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+modulate = Color(1, 0.541, 0.122, 1)
+texture = ExtResource("7_hex")
+expand_mode = 1
+
+[node name="Level" type="Label" parent="Content/PlayerPlate/Badge"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("11_black")
+theme_override_font_sizes/font_size = 28
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Info" type="VBoxContainer" parent="Content/PlayerPlate"]
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
-script = ExtResource("9_animicon")
-texture = ExtResource("7_user")
-expand_mode = 1
-stretch_mode = 5
-modulate = Color(0.96, 0.65, 0.14, 1)
-pulse_amount = 0.05
-tilt_degrees = 0.0
-pulse_speed = 1.2
+theme_override_constants/separation = 6
 
-[node name="Player" type="VBoxContainer" parent="Content/TopBar/Row"]
-custom_minimum_size = Vector2(260, 0)
+[node name="NameRow" type="HBoxContainer" parent="Content/PlayerPlate/Info"]
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 3
-
-[node name="PlayerName" type="Label" parent="Content/TopBar/Row/Player"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"HudLabel"
-text = "Player"
-text_overrun_behavior = 3
-
-[node name="LevelRow" type="HBoxContainer" parent="Content/TopBar/Row/Player"]
-layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 10
 
-[node name="Level" type="Label" parent="Content/TopBar/Row/Player/LevelRow"]
+[node name="PlayerName" type="Label" parent="Content/PlayerPlate/Info/NameRow"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"Caption"
-theme_override_colors/font_color = Color(0.96, 0.65, 0.14, 1)
-text = "LV 1"
+theme_override_fonts/font = ExtResource("13_cond")
+theme_override_font_sizes/font_size = 24
+text = "Player"
 
-[node name="XpBar" type="ProgressBar" parent="Content/TopBar/Row/Player/LevelRow"]
+[node name="LevelText" type="Label" parent="Content/PlayerPlate/Info/NameRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 6)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("14_bold")
+theme_override_font_sizes/font_size = 12
+text = "LEVEL 1"
+
+[node name="XpRow" type="HBoxContainer" parent="Content/PlayerPlate/Info"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="XpBar" type="ProgressBar" parent="Content/PlayerPlate/Info/XpRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 6)
 layout_mode = 2
 size_flags_vertical = 4
+mouse_filter = 2
 theme_override_styles/background = SubResource("XpTrack")
 theme_override_styles/fill = SubResource("XpFill")
 max_value = 1.0
 step = 0.001
 show_percentage = false
 
-[node name="XpText" type="Label" parent="Content/TopBar/Row/Player/LevelRow"]
+[node name="XpText" type="Label" parent="Content/PlayerPlate/Info/XpRow"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"Caption"
 text = "0 / 400 XP"
 
-[node name="SpacerL" type="Control" parent="Content/TopBar/Row"]
-layout_mode = 2
-size_flags_horizontal = 3
+[node name="Brand" type="RichTextLabel" parent="Content"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 26.0
+offset_right = 200.0
+offset_bottom = 70.0
 mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("11_black")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]OPEN[color=#ff8a1f]SHOOTER[/color][/center]"
+scroll_active = false
 
-[node name="Brand" type="Label" parent="Content/TopBar/Row"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"TitleSmall"
-text = "OPENSHOOTER"
+[node name="System" type="HBoxContainer" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -134.0
+offset_top = 24.0
+offset_right = -28.0
+offset_bottom = 72.0
+theme_override_constants/separation = 10
+alignment = 2
 
-[node name="SpacerR" type="Control" parent="Content/TopBar/Row"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="Settings" type="Button" parent="Content/TopBar/Row"]
+[node name="Settings" type="Button" parent="Content/System"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(46, 40)
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-size_flags_vertical = 4
 focus_mode = 0
 tooltip_text = "Settings"
-theme_type_variation = &"MenuBtn"
 icon = ExtResource("4_settings")
 icon_alignment = 1
 
-[node name="Quit" type="Button" parent="Content/TopBar/Row"]
+[node name="Quit" type="Button" parent="Content/System"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(46, 40)
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-size_flags_vertical = 4
 focus_mode = 0
 tooltip_text = "Quit"
 theme_type_variation = &"DangerButton"
 icon = ExtResource("6_quit")
 icon_alignment = 1
 
-[node name="LeftColumn" type="VBoxContainer" parent="Content"]
-layout_mode = 0
-offset_left = 24.0
-offset_top = 92.0
-offset_right = 324.0
-offset_bottom = 520.0
-theme_override_constants/separation = 10
-
-[node name="Event" type="PanelContainer" parent="Content/LeftColumn"]
+[node name="Event" type="PanelContainer" parent="Content"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 28.0
+offset_top = 110.0
+offset_right = 358.0
+offset_bottom = 290.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("EventStyle")
 
-[node name="Text" type="VBoxContainer" parent="Content/LeftColumn/Event"]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="EventTag" type="Label" parent="Content/LeftColumn/Event/Text"]
-layout_mode = 2
-theme_type_variation = &"Caption"
-theme_override_colors/font_color = Color(1, 0.82, 0.35, 1)
-text = "HOLIDAY EVENT  ·  1.1.0"
-
-[node name="EventTitle" type="Label" parent="Content/LeftColumn/Event/Text"]
-layout_mode = 2
-theme_type_variation = &"TitleSmall"
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "WINTER WARFARE"
-
-[node name="EventText" type="Label" parent="Content/LeftColumn/Event/Text"]
-layout_mode = 2
-theme_type_variation = &"HintLabel"
-theme_override_colors/font_color = Color(1, 0.9, 0.88, 1)
-text = "Snowy maps, Santa hats and festive decorations. Win matches to earn XP and level up!"
-autowrap_mode = 2
-
-[node name="Gap" type="Control" parent="Content/LeftColumn"]
-custom_minimum_size = Vector2(0, 6)
+[node name="Rows" type="VBoxContainer" parent="Content/Event"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/separation = 0
 
-[node name="Store" type="Button" parent="Content/LeftColumn"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 50)
+[node name="Candy" type="TextureRect" parent="Content/Event/Rows"]
+texture_repeat = 2
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 0
-disabled = true
-theme_type_variation = &"MenuBtn"
-script = ExtResource("8_iconbtn")
-label_text = "STORE  ·  SOON"
-icon_texture = ExtResource("10_store")
-icon_size = 22.0
-text_offset = 54.0
-label_font_size = 18
+mouse_filter = 2
+texture = ExtResource("8_candy")
+expand_mode = 1
+stretch_mode = 1
 
-[node name="Locker" type="Button" parent="Content/LeftColumn"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 50)
+[node name="Margin" type="MarginContainer" parent="Content/Event/Rows"]
 layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 0
-theme_type_variation = &"MenuBtn"
-script = ExtResource("8_iconbtn")
-label_text = "LOCKER"
-icon_texture = ExtResource("3_locker")
-icon_size = 22.0
-text_offset = 54.0
-label_font_size = 18
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="Stats" type="Button" parent="Content/LeftColumn"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 50)
+[node name="Text" type="VBoxContainer" parent="Content/Event/Rows/Margin"]
 layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 0
-theme_type_variation = &"MenuBtn"
-script = ExtResource("8_iconbtn")
-label_text = "STATISTICS"
-icon_texture = ExtResource("5_stats")
-icon_size = 22.0
-text_offset = 54.0
-label_font_size = 18
+mouse_filter = 2
+theme_override_constants/separation = 4
 
-[node name="ModeCard" type="Button" parent="Content"]
+[node name="Tags" type="HBoxContainer" parent="Content/Event/Rows/Margin/Text"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Limited" type="Label" parent="Content/Event/Rows/Margin/Text/Tags"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.824, 0.478, 1)
+theme_override_fonts/font = ExtResource("14_bold")
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("Chip")
+text = "LIMITED EVENT"
+
+[node name="Version" type="Label" parent="Content/Event/Rows/Margin/Text/Tags"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 0.85, 0.82, 1)
+theme_override_fonts/font = ExtResource("14_bold")
+theme_override_font_sizes/font_size = 11
+text = "V1.1.0"
+
+[node name="EventTitle" type="Label" parent="Content/Event/Rows/Margin/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("11_black")
+theme_override_font_sizes/font_size = 42
+text = "WINTER WARFARE"
+
+[node name="EventText" type="Label" parent="Content/Event/Rows/Margin/Text"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.89, 0.867, 1)
+theme_override_font_sizes/font_size = 14
+text = "Snowy maps, Santa hats and festive decorations. Win matches to earn XP and level up."
+autowrap_mode = 2
+
+[node name="Nav" type="VBoxContainer" parent="Content"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 312.0
+offset_right = 328.0
+offset_bottom = 490.0
+theme_override_constants/separation = 8
+
+[node name="Locker" type="Button" parent="Content/Nav"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 92)
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -344.0
-offset_top = 92.0
-offset_right = -24.0
-offset_bottom = 184.0
+custom_minimum_size = Vector2(300, 54)
+layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"MenuBtn"
 
-[node name="Row" type="HBoxContainer" parent="Content/ModeCard"]
+[node name="Row" type="HBoxContainer" parent="Content/Nav/Locker"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 18.0
-offset_right = -18.0
+offset_left = 20.0
+offset_right = -16.0
 mouse_filter = 2
 theme_override_constants/separation = 14
 
-[node name="Icon" type="TextureRect" parent="Content/ModeCard/Row"]
-custom_minimum_size = Vector2(34, 34)
+[node name="Num" type="Label" parent="Content/Nav/Locker/Row"]
 layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-texture = ExtResource("11_swords")
-expand_mode = 1
-stretch_mode = 5
-modulate = Color(0.96, 0.65, 0.14, 1)
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("13_cond")
+theme_override_font_sizes/font_size = 15
+text = "01"
+vertical_alignment = 1
 
-[node name="Text" type="VBoxContainer" parent="Content/ModeCard/Row"]
+[node name="Title" type="Label" parent="Content/Nav/Locker/Row"]
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_filter = 2
-alignment = 1
-theme_override_constants/separation = 0
+theme_override_fonts/font = ExtResource("12_xbold")
+theme_override_font_sizes/font_size = 24
+text = "LOCKER"
+vertical_alignment = 1
 
-[node name="ModeCaption" type="Label" parent="Content/ModeCard/Row/Text"]
+[node name="Arrow" type="Label" parent="Content/Nav/Locker/Row"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("12_xbold")
+theme_override_font_sizes/font_size = 24
+text = "›"
+vertical_alignment = 1
+
+[node name="Stats" type="Button" parent="Content/Nav"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 54)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+
+[node name="Row" type="HBoxContainer" parent="Content/Nav/Stats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_right = -16.0
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Num" type="Label" parent="Content/Nav/Stats/Row"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("13_cond")
+theme_override_font_sizes/font_size = 15
+text = "02"
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="Content/Nav/Stats/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("12_xbold")
+theme_override_font_sizes/font_size = 24
+text = "STATISTICS"
+vertical_alignment = 1
+
+[node name="Arrow" type="Label" parent="Content/Nav/Stats/Row"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_fonts/font = ExtResource("12_xbold")
+theme_override_font_sizes/font_size = 24
+text = "›"
+vertical_alignment = 1
+
+[node name="Store" type="Button" parent="Content/Nav"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 54)
+layout_mode = 2
+focus_mode = 0
+disabled = true
+theme_type_variation = &"MenuBtn"
+
+[node name="Row" type="HBoxContainer" parent="Content/Nav/Store"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_right = -16.0
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Num" type="Label" parent="Content/Nav/Store/Row"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.486, 0.518, 0.58, 1)
+theme_override_fonts/font = ExtResource("13_cond")
+theme_override_font_sizes/font_size = 15
+text = "03"
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="Content/Nav/Store/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.541, 0.569, 0.616, 1)
+theme_override_fonts/font = ExtResource("12_xbold")
+theme_override_font_sizes/font_size = 24
+text = "STORE"
+vertical_alignment = 1
+
+[node name="Soon" type="Label" parent="Content/Nav/Store/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("14_bold")
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("ChipCyan")
+text = "SOON"
+
+[node name="ModeCard" type="Button" parent="Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -388.0
+offset_top = 110.0
+offset_right = -28.0
+offset_bottom = 240.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("ModeNormal")
+theme_override_styles/hover = SubResource("ModeHover")
+theme_override_styles/pressed = SubResource("ModeHover")
+
+[node name="Margin" type="MarginContainer" parent="Content/ModeCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 14
+
+[node name="Rows" type="VBoxContainer" parent="Content/ModeCard/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Top" type="HBoxContainer" parent="Content/ModeCard/Margin/Rows"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Tag" type="Label" parent="Content/ModeCard/Margin/Rows/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("14_bold")
+theme_override_font_sizes/font_size = 11
+text = "GAME MODE"
+
+[node name="Change" type="Label" parent="Content/ModeCard/Margin/Rows/Top"]
 layout_mode = 2
 theme_type_variation = &"Caption"
-text = "GAME MODE  ·  TAP TO CHANGE"
+text = "CHANGE ›"
 
-[node name="ModeName" type="Label" parent="Content/ModeCard/Row/Text"]
+[node name="ModeName" type="Label" parent="Content/ModeCard/Margin/Rows"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"TitleSmall"
+theme_override_fonts/font = ExtResource("11_black")
+theme_override_font_sizes/font_size = 44
 text = "NORMAL"
 text_overrun_behavior = 3
 
-[node name="MapName" type="Label" parent="Content/ModeCard/Row/Text"]
+[node name="MapRow" type="HBoxContainer" parent="Content/ModeCard/Margin/Rows"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="MapThumb" type="TextureRect" parent="Content/ModeCard/Margin/Rows/MapRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 54)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_map")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MapText" type="VBoxContainer" parent="Content/ModeCard/Margin/Rows/MapRow"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="MapCaption" type="Label" parent="Content/ModeCard/Margin/Rows/MapRow/MapText"]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "MAP"
+
+[node name="MapName" type="Label" parent="Content/ModeCard/Margin/Rows/MapRow/MapText"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"HintLabel"
+theme_override_fonts/font = ExtResource("13_cond")
+theme_override_font_sizes/font_size = 20
 text = "Random map"
 
-[node name="QuickStats" type="HBoxContainer" parent="Content"]
+[node name="Chips" type="HBoxContainer" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -388.0
+offset_top = 252.0
+offset_right = -28.0
+offset_bottom = 276.0
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="Lan" type="Label" parent="Content/Chips"]
+layout_mode = 2
+theme_type_variation = &"Caption"
+theme_override_styles/normal = SubResource("Chip")
+text = "LAN"
+
+[node name="Slots" type="Label" parent="Content/Chips"]
+layout_mode = 2
+theme_type_variation = &"Caption"
+theme_override_styles/normal = SubResource("Chip")
+text = "UP TO 12 PLAYERS"
+
+[node name="Bottom" type="VBoxContainer" parent="Content"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 28.0
-offset_top = -118.0
-offset_right = 452.0
-offset_bottom = -64.0
+offset_top = -128.0
+offset_right = 440.0
+offset_bottom = -52.0
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="QuickStats" type="HBoxContainer" parent="Content/Bottom"]
+layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 28
 
-[node name="KdBox" type="VBoxContainer" parent="Content/QuickStats"]
+[node name="Kd" type="VBoxContainer" parent="Content/Bottom/QuickStats"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="QuickKd" type="Label" parent="Content/QuickStats/KdBox"]
+[node name="QuickKd" type="Label" parent="Content/Bottom/QuickStats/Kd"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"TitleSmall"
+theme_override_fonts/font = ExtResource("12_xbold")
+theme_override_font_sizes/font_size = 34
 text = "0.00"
 
-[node name="KdLabel" type="Label" parent="Content/QuickStats/KdBox"]
+[node name="Label" type="Label" parent="Content/Bottom/QuickStats/Kd"]
 layout_mode = 2
 theme_type_variation = &"Caption"
-text = "K/D RATIO"
+text = "K/D"
 
-[node name="Sep1" type="VSeparator" parent="Content/QuickStats"]
+[node name="Kills" type="VBoxContainer" parent="Content/Bottom/QuickStats"]
 layout_mode = 2
-
-[node name="KillsBox" type="VBoxContainer" parent="Content/QuickStats"]
-layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="QuickKills" type="Label" parent="Content/QuickStats/KillsBox"]
+[node name="QuickKills" type="Label" parent="Content/Bottom/QuickStats/Kills"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"TitleSmall"
+theme_override_fonts/font = ExtResource("12_xbold")
+theme_override_font_sizes/font_size = 34
 text = "0"
 
-[node name="KillsLabel" type="Label" parent="Content/QuickStats/KillsBox"]
+[node name="Label" type="Label" parent="Content/Bottom/QuickStats/Kills"]
 layout_mode = 2
 theme_type_variation = &"Caption"
 text = "ELIMINATIONS"
 
-[node name="Sep2" type="VSeparator" parent="Content/QuickStats"]
+[node name="Wins" type="VBoxContainer" parent="Content/Bottom/QuickStats"]
 layout_mode = 2
-
-[node name="WinsBox" type="VBoxContainer" parent="Content/QuickStats"]
-layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="QuickWins" type="Label" parent="Content/QuickStats/WinsBox"]
+[node name="QuickWins" type="Label" parent="Content/Bottom/QuickStats/Wins"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"TitleSmall"
+theme_override_fonts/font = ExtResource("12_xbold")
+theme_override_font_sizes/font_size = 34
 text = "0"
 
-[node name="WinsLabel" type="Label" parent="Content/QuickStats/WinsBox"]
+[node name="Label" type="Label" parent="Content/Bottom/QuickStats/Wins"]
 layout_mode = 2
 theme_type_variation = &"Caption"
 text = "VICTORIES"
@@ -411,35 +634,94 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -150.0
-offset_top = -96.0
+offset_top = -58.0
 offset_right = 150.0
-offset_bottom = -72.0
+offset_bottom = -36.0
 theme_type_variation = &"Caption"
-text = "DRAG TO ROTATE"
+text = "‹  DRAG TO ROTATE  ›"
 horizontal_alignment = 1
-modulate = Color(1, 1, 1, 0.55)
 
-[node name="Play" type="Button" parent="Content"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(340, 84)
+[node name="PlayArea" type="Control" parent="Content"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -376.0
-offset_top = -140.0
-offset_right = -36.0
-offset_bottom = -56.0
+offset_left = -460.0
+offset_top = -132.0
+offset_right = -40.0
+offset_bottom = -34.0
+mouse_filter = 2
+
+[node name="Frame" type="Panel" parent="Content/PlayArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 10.0
+offset_bottom = 8.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PlayFrame")
+
+[node name="Play" type="Button" parent="Content/PlayArea"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 focus_mode = 0
 theme_type_variation = &"PrimaryButton"
-theme_override_styles/normal = SubResource("PlayNormal")
-theme_override_styles/hover = SubResource("PlayHover")
-theme_override_styles/pressed = SubResource("PlayPressed")
-script = ExtResource("8_iconbtn")
-label_text = "PLAY"
-icon_texture = ExtResource("2_play")
-icon_size = 30.0
-text_offset = 128.0
-label_font_size = 38
+
+[node name="Row" type="HBoxContainer" parent="Content/PlayArea/Play"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 46.0
+offset_right = -40.0
+mouse_filter = 2
+theme_override_constants/separation = 18
+
+[node name="Text" type="VBoxContainer" parent="Content/PlayArea/Play/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = -10
+
+[node name="PlaySub" type="Label" parent="Content/PlayArea/Play/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 0.75)
+theme_override_fonts/font = ExtResource("14_bold")
+theme_override_font_sizes/font_size = 12
+text = "NORMAL · LAN"
+
+[node name="PlayLabel" type="Label" parent="Content/PlayArea/Play/Row/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("11_black")
+theme_override_font_sizes/font_size = 70
+text = "PLAY"
+
+[node name="Go" type="PanelContainer" parent="Content/PlayArea/Play/Row"]
+custom_minimum_size = Vector2(54, 54)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PlayGo")
+
+[node name="Icon" type="TextureRect" parent="Content/PlayArea/Play/Row/Go"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(1, 0.541, 0.122, 1)
+texture = ExtResource("2_play")
+expand_mode = 1
+stretch_mode = 5
+

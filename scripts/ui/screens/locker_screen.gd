@@ -2,7 +2,7 @@ extends MenuScreen
 ## Locker: free character items by category (see Cosmetics), plus name and
 ## colors. Items are shown as cards with a 3D thumbnail in a scrolling grid
 ## (see ItemThumbnails). Every change shows on the big 3D character right
-## away; "Save look" keeps it, "Back" throws unsaved changes away.
+## away; "Save look" keeps it, "Discard" throws unsaved changes away.
 
 ## The extra tab after the item categories.
 const COLORS_TAB := "colors"
@@ -14,8 +14,19 @@ const FOCUS := {
 }
 
 ## Card size in the item grid (3 per row).
-const CARD_SIZE := Vector2(0, 172)
-const THUMB_SIZE := Vector2(128, 128)
+const CARD_SIZE := Vector2(0, 142)
+const THUMB_SIZE := Vector2(104, 104)
+
+const ACCENT := Color("#ff8a1f")
+const ON_ACCENT := Color("#111111")
+const EVENT_RED := Color("#c7161f")
+const CARD_BG := Color("#1c1f27")
+const CARD_BG_ON := Color("#2a1d10")
+const CARD_FONT := preload("res://assets/fonts/BarlowCondensed-Bold.ttf")
+const RAIL_FONT := preload("res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf")
+const TAG_FONT := preload("res://assets/fonts/Barlow-Bold.ttf")
+## Items that belong to the current event get an EVENT chip.
+const EVENT_ITEMS := ["santa"]
 
 var _tab := "hat"
 var _tab_buttons := {}
@@ -34,7 +45,7 @@ func _ready() -> void:
 			_thumbnails.clear()  # thumbnails show the player's colors
 			menu.rebuild_avatar())
 	bind_button(%Save, _save)
-	bind_button(%Back, func():
+	bind_button(%Discard, func():
 		Config.load_cfg()  # throw away unsaved changes
 		menu.rebuild_avatar()
 		menu.show_screen("Home"))
@@ -56,14 +67,16 @@ func leave() -> void:
 	menu.locker_show_back = false
 
 
+## One category on the left rail.
 func _add_tab(id: String, title: String) -> void:
 	var button := Button.new()
 	button.text = title
-	button.custom_minimum_size = Vector2(136, 40)
-	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.custom_minimum_size = Vector2(170, 44)
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.focus_mode = Control.FOCUS_NONE
 	button.theme_type_variation = &"MenuBtn"
-	button.add_theme_font_size_override("font_size", 15)
+	button.add_theme_font_override("font", RAIL_FONT)
+	button.add_theme_font_size_override("font_size", 21)
 	%Tabs.add_child(button)
 	_tab_buttons[id] = button
 	bind_button(button, func(): _show_tab(id))
@@ -71,9 +84,12 @@ func _add_tab(id: String, title: String) -> void:
 
 func _show_tab(id: String) -> void:
 	_tab = id
+	# The open tab is solid orange and slanted, like every primary action.
 	for tab_id in _tab_buttons:
-		_highlight(_tab_buttons[tab_id], tab_id == id)
+		(_tab_buttons[tab_id] as Button).theme_type_variation = &"PrimaryButton" if tab_id == id else &"MenuBtn"
 	var colors := id == COLORS_TAB
+	%SlotTitle.text = "COLORS" if colors else Cosmetics.SLOT_NAMES[id]
+	%ItemCount.text = "" if colors else "%d ITEMS" % Cosmetics.ITEMS[id].size()
 	%Colors.visible = colors
 	%ItemsScroll.visible = not colors
 	menu.locker_focus = FOCUS.get(id, "body")
@@ -91,7 +107,7 @@ func _fill_items(slot: String) -> void:
 	%ItemsScroll.scroll_vertical = 0
 	for item in Cosmetics.ITEMS[slot]:
 		var id: String = item[0]
-		var card := _make_card(item[1])
+		var card := _make_card(item[1], id in EVENT_ITEMS)
 		card.set_meta("item_id", id)
 		%Items.add_child(card)
 		_highlight(card, Config.look.get(slot) == id)
@@ -103,22 +119,22 @@ func _fill_items(slot: String) -> void:
 				picture.texture = texture)
 
 
-## A card: thumbnail on top, name below.
-func _make_card(title: String) -> Button:
+## A card: thumbnail on top, name below, a WORN chip (shown when worn) and an
+## EVENT chip for event items.
+func _make_card(title: String, event_item: bool) -> Button:
 	var card := Button.new()
 	card.custom_minimum_size = CARD_SIZE
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	card.focus_mode = Control.FOCUS_NONE
-	card.theme_type_variation = &"MenuBtn"
 	card.tooltip_text = title
 
 	var column := VBoxContainer.new()
 	column.name = "Column"
 	column.set_anchors_preset(Control.PRESET_FULL_RECT)
-	column.offset_top = 8.0
-	column.offset_bottom = -8.0
+	column.offset_top = 6.0
+	column.offset_bottom = -6.0
 	column.alignment = BoxContainer.ALIGNMENT_CENTER
-	column.add_theme_constant_override("separation", 4)
+	column.add_theme_constant_override("separation", 2)
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.add_child(column)
 
@@ -134,11 +150,38 @@ func _make_card(title: String) -> Button:
 	var label := Label.new()
 	label.text = title
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.theme_type_variation = &"HudLabel"
-	label.add_theme_font_size_override("font_size", 15)
+	label.add_theme_font_override("font", CARD_FONT)
+	label.add_theme_font_size_override("font_size", 16)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(label)
+
+	var worn := _chip("WORN", ACCENT, ON_ACCENT)
+	worn.name = "Worn"
+	worn.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT, Control.PRESET_MODE_MINSIZE)
+	card.add_child(worn)
+	if event_item:
+		var event := _chip("EVENT", EVENT_RED, Color.WHITE)
+		event.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE)
+		event.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		card.add_child(event)
 	return card
+
+
+func _chip(text: String, background: Color, color: Color) -> Label:
+	var chip := Label.new()
+	chip.text = text
+	chip.add_theme_font_override("font", TAG_FONT)
+	chip.add_theme_font_size_override("font_size", 10)
+	chip.add_theme_color_override("font_color", color)
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.content_margin_left = 7
+	style.content_margin_right = 7
+	style.content_margin_top = 2
+	style.content_margin_bottom = 2
+	chip.add_theme_stylebox_override("normal", style)
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return chip
 
 
 func _wear(slot: String, id: String) -> void:
@@ -149,17 +192,22 @@ func _wear(slot: String, id: String) -> void:
 		_highlight(card, card.get_meta("item_id", "") == id)
 
 
-## Accent border on the selected button.
-func _highlight(button: Button, on: bool) -> void:
+## The worn item: orange frame, warmer background and the WORN chip.
+func _highlight(card: Button, on: bool) -> void:
+	var style := StyleBoxFlat.new()
+	style.bg_color = CARD_BG_ON if on else CARD_BG
 	if on:
-		var style := (button.get_theme_stylebox("normal", &"MenuBtn") as StyleBoxFlat).duplicate() as StyleBoxFlat
-		style.border_color = Color("#f5a524")
+		style.border_color = ACCENT
 		style.set_border_width_all(2)
-		button.add_theme_stylebox_override("normal", style)
-		button.add_theme_stylebox_override("hover", style)
-	else:
-		button.remove_theme_stylebox_override("normal")
-		button.remove_theme_stylebox_override("hover")
+	var hover := style.duplicate() as StyleBoxFlat
+	hover.bg_color = hover.bg_color.lightened(0.08)
+	card.add_theme_stylebox_override("normal", style)
+	card.add_theme_stylebox_override("hover", hover)
+	card.add_theme_stylebox_override("pressed", hover)
+	card.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	var worn := card.get_node_or_null("Worn")
+	if worn:
+		worn.visible = on
 
 
 func _save() -> void:

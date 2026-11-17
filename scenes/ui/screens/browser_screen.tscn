@@ -1,180 +1,413 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/ui/screens/browser_screen.gd" id="gen_script_0"]
+[ext_resource type="Script" path="res://scripts/ui/screens/browser_screen.gd" id="1_browser"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/plus.svg" id="3_plus"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/server.svg" id="4_server"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/code.svg" id="4_code"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/play.svg" id="5_play"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/server.svg" id="6_server"]
+[ext_resource type="Texture2D" path="res://assets/ui/patterns/hazard.svg" id="7_hazard"]
+[ext_resource type="Texture2D" path="res://assets/ui/maps/desert.png" id="8_map"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="9_black"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf" id="10_xbold"]
+[ext_resource type="FontFile" path="res://assets/fonts/Barlow-Bold.ttf" id="11_bold"]
 
-[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
+[sub_resource type="StyleBoxFlat" id="QuickNormal"]
+bg_color = Color(1, 0.541, 0.122, 1)
+corner_radius_top_right = 30
+corner_radius_bottom_left = 30
+corner_detail = 1
 
-[node name="Browser" type="Control" unique_id=1938164888]
-script = ExtResource("gen_script_0")
+[sub_resource type="StyleBoxFlat" id="QuickHover"]
+bg_color = Color(1, 0.69, 0.4, 1)
+corner_radius_top_right = 30
+corner_radius_bottom_left = 30
+corner_detail = 1
+shadow_color = Color(1, 0.541, 0.122, 0.35)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="ListStyle"]
+bg_color = Color(0.063, 0.071, 0.094, 0.94)
+corner_radius_bottom_right = 22
+corner_detail = 1
+
+[node name="Browser" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+script = ExtResource("1_browser")
 
-[node name="Content" type="VBoxContainer" parent="." unique_id=1938164001]
+[node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = 48.0
-offset_right = -56.0
-offset_bottom = -56.0
+offset_left = 40.0
+offset_top = 30.0
+offset_right = -40.0
+offset_bottom = -34.0
+mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="Eyebrow" type="Label" parent="Content" unique_id=1938164002]
+[node name="Eyebrow" type="Label" parent="Content"]
 layout_mode = 2
 theme_type_variation = &"SectionLabel"
-text = "MULTIPLAYER"
+text = "PLAY  /  03"
 
-[node name="Header" type="HBoxContainer" parent="Content" unique_id=1938164003]
+[node name="Header" type="HBoxContainer" parent="Content"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 16
 
-[node name="Titles" type="VBoxContainer" parent="Content/Header" unique_id=1938164004]
+[node name="Titles" type="VBoxContainer" parent="Content/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="Title" type="Label" parent="Content/Header/Titles" unique_id=603917522]
+[node name="Title" type="Label" parent="Content/Header/Titles"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TitleLabel"
-text = "SERVERS ON THE NETWORK"
+text = "NORMAL // LAN"
 
-[node name="Subtitle" type="Label" parent="Content/Header/Titles" unique_id=1938164005]
+[node name="Subtitle" type="Label" parent="Content/Header/Titles"]
 layout_mode = 2
 theme_type_variation = &"HintLabel"
-text = "Servers announce themselves automatically. Refresh by waiting a moment, or connect directly by IP."
+text = "Servers on your network playing this mode right now. The list refreshes by itself."
 
-[node name="Back" type="Button" parent="Content/Header" unique_id=1754428144]
+[node name="Back" type="Button" parent="Content/Header"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 44)
+custom_minimum_size = Vector2(130, 46)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"GhostButton"
-text = "Back"
+text = "BACK"
 icon = ExtResource("2_back")
 
-[node name="Gap" type="Control" parent="Content" unique_id=1938164006]
-custom_minimum_size = Vector2(0, 26)
+[node name="Gap" type="Control" parent="Content"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+mouse_filter = 2
 
-[node name="Card" type="PanelContainer" parent="Content" unique_id=220345014]
+[node name="Main" type="HBoxContainer" parent="Content"]
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
-size_flags_vertical = 3
-theme_type_variation = &"Card"
+theme_override_constants/separation = 24
 
-[node name="Box" type="VBoxContainer" parent="Content/Card" unique_id=1938164007]
+[node name="QuickPlay" type="Button" parent="Content/Main"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 300)
 layout_mode = 2
-theme_override_constants/separation = 14
+focus_mode = 0
+clip_contents = true
+theme_override_styles/normal = SubResource("QuickNormal")
+theme_override_styles/hover = SubResource("QuickHover")
+theme_override_styles/pressed = SubResource("QuickHover")
 
-[node name="ListHeader" type="HBoxContainer" parent="Content/Card/Box" unique_id=1938164008]
+[node name="QuickMap" type="TextureRect" parent="Content/Main/QuickPlay"]
+unique_name_in_owner = true
+modulate = Color(1, 0.75, 0.5, 0.3)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("8_map")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Stripes" type="TextureRect" parent="Content/Main/QuickPlay"]
+texture_repeat = 2
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 12.0
+mouse_filter = 2
+texture = ExtResource("7_hazard")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Text" type="VBoxContainer" parent="Content/Main/QuickPlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_right = -28.0
+offset_bottom = -26.0
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 2
+
+[node name="Kicker" type="Label" parent="Content/Main/QuickPlay/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 12
+text = "START RIGHT AWAY"
+
+[node name="QuickTitle" type="Label" parent="Content/Main/QuickPlay/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_constants/line_spacing = -14
+theme_override_fonts/font = ExtResource("9_black")
+theme_override_font_sizes/font_size = 60
+text = "PLAY WITH
+BOTS"
+
+[node name="QuickInfo" type="Label" parent="Content/Main/QuickPlay/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 14
+text = "Random map · 5 bots · 5 minutes"
+
+[node name="Start" type="HBoxContainer" parent="Content/Main/QuickPlay/Text"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Content/Main/QuickPlay/Text/Start"]
+modulate = Color(0.067, 0.067, 0.067, 1)
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("5_play")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Content/Main/QuickPlay/Text/Start"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_fonts/font = ExtResource("10_xbold")
+theme_override_font_sizes/font_size = 22
+text = "START"
+
+[node name="List" type="PanelContainer" parent="Content/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("ListStyle")
+
+[node name="Box" type="VBoxContainer" parent="Content/Main/List"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ListHeader" type="HBoxContainer" parent="Content/Main/List/Box"]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Icon" type="TextureRect" parent="Content/Card/Box/ListHeader" unique_id=1938164009]
-script = ExtResource("9_animicon")
-custom_minimum_size = Vector2(24, 24)
+[node name="Pad" type="Control" parent="Content/Main/List/Box/ListHeader"]
+custom_minimum_size = Vector2(12, 0)
 layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("4_server")
-expand_mode = 1
-stretch_mode = 5
-modulate = Color(0.96, 0.65, 0.14, 1)
 
-[node name="Heading" type="Label" parent="Content/Card/Box/ListHeader" unique_id=1938164010]
+[node name="Heading" type="Label" parent="Content/Main/List/Box/ListHeader"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"HudLabel"
+theme_override_fonts/font = ExtResource("10_xbold")
+theme_override_font_sizes/font_size = 20
 text = "AVAILABLE SERVERS"
+vertical_alignment = 1
 
-[node name="Hint" type="Label" parent="Content/Card/Box/ListHeader" unique_id=1938164011]
+[node name="Searching" type="Label" parent="Content/Main/List/Box/ListHeader"]
 layout_mode = 2
-theme_type_variation = &"Caption"
-text = "AUTO-REFRESH  ·  LAN"
+theme_override_colors/font_color = Color(0.224, 0.816, 0.878, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 11
+text = "●  SEARCHING LAN"
+vertical_alignment = 1
 
-[node name="EmptyState" type="CenterContainer" parent="Content/Card/Box" unique_id=1211989774]
+[node name="Pad2" type="Control" parent="Content/Main/List/Box/ListHeader"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+
+[node name="Sep" type="HSeparator" parent="Content/Main/List/Box"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="EmptyState" type="CenterContainer" parent="Content/Main/List/Box"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="EmptyBox" type="VBoxContainer" parent="Content/Card/Box/EmptyState" unique_id=1211989775]
+[node name="EmptyBox" type="VBoxContainer" parent="Content/Main/List/Box/EmptyState"]
 layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
+theme_override_constants/separation = 6
 
-[node name="Icon" type="TextureRect" parent="Content/Card/Box/EmptyState/EmptyBox" unique_id=1211989776]
-script = ExtResource("9_animicon")
-custom_minimum_size = Vector2(44, 44)
+[node name="Icon" type="TextureRect" parent="Content/Main/List/Box/EmptyState/EmptyBox"]
+modulate = Color(0.486, 0.518, 0.58, 1)
+custom_minimum_size = Vector2(34, 34)
 layout_mode = 2
 size_flags_horizontal = 4
-texture = ExtResource("4_server")
+texture = ExtResource("6_server")
 expand_mode = 1
 stretch_mode = 5
-modulate = Color(0.3, 0.35, 0.42, 1)
 
-[node name="Empty" type="Label" parent="Content/Card/Box/EmptyState/EmptyBox" unique_id=1211989773]
+[node name="Empty" type="Label" parent="Content/Main/List/Box/EmptyState/EmptyBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TitleSmall"
-text = "NO SERVERS FOUND"
+text = "NO SERVERS YET"
 horizontal_alignment = 1
 
-[node name="Hint" type="Label" parent="Content/Card/Box/EmptyState/EmptyBox" unique_id=1211989777]
-custom_minimum_size = Vector2(420, 0)
+[node name="Hint" type="Label" parent="Content/Main/List/Box/EmptyState/EmptyBox"]
+custom_minimum_size = Vector2(380, 0)
 layout_mode = 2
 theme_type_variation = &"HintLabel"
-text = "Searching the local network... Create a server, or connect directly by IP below."
+text = "Nobody is playing this mode on your network yet. Play right away with bots, or create a server for your friends."
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Scroll" type="ScrollContainer" parent="Content/Card/Box" unique_id=1889370035]
+[node name="Scroll" type="ScrollContainer" parent="Content/Main/List/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(680, 240)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="ServerList" type="VBoxContainer" parent="Content/Card/Box/Scroll" unique_id=598537120]
+[node name="Margin" type="MarginContainer" parent="Content/Main/List/Box/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="ServerList" type="VBoxContainer" parent="Content/Main/List/Box/Scroll/Margin"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Sep" type="HSeparator" parent="Content/Card/Box" unique_id=1938164012]
+[node name="Gap2" type="Control" parent="Content"]
+custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
+mouse_filter = 2
 
-[node name="Actions" type="HBoxContainer" parent="Content/Card/Box" unique_id=702982664]
+[node name="Actions" type="HBoxContainer" parent="Content"]
+custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 14
 
-[node name="Create" type="Button" parent="Content/Card/Box/Actions" unique_id=481013124]
+[node name="Create" type="Button" parent="Content/Actions"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(210, 50)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"PrimaryButton"
-text = "Create server"
-icon = ExtResource("3_plus")
-
-[node name="Gap" type="Control" parent="Content/Card/Box/Actions" unique_id=1938164013]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
 
-[node name="DirectIp" type="LineEdit" parent="Content/Card/Box/Actions" unique_id=1666434112]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 50)
+[node name="Row" type="HBoxContainer" parent="Content/Actions/Create"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="TextureRect" parent="Content/Actions/Create/Row"]
+modulate = Color(1, 0.541, 0.122, 1)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-placeholder_text = "Direct IP (e.g. 192.168.0.10)"
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_plus")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Connect" type="Button" parent="Content/Card/Box/Actions" unique_id=918584380]
+[node name="Text" type="VBoxContainer" parent="Content/Actions/Create/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Actions/Create/Row/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_black")
+theme_override_font_sizes/font_size = 26
+text = "CREATE SERVER"
+
+[node name="Hint" type="Label" parent="Content/Actions/Create/Row/Text"]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Your rules: map, bots, length, slots"
+
+[node name="JoinCode" type="Button" parent="Content/Actions"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(140, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+
+[node name="Row" type="HBoxContainer" parent="Content/Actions/JoinCode"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="TextureRect" parent="Content/Actions/JoinCode/Row"]
+modulate = Color(1, 0.541, 0.122, 1)
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_code")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Content/Actions/JoinCode/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Actions/JoinCode/Row/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_black")
+theme_override_font_sizes/font_size = 26
+text = "JOIN WITH CODE"
+
+[node name="Hint" type="Label" parent="Content/Actions/JoinCode/Row/Text"]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Private match with a 5-digit code"
+
+[node name="Direct" type="PanelContainer" parent="Content/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Card"
+
+[node name="Box" type="VBoxContainer" parent="Content/Actions/Direct"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Label" type="Label" parent="Content/Actions/Direct/Box"]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "DIRECT IP"
+
+[node name="Row" type="HBoxContainer" parent="Content/Actions/Direct/Box"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DirectIp" type="LineEdit" parent="Content/Actions/Direct/Box/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "192.168.0.10"
+
+[node name="Connect" type="Button" parent="Content/Actions/Direct/Box/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 focus_mode = 0
-text = "Connect"
+text = "CONNECT"

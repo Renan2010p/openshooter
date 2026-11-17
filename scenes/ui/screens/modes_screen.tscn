@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://scripts/ui/screens/modes_screen.gd" id="1_modes"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/code.svg" id="3_code"]
 
 [node name="Modes" type="Control"]
 layout_mode = 3
@@ -44,7 +43,7 @@ text = "SELECT MODE"
 [node name="Subtitle" type="Label" parent="Content/Header/Titles"]
 layout_mode = 2
 theme_type_variation = &"HintLabel"
-text = "Pick the game mode and map for the servers you create. Players can vote for another mode after each match."
+text = "Pick a game mode and map. Play finds servers of this mode, and the servers you create keep it for every match."
 
 [node name="Back" type="Button" parent="Content/Header"]
 unique_name_in_owner = true
@@ -73,13 +72,13 @@ theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 2
 
-[node name="Side" type="PanelContainer" parent="Content/Body"]
-custom_minimum_size = Vector2(320, 0)
+[node name="Side" type="VBoxContainer" parent="Content/Body"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-theme_type_variation = &"Card"
 
 [node name="Rows" type="VBoxContainer" parent="Content/Body/Side"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 12
 
 [node name="MapCaption" type="Label" parent="Content/Body/Side/Rows"]
@@ -87,11 +86,20 @@ layout_mode = 2
 theme_type_variation = &"Caption"
 text = "MAP"
 
-[node name="Map" type="OptionButton" parent="Content/Body/Side/Rows"]
+[node name="MapGrid" type="GridContainer" parent="Content/Body/Side/Rows"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="RandomMap" type="Button" parent="Content/Body/Side/Rows"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 focus_mode = 0
+theme_type_variation = &"GhostButton"
+text = "RANDOM MAP"
 
 [node name="MapDescription" type="Label" parent="Content/Body/Side/Rows"]
 unique_name_in_owner = true
@@ -103,15 +111,6 @@ autowrap_mode = 2
 [node name="Spacer" type="Control" parent="Content/Body/Side/Rows"]
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="Private" type="Button" parent="Content/Body/Side/Rows"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"MenuBtn"
-text = "Private match (code)"
-icon = ExtResource("3_code")
 
 [node name="Confirm" type="Button" parent="Content/Body/Side/Rows"]
 unique_name_in_owner = true

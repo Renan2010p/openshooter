@@ -18,11 +18,11 @@ const AVATAR_SCENE := preload("res://scenes/player/avatar.tscn")
 @export var orbit_radius := 30.0
 @export var orbit_height := 12.0
 @export var orbit_speed := 0.05
-@export var locker_camera := Vector3(-1.6, 1.5, 23.2)
-@export var locker_target := Vector3(-1.75, 1.1, 18.0)
+@export var locker_camera := Vector3(1.6, 1.5, 23.2)
+@export var locker_target := Vector3(1.75, 1.1, 18.0)
 ## Lobby view: the character in the middle of the screen, full body.
-@export var lobby_camera := Vector3(0.0, 1.45, 22.6)
-@export var lobby_target := Vector3(0.0, 1.05, 18.0)
+@export var lobby_camera := Vector3(0.1, 1.24, 20.75)
+@export var lobby_target := Vector3(0.1, 1.24, 18.0)
 ## Seconds after a drag before the character turns back to face the camera.
 @export var lobby_return_delay := 2.5
 ## How quickly the camera glides between the orbit and the Locker view.
@@ -62,6 +62,50 @@ const LOCKER_FOCUS := {
 var locker_show_back := false
 const BACK_VIEW_OFFSET := PI - 0.5
 
+## Showcase (Home and Locker), drawn like the approved mockup, back to front:
+## the map, dark gradients, a dot grid, a huge outlined title, a slanted
+## orange slab, and the character on top of all of it. The character is
+## rendered by its own camera into a transparent viewport (_avatar_view), so
+## the 2D layers can sit between the map and the character.
+const SHOWCASE_FONT := preload("res://assets/fonts/BarlowCondensed-BlackItalic.ttf")
+## Render layer only the showcase camera sees (bit value).
+const AVATAR_LAYER := 2
+const SHADE_SHADER := """
+shader_type canvas_item;
+// Mockup: linear-gradient(90deg, .94 0%, .6 30%, .08 52%, .55 78%, .9 100%),
+// a 200 px dark fade at the bottom, and the map at 62% brightness.
+uniform vec4 color : source_color = vec4(0.043, 0.047, 0.063, 1.0);
+float across(float x) {
+	if (x < 0.30) return mix(0.94, 0.60, x / 0.30);
+	if (x < 0.52) return mix(0.60, 0.08, (x - 0.30) / 0.22);
+	if (x < 0.78) return mix(0.08, 0.55, (x - 0.52) / 0.26);
+	return mix(0.55, 0.90, (x - 0.78) / 0.22);
+}
+void fragment() {
+	float bottom = clamp((UV.y - 0.722) / 0.278, 0.0, 1.0) * 0.92;
+	float a = 1.0 - (1.0 - 0.38) * (1.0 - across(UV.x)) * (1.0 - bottom);
+	COLOR = vec4(color.rgb, a);
+}
+"""
+const DOTS_SHADER := """
+shader_type canvas_item;
+// 9 px grid of soft dots, fading out toward the bottom-left.
+uniform vec2 box_size = vec2(420.0, 300.0);
+void fragment() {
+	vec2 px = UV * box_size;
+	vec2 cell = mod(px, 9.0) - 4.5;
+	float dot = 1.0 - smoothstep(1.2, 1.6, length(cell));
+	float fade = clamp((UV.x + (1.0 - UV.y)) - 0.9, 0.0, 1.0);
+	COLOR = vec4(1.0, 1.0, 1.0, 0.14 * dot * fade);
+}
+"""
+var _showcase: Control
+var _showcase_title: Label
+var _showcase_slab: Panel
+var _avatar_view: SubViewport
+var _avatar_camera: Camera3D
+var _layer_t := 0.0
+
 ## Screens that show the character.
 const SHOWCASE_SCREENS := ["Home", "Locker"]
 ## Radians per pixel when dragging the character.
@@ -82,6 +126,7 @@ func _ready() -> void:
 	Net.start_listening()
 	set_status(message)
 	rebuild_avatar()
+	_build_showcase()
 	avatar_preview.rotation.y = PI  # facing the lobby camera
 	avatar_preview.visible = false
 	avatar_preview.scale = Vector3.ONE * 0.01
@@ -150,6 +195,99 @@ func rebuild_avatar() -> void:
 	a.hand.add_child(gun)
 	a.foregrip = gun.get_node_or_null("Foregrip")
 	a.held_weapon = gun
+	_put_on_avatar_layer(a)
+
+
+func _build_showcase() -> void:
+	# The character's own camera: same place as the main camera every frame,
+	# sees only AVATAR_LAYER, transparent background.
+	_avatar_view = SubViewport.new()
+	_avatar_view.transparent_bg = true
+	_avatar_view.msaa_3d = get_viewport().msaa_3d
+	_avatar_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	_avatar_camera = Camera3D.new()
+	_avatar_camera.cull_mask = AVATAR_LAYER
+	_avatar_camera.current = true
+	_avatar_view.add_child(_avatar_camera)
+	add_child(_avatar_view)
+	camera.cull_mask &= ~AVATAR_LAYER
+
+	_showcase = Control.new()
+	_showcase.name = "Showcase"
+	_showcase.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_showcase.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_showcase.visible = false
+	var root := $UI/Root as Control
+	root.add_child(_showcase)
+	# Under the Atmosphere layer (its footer stays on top; its shades are
+	# hidden while the showcase shows).
+	root.move_child(_showcase, $UI/Root/Atmosphere.get_index())
+
+	var shade := ColorRect.new()
+	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	shade.material = _shader_material(SHADE_SHADER)
+	_showcase.add_child(shade)
+
+	var dots := ColorRect.new()
+	dots.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	dots.offset_left = -420.0
+	dots.offset_bottom = 300.0
+	dots.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dots.material = _shader_material(DOTS_SHADER)
+	_showcase.add_child(dots)
+
+	# Outline-only title, 210 px, lines at 0.82 of the size, top at 150 px.
+	_showcase_title = Label.new()
+	_showcase_title.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	_showcase_title.offset_top = 150.0 - 30.0
+	_showcase_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_showcase_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_showcase_title.add_theme_font_override("font", SHOWCASE_FONT)
+	_showcase_title.add_theme_font_size_override("font_size", 210)
+	_showcase_title.add_theme_constant_override("line_spacing", -int(SHOWCASE_FONT.get_height(210) - 210 * 0.82))
+	_showcase_title.add_theme_color_override("font_color", Color(0, 0, 0, 0))
+	_showcase_title.add_theme_color_override("font_outline_color", Color(1.0, 0.541, 0.122, 0.42))
+	_showcase_title.add_theme_constant_override("outline_size", 4)
+	_showcase.add_child(_showcase_title)
+
+	# Slab: 240 x 560 at (520, 120), slanted 14 degrees, orange left edge.
+	_showcase_slab = Panel.new()
+	_showcase_slab.position = Vector2(520, 120)
+	_showcase_slab.size = Vector2(240, 560)
+	_showcase_slab.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var slab_style := StyleBoxFlat.new()
+	slab_style.bg_color = Color(1.0, 0.541, 0.122, 0.16)
+	slab_style.border_color = Color(1.0, 0.541, 0.122, 1.0)
+	slab_style.border_width_left = 3
+	slab_style.skew = Vector2(tan(deg_to_rad(14.0)), 0.0)
+	_showcase_slab.add_theme_stylebox_override("panel", slab_style)
+	_showcase.add_child(_showcase_slab)
+
+	var character := TextureRect.new()
+	character.set_anchors_preset(Control.PRESET_FULL_RECT)
+	character.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	character.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	character.stretch_mode = TextureRect.STRETCH_SCALE
+	character.texture = _avatar_view.get_texture()
+	_showcase.add_child(character)
+
+
+func _shader_material(code: String) -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = code
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	return material
+
+
+## Puts every mesh of the character on AVATAR_LAYER (only the showcase
+## camera draws it; the light still casts its shadow on the map).
+func _put_on_avatar_layer(node: Node) -> void:
+	if node is VisualInstance3D:
+		(node as VisualInstance3D).layers = AVATAR_LAYER
+	for child in node.get_children():
+		_put_on_avatar_layer(child)
 
 
 ## Makes the character react to a new Locker item in `slot` with an emote.
@@ -208,6 +346,21 @@ func _process(delta: float) -> void:
 		_avatar_target = showcase
 		_dragging = false
 		_animate_avatar(showcase)
+	if is_instance_valid(_showcase):
+		_showcase.visible = showcase
+		$UI/Root/Atmosphere/Tint.visible = not showcase
+		$UI/Root/Atmosphere/LeftShade.visible = not showcase
+		$UI/Root/Atmosphere/Vignette.visible = not showcase
+		var locker := screen == "Locker"
+		_showcase_title.text = "LOCKER" if locker else (
+			"WINTER\nWARFARE" if Holiday.ENABLED else "OPEN\nSHOOTER")
+		# In the Locker the character stands left of centre (panel on the right).
+		_showcase_title.offset_right = -340.0 if locker else 0.0
+		_showcase_slab.visible = not locker
+		_layer_t -= delta
+		if _layer_t <= 0.0:
+			_layer_t = 0.5
+			_put_on_avatar_layer(avatar_preview)
 	_since_drag += delta
 	var target_pos: Vector3
 	var target_look: Vector3
@@ -245,3 +398,10 @@ func _process(delta: float) -> void:
 	camera.global_position = camera.global_position.lerp(target_pos, k)
 	_look_target = _look_target.lerp(target_look, k)
 	camera.look_at(_look_target)
+	if is_instance_valid(_avatar_camera):
+		# Same pixel size as the window, so the character is as sharp as the map.
+		var pixels := Vector2i(get_viewport().get_visible_rect().size * get_viewport().get_final_transform().get_scale())
+		if _avatar_view.size != pixels:
+			_avatar_view.size = pixels
+		_avatar_camera.global_transform = camera.global_transform
+		_avatar_camera.fov = camera.fov

@@ -4,147 +4,247 @@
 [ext_resource type="Script" path="res://scripts/ui/touch_look_area.gd" id="2_look"]
 [ext_resource type="Script" path="res://scripts/ui/touch_joystick.gd" id="3_joystick"]
 [ext_resource type="Script" path="res://scripts/ui/touch_aim_stick.gd" id="4_aim"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/pause.svg" id="5_pause"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/menu.svg" id="6_menu"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/arrow_up.svg" id="7_up"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/crouch.svg" id="8_crouch"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/refresh.svg" id="9_reload"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="10_black"]
+[ext_resource type="FontFile" path="res://assets/fonts/Barlow-Bold.ttf" id="11_bold"]
 
-[node name="TouchControls" type="Control" unique_id=880000001]
-script = ExtResource("1_controls")
+[sub_resource type="StyleBoxFlat" id="ArrowStyle"]
+bg_color = Color(0.043, 0.047, 0.063, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="ArrowPressed"]
+bg_color = Color(1, 0.541, 0.122, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="CardStyle"]
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+bg_color = Color(0.043, 0.047, 0.063, 0.8)
+border_width_bottom = 3
+border_color = Color(1, 0.541, 0.122, 1)
+
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+
+[node name="TouchControls" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+script = ExtResource("1_controls")
 
-[node name="LookArea" type="Control" parent="." unique_id=880000002]
-script = ExtResource("2_look")
+[node name="LookArea" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 0
+script = ExtResource("2_look")
 
-[node name="Joystick" type="Control" parent="." unique_id=880000003]
+[node name="LookHint" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -30.0
+offset_bottom = -12.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 11
+text = "S W I P E   A N Y W H E R E   O N   T H E   R I G H T   T O   L O O K"
+horizontal_alignment = 1
+
+[node name="Joystick" type="Control" parent="."]
 unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 63.0
+offset_top = -307.0
+offset_right = 313.0
+offset_bottom = -57.0
 script = ExtResource("3_joystick")
-layout_mode = 1
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 32.0
-offset_top = -232.0
-offset_right = 232.0
-offset_bottom = -32.0
-mouse_filter = 0
 
-[node name="Pause" type="Button" parent="." unique_id=880000004]
+[node name="Pause" type="Button" parent="."]
 unique_name_in_owner = true
-layout_mode = 1
+layout_mode = 0
 offset_left = 20.0
-offset_top = 40.0
-offset_right = 110.0
-offset_bottom = 84.0
+offset_top = 16.0
+offset_right = 70.0
+offset_bottom = 66.0
 focus_mode = 0
-theme_type_variation = &"TouchButtonSmall"
-text = "PAUSE"
+theme_type_variation = &"TouchSquare"
+icon = ExtResource("5_pause")
+icon_alignment = 1
 
-[node name="Score" type="Button" parent="." unique_id=880000005]
+[node name="Score" type="Button" parent="."]
 unique_name_in_owner = true
-layout_mode = 1
-offset_left = 20.0
-offset_top = 90.0
-offset_right = 110.0
-offset_bottom = 134.0
+layout_mode = 0
+offset_left = 78.0
+offset_top = 16.0
+offset_right = 128.0
+offset_bottom = 66.0
 focus_mode = 0
 toggle_mode = true
-theme_type_variation = &"TouchButtonSmall"
-text = "SCORE"
+theme_type_variation = &"TouchSquare"
+icon = ExtResource("6_menu")
+icon_alignment = 1
 
-[node name="Weapons" type="HBoxContainer" parent="." unique_id=880000006]
+[node name="Weapons" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchor_left = 0.5
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -322.0
+offset_top = -60.0
+offset_right = -30.0
+offset_bottom = 4.0
+grow_horizontal = 0
+theme_override_constants/separation = 6
+alignment = 2
+
+[node name="Prev" type="Button" parent="Weapons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 64)
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("10_black")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("ArrowStyle")
+theme_override_styles/hover = SubResource("ArrowStyle")
+theme_override_styles/pressed = SubResource("ArrowPressed")
+theme_override_styles/focus = SubResource("Empty")
+text = "‹"
+
+[node name="Card" type="PanelContainer" parent="Weapons"]
+custom_minimum_size = Vector2(200, 64)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("CardStyle")
+
+[node name="Row" type="HBoxContainer" parent="Weapons/Card"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="WeaponIcon" type="TextureRect" parent="Weapons/Card/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 38)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Weapons/Card/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = -4
+
+[node name="Ammo" type="RichTextLabel" parent="Weapons/Card/Row/Text"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 30)
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("10_black")
+theme_override_font_sizes/normal_font_size = 26
+bbcode_enabled = true
+text = "30[font_size=16] / 90[/font_size]"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="WeaponName" type="Label" parent="Weapons/Card/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.769, 0.788, 0.824, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 11
+text = "AK-47"
+
+[node name="Next" type="Button" parent="Weapons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 64)
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("10_black")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("ArrowStyle")
+theme_override_styles/hover = SubResource("ArrowStyle")
+theme_override_styles/pressed = SubResource("ArrowPressed")
+theme_override_styles/focus = SubResource("Empty")
+text = "›"
+
+[node name="AimStick" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -90.0
-offset_top = -72.0
-offset_right = 90.0
-offset_bottom = -24.0
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="Prev" type="Button" parent="Weapons" unique_id=880000007]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(84, 48)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"TouchButtonSmall"
-text = "PREV"
-
-[node name="Next" type="Button" parent="Weapons" unique_id=880000008]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(84, 48)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"TouchButtonSmall"
-text = "NEXT"
-
-[node name="AimStick" type="Control" parent="." unique_id=880000014]
-unique_name_in_owner = true
+offset_left = -303.0
+offset_top = -273.0
+offset_right = -97.0
+offset_bottom = -67.0
 script = ExtResource("4_aim")
-layout_mode = 1
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -262.0
-offset_top = -262.0
-offset_right = -32.0
-offset_bottom = -32.0
-mouse_filter = 0
 
-[node name="Crouch" type="Button" parent="." unique_id=880000009]
+[node name="Jump" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -520.0
-offset_top = -240.0
-offset_right = -442.0
-offset_bottom = -168.0
+offset_left = -102.0
+offset_top = -298.0
+offset_right = -26.0
+offset_bottom = -222.0
+focus_mode = 0
+theme_type_variation = &"TouchRound"
+icon = ExtResource("7_up")
+icon_alignment = 1
+
+[node name="Crouch" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -180.0
+offset_right = -24.0
+offset_bottom = -104.0
 focus_mode = 0
 toggle_mode = true
-theme_type_variation = &"TouchButton"
-text = "CROUCH"
-theme_override_font_sizes/font_size = 10
+theme_type_variation = &"TouchRound"
+icon = ExtResource("8_crouch")
+icon_alignment = 1
 
-[node name="Reload" type="Button" parent="." unique_id=880000010]
+[node name="Reload" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -436.0
-offset_top = -240.0
-offset_right = -358.0
-offset_bottom = -168.0
+offset_left = -366.0
+offset_top = -128.0
+offset_right = -300.0
+offset_bottom = -62.0
 focus_mode = 0
-theme_type_variation = &"TouchButton"
-text = "RELOAD"
-theme_override_font_sizes/font_size = 10
-
-[node name="Jump" type="Button" parent="." unique_id=880000012]
-unique_name_in_owner = true
-layout_mode = 1
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -352.0
-offset_top = -240.0
-offset_right = -274.0
-offset_bottom = -168.0
-focus_mode = 0
-theme_type_variation = &"TouchButton"
-text = "JUMP"
-theme_override_font_sizes/font_size = 10
-
+theme_type_variation = &"TouchRound"
+icon = ExtResource("9_reload")
+icon_alignment = 1

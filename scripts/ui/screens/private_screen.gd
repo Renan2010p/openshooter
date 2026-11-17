@@ -11,7 +11,7 @@ var _search_t := 0.0
 func _ready() -> void:
 	bind_button(%Join, _start_search)
 	bind_button(%Create, func(): menu.show_screen("Create", "private"))
-	bind_button(%Back, func(): menu.show_screen("Modes"))
+	bind_button(%Back, func(): menu.show_screen("Browser"))
 	%Code.text_submitted.connect(func(_t): _start_search())
 
 

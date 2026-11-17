@@ -99,24 +99,31 @@ func reset() -> void:
 	_release()
 
 
+const LABEL_FONT := preload("res://assets/fonts/Barlow-Bold.ttf")
+
+
+## Orange FIRE button: tinted disc, orange ring, a crosshair and its label.
+## While held it brightens; past the fire threshold it turns solid. A light
+## knob shows where the finger has dragged.
 func _draw() -> void:
 	var center := _center()
 	var radius := _radius()
-	var ring := Color(0.96, 0.65, 0.14, 0.50)
+	var fill := Color(1.0, 0.541, 0.122, 0.3)
 	if Touch.aim_auto:
-		ring.a = 0.92
+		fill.a = 0.45
 	if Touch.fire_held or _firing:
-		ring = Color(1.0, 0.32, 0.22, 0.95)
-	draw_circle(center, radius, Color(0.02, 0.03, 0.04, 0.40))
-	draw_arc(center, radius, 0.0, TAU, 48, ring, 2.0, true)
-	# Static crosshair inside the base.
-	draw_line(center + Vector2(-radius * 0.55, 0), center + Vector2(-radius * 0.18, 0), ring, 2.0, true)
-	draw_line(center + Vector2(radius * 0.18, 0), center + Vector2(radius * 0.55, 0), ring, 2.0, true)
-	draw_line(center + Vector2(0, -radius * 0.55), center + Vector2(0, -radius * 0.18), ring, 2.0, true)
-	draw_line(center + Vector2(0, radius * 0.18), center + Vector2(0, radius * 0.55), ring, 2.0, true)
-	draw_circle(center, 2.0, ring)
-	# Stick knob.
-	var knob := center + _knob
-	draw_circle(knob, radius * 0.34, Color(0.02, 0.03, 0.04, 0.35))
-	draw_circle(knob, radius * 0.29, Color(0.88, 0.92, 0.97, 0.82))
-	draw_arc(knob, radius * 0.29, 0.0, TAU, 36, ring, 2.0, true)
+		fill.a = 0.75
+	draw_circle(center, radius, fill)
+	draw_arc(center, radius, 0.0, TAU, 64, Color(1.0, 0.541, 0.122, 1.0), 3.0, true)
+	# Crosshair icon.
+	var icon := center + Vector2(0, -radius * 0.15)
+	var white := Color(1, 1, 1, 0.95)
+	draw_arc(icon, 13.0, 0.0, TAU, 32, white, 2.5, true)
+	for dir: Vector2 in [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]:
+		draw_line(icon + dir * 8.0, icon + dir * 19.0, white, 2.5, true)
+	var text := "FIRE · DRAG TO AIM"
+	var text_size := LABEL_FONT.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
+	draw_string(LABEL_FONT, center + Vector2(-text_size.x / 2.0, radius * 0.42), text,
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, white)
+	if _knob != Vector2.ZERO:
+		draw_circle(center + _knob, radius * 0.22, Color(1, 1, 1, 0.35))

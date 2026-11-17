@@ -167,18 +167,22 @@ func on_kill(vid: int, attacker: int, widx: int, head: bool) -> void:
 		v.die()
 	var wname := WeaponDB.get_data(widx).display_name
 	print("[kill] %s -> %s (%s%s)" % [world.player_name(attacker), world.player_name(vid), wname, ", headshot" if head else ""])
+	var a := world.get_player(attacker)
+	var mine := a != null and a.local
 	if attacker == vid:
 		world.hud.feed("%s blew themselves up" % world.player_name(vid))
 	else:
-		world.hud.feed("%s  [%s%s]  %s" % [world.player_name(attacker), wname, " • HEADSHOT" if head else "", world.player_name(vid)])
+		world.hud.feed_kill(world.player_name(attacker), world.player_name(vid), widx, head, mine)
 	if v and v.local:
-		world.hud.show_death(world.player_name(attacker) if attacker != vid else "yourself", respawn_time)
+		if attacker == vid:
+			world.hud.show_death("Yourself", respawn_time, widx)
+		else:
+			world.hud.show_death(world.player_name(attacker), respawn_time, widx, head)
 		Config.add_stat("deaths")
-	var a := world.get_player(attacker)
-	if a and a.local and attacker != vid:
+	if mine and attacker != vid:
 		Sfx.play("kill", -4.0)
 		world.hud.kill_confirmed(head)
-		world.hud.toast("You eliminated %s" % world.player_name(vid))
+		world.hud.toast("Eliminated", world.player_name(vid) + (" · Headshot" if head else ""))
 		Config.add_stat("kills")
 		if head:
 			Config.add_stat("headshots")

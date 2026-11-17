@@ -11,20 +11,29 @@ extends SceneTree
 const OUT := "res://resources/ui/theme.tres"
 
 # ---------------------------------------------------------------- palette
-const BG := Color("#0b0f14")
-const SURFACE := Color(0.066, 0.086, 0.114, 0.92)
-const SURFACE_2 := Color(0.086, 0.110, 0.145, 0.96)
-const SURFACE_3 := Color(0.115, 0.145, 0.190, 0.96)
-const BORDER := Color(0.235, 0.290, 0.365, 1.0)
-const BORDER_SOFT := Color(0.165, 0.205, 0.265, 1.0)
-const TEXT := Color("#e9eef5")
-const TEXT_DIM := Color("#93a1b3")
-const TEXT_FAINT := Color("#66758a")
-const ACCENT := Color("#f5a524")
-const ACCENT_HI := Color("#ffc46b")
-const ACCENT_DARK := Color("#b56f0e")
-const DANGER := Color("#e5484d")
-const OK := Color("#4ade80")
+# 1.1.0 look: graphite ground, the brand orange, a cold cyan for support
+# (health, "level up", status) and sharp chamfered shapes.
+const BG := Color("#0b0c10")
+const SURFACE := Color(0.063, 0.071, 0.094, 0.92)
+const SURFACE_2 := Color(0.078, 0.086, 0.110, 0.96)
+const SURFACE_3 := Color(0.110, 0.122, 0.153, 0.96)
+const BORDER := Color(0.26, 0.28, 0.33, 1.0)
+const BORDER_SOFT := Color(0.16, 0.17, 0.21, 1.0)
+const TEXT := Color("#f2f1ec")
+const TEXT_DIM := Color("#a8afbb")
+const TEXT_FAINT := Color("#7c8494")
+const ACCENT := Color("#ff8a1f")
+const ACCENT_HI := Color("#ffb066")
+const ACCENT_DARK := Color("#c96a12")
+## Text drawn on the orange accent.
+const ON_ACCENT := Color("#111111")
+const SUPPORT := Color("#39d0e0")
+const DANGER := Color("#c7161f")
+const OK := Color("#39d0e0")
+## Chamfer of panels and buttons (cut corners: top-left and bottom-right).
+const CHAMFER := 12
+## Slant of primary buttons (StyleBoxFlat.skew.x).
+const SLANT := 0.24
 
 var _regular: Font
 var _medium: Font
@@ -33,6 +42,9 @@ var _bold: Font
 var _cond_medium: Font
 var _cond_semibold: Font
 var _cond_bold: Font
+## Display faces: Barlow Condensed ExtraBold / Black Italic.
+var _display: Font
+var _display_heavy: Font
 
 
 func _initialize() -> void:
@@ -43,6 +55,8 @@ func _initialize() -> void:
 	_cond_medium = load("res://assets/fonts/BarlowCondensed-Medium.ttf")
 	_cond_semibold = load("res://assets/fonts/BarlowCondensed-SemiBold.ttf")
 	_cond_bold = load("res://assets/fonts/BarlowCondensed-Bold.ttf")
+	_display = load("res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf")
+	_display_heavy = load("res://assets/fonts/BarlowCondensed-BlackItalic.ttf")
 
 	var t := Theme.new()
 	t.default_font = _regular
@@ -63,19 +77,27 @@ func _initialize() -> void:
 
 
 # ---------------------------------------------------------------- helpers
+## A flat box. `radius` is the size of the CHAMFER: the top-left and
+## bottom-right corners are cut straight (corner_detail 1), the other two are
+## square, which gives every panel and button the angular 1.1.0 look.
 func _flat(bg: Color, border := Color.TRANSPARENT, radius := 10, border_width := 0, margin_h := 14, margin_v := 10, shadow := 0) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
 	s.bg_color = bg
 	s.border_color = border
 	s.set_border_width_all(border_width)
-	s.set_corner_radius_all(radius)
+	var cut := mini(radius, CHAMFER)
+	s.corner_radius_top_left = cut
+	s.corner_radius_bottom_right = cut
+	s.corner_radius_top_right = 0
+	s.corner_radius_bottom_left = 0
+	s.corner_detail = 1
 	s.content_margin_left = margin_h
 	s.content_margin_right = margin_h
 	s.content_margin_top = margin_v
 	s.content_margin_bottom = margin_v
 	s.anti_aliasing = true
 	if shadow > 0:
-		s.shadow_color = Color(0, 0, 0, 0.35)
+		s.shadow_color = Color(0, 0, 0, 0.45)
 		s.shadow_size = shadow
 		s.shadow_offset = Vector2(0, 5)
 	return s
@@ -133,15 +155,23 @@ func _build_buttons(t: Theme) -> void:
 	_style_button(t, "Button", _semibold, 18, 10, 20, 12)
 	t.set_stylebox("hover_pressed", "Button", _flat(Color(0.17, 0.14, 0.08, 0.98), ACCENT, 10, 1, 20, 12))
 
-	# Large navigation button (main menu).
+	# Large navigation button (menus): heavy italic label, a bar on the left
+	# that turns orange on hover.
 	t.set_type_variation("MenuBtn", "Button")
-	_style_button(t, "MenuBtn", _semibold, 21, 12, 24, 15)
-	t.set_stylebox("normal", "MenuBtn", _flat(Color(0.055, 0.070, 0.095, 0.82), BORDER_SOFT, 12, 1, 24, 15))
-	t.set_stylebox("hover", "MenuBtn", _flat(Color(0.115, 0.145, 0.190, 0.98), ACCENT, 12, 1, 24, 15, 8))
+	_style_button(t, "MenuBtn", _display, 23, 12, 24, 15)
+	var menu_normal := _flat(Color(0.063, 0.071, 0.094, 0.88), Color(1, 1, 1, 0.16), 12, 0, 24, 15)
+	menu_normal.border_width_left = 4
+	var menu_hover := _flat(Color(0.20, 0.12, 0.05, 0.95), ACCENT, 12, 0, 24, 15, 8)
+	menu_hover.border_width_left = 4
+	var menu_pressed := _flat(Color(0.28, 0.16, 0.05, 0.98), ACCENT_HI, 12, 0, 24, 15)
+	menu_pressed.border_width_left = 4
+	t.set_stylebox("normal", "MenuBtn", menu_normal)
+	t.set_stylebox("hover", "MenuBtn", menu_hover)
+	t.set_stylebox("pressed", "MenuBtn", menu_pressed)
 
 	# Hero cards (mode selection).
 	t.set_type_variation("BigButton", "Button")
-	_style_button(t, "BigButton", _cond_semibold, 34, 14, 26, 18)
+	_style_button(t, "BigButton", _display_heavy, 34, 14, 26, 18)
 	t.set_stylebox("normal", "BigButton", _flat(Color(0.055, 0.070, 0.095, 0.85), BORDER_SOFT, 14, 1, 26, 18, 0))
 
 	# Small utility button.
@@ -149,27 +179,32 @@ func _build_buttons(t: Theme) -> void:
 	_style_button(t, "SmallButton", _medium, 15, 8, 14, 8)
 	t.set_constant("icon_max_width", "SmallButton", 20)
 
-	# Primary action.
+	# Primary action: solid orange, slanted, heavy italic label.
 	t.set_type_variation("PrimaryButton", "Button")
-	_style_button(t, "PrimaryButton", _semibold, 19, 10, 22, 13)
-	t.set_color("font_color", "PrimaryButton", Color("#17110a"))
-	t.set_color("font_hover_color", "PrimaryButton", Color("#19120a"))
-	t.set_color("font_pressed_color", "PrimaryButton", Color("#2a1c06"))
-	t.set_color("icon_normal_color", "PrimaryButton", Color("#17110a"))
-	t.set_color("icon_hover_color", "PrimaryButton", Color("#19120a"))
-	t.set_color("icon_pressed_color", "PrimaryButton", Color("#2a1c06"))
-	t.set_stylebox("normal", "PrimaryButton", _flat(ACCENT, ACCENT_HI, 10, 1, 22, 13, 4))
-	t.set_stylebox("hover", "PrimaryButton", _flat(ACCENT_HI, Color("#ffe0a3"), 10, 1, 22, 13, 10))
-	t.set_stylebox("pressed", "PrimaryButton", _flat(ACCENT_DARK, ACCENT, 10, 1, 22, 13))
+	_style_button(t, "PrimaryButton", _display_heavy, 24, 0, 26, 12)
+	for key in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color",
+			"icon_normal_color", "icon_hover_color", "icon_pressed_color"]:
+		t.set_color(key, "PrimaryButton", ON_ACCENT)
+	var primary := {"normal": ACCENT, "hover": ACCENT_HI, "pressed": ACCENT_DARK}
+	for state in primary:
+		var box := _flat(primary[state], Color.TRANSPARENT, 0, 0, 26, 12, 8 if state == "hover" else 0)
+		box.skew = Vector2(SLANT, 0)
+		if state == "hover":
+			box.shadow_color = Color(1.0, 0.54, 0.12, 0.35)
+		t.set_stylebox(state, "PrimaryButton", box)
+	var primary_off := _flat(Color(0.35, 0.22, 0.10, 0.6), Color.TRANSPARENT, 0, 0, 26, 12)
+	primary_off.skew = Vector2(SLANT, 0)
+	t.set_stylebox("disabled", "PrimaryButton", primary_off)
 
 	# Destructive action.
 	t.set_type_variation("DangerButton", "Button")
 	_style_button(t, "DangerButton", _semibold, 18, 10, 20, 12)
 	t.set_color("font_hover_color", "DangerButton", Color("#ff8a8d"))
 	t.set_color("icon_hover_color", "DangerButton", DANGER)
-	t.set_stylebox("normal", "DangerButton", _flat(Color(0.075, 0.040, 0.048, 0.9), Color(0.40, 0.19, 0.22, 1), 10, 1, 20, 12))
-	t.set_stylebox("hover", "DangerButton", _flat(Color(0.16, 0.07, 0.08, 0.98), DANGER, 10, 1, 20, 12, 6))
-	t.set_stylebox("pressed", "DangerButton", _flat(Color(0.22, 0.08, 0.09, 0.98), DANGER, 10, 1, 20, 12))
+	t.set_color("font_hover_color", "DangerButton", TEXT)
+	t.set_stylebox("normal", "DangerButton", _flat(Color(0.47, 0.08, 0.10, 0.88), Color.TRANSPARENT, 10, 0, 20, 12))
+	t.set_stylebox("hover", "DangerButton", _flat(Color(0.62, 0.09, 0.12, 0.98), Color.TRANSPARENT, 10, 0, 20, 12, 6))
+	t.set_stylebox("pressed", "DangerButton", _flat(Color(0.75, 0.10, 0.14, 0.98), Color.TRANSPARENT, 10, 0, 20, 12))
 
 	# Mobile touch controls.
 	t.set_type_variation("TouchButton", "Button")
@@ -180,6 +215,32 @@ func _build_buttons(t: Theme) -> void:
 	t.set_color("font_pressed_color", "TouchButton", Color("#17110a"))
 	t.set_color("font_outline_color", "TouchButton", Color(0, 0, 0, 0.8))
 	t.set_constant("outline_size", "TouchButton", 3)
+
+	# 1.1.0 touch HUD: round grey action buttons (jump, crouch, reload) and
+	# square dark buttons (pause, scoreboard). Pressed / toggled turns orange.
+	t.set_type_variation("TouchRound", "Button")
+	for state: String in ["normal", "hover", "pressed", "hover_pressed"]:
+		var round_box := StyleBoxFlat.new()
+		round_box.set_corner_radius_all(64)
+		round_box.corner_detail = 16
+		round_box.anti_aliasing = true
+		var on: bool = state == "pressed" or state == "hover_pressed"
+		round_box.bg_color = Color(1.0, 0.541, 0.122, 0.85) if on else Color(0.24, 0.25, 0.28, 0.72)
+		round_box.border_color = Color(1, 1, 1, 0.35)
+		round_box.set_border_width_all(2)
+		t.set_stylebox(state, "TouchRound", round_box)
+	t.set_stylebox("focus", "TouchRound", StyleBoxEmpty.new())
+	t.set_constant("icon_max_width", "TouchRound", 24)
+	t.set_type_variation("TouchSquare", "Button")
+	for state: String in ["normal", "hover", "pressed", "hover_pressed"]:
+		var on: bool = state == "pressed" or state == "hover_pressed"
+		t.set_stylebox(state, "TouchSquare", _flat(ACCENT if on else Color(0.043, 0.047, 0.063, 0.85), Color.TRANSPARENT, 10, 0, 0, 0))
+	t.set_stylebox("focus", "TouchSquare", StyleBoxEmpty.new())
+	t.set_constant("icon_max_width", "TouchSquare", 22)
+	for variation in ["TouchRound", "TouchSquare"]:
+		for key in ["icon_normal_color", "icon_hover_color", "icon_focus_color", "icon_hover_pressed_color"]:
+			t.set_color(key, variation, Color.WHITE)
+		t.set_color("icon_pressed_color", variation, ON_ACCENT)
 
 	t.set_type_variation("TouchButtonSmall", "Button")
 	_style_button(t, "TouchButtonSmall", _semibold, 12, 10, 5, 3)
@@ -192,7 +253,7 @@ func _build_buttons(t: Theme) -> void:
 
 	t.set_type_variation("TouchButtonFire", "Button")
 	_style_button(t, "TouchButtonFire", _bold, 18, 18, 10, 8)
-	t.set_stylebox("normal", "TouchButtonFire", _flat(Color(0.96, 0.65, 0.14, 0.82), ACCENT_HI, 18, 2, 10, 8, 6))
+	t.set_stylebox("normal", "TouchButtonFire", _flat(Color(1.0, 0.54, 0.12, 0.82), ACCENT_HI, 18, 2, 10, 8, 6))
 	t.set_stylebox("hover", "TouchButtonFire", _flat(ACCENT_HI, Color("#fff0c8"), 18, 2, 10, 8, 10))
 	t.set_stylebox("pressed", "TouchButtonFire", _flat(ACCENT_DARK, ACCENT, 18, 2, 10, 8))
 	t.set_color("font_color", "TouchButtonFire", Color("#17110a"))
@@ -211,13 +272,13 @@ func _build_buttons(t: Theme) -> void:
 
 	# Transparent / back button.
 	t.set_type_variation("GhostButton", "Button")
-	_style_button(t, "GhostButton", _medium, 16, 8, 16, 10)
+	_style_button(t, "GhostButton", _display, 19, 8, 16, 10)
 	t.set_stylebox("normal", "GhostButton", _flat(Color(0.04, 0.05, 0.07, 0.55), BORDER_SOFT, 8, 1, 16, 10))
 	t.set_stylebox("hover", "GhostButton", _flat(Color(0.09, 0.11, 0.15, 0.9), BORDER, 8, 1, 16, 10, 4))
 
 	# Toggle buttons used by the voting list.
 	t.set_type_variation("VoteButton", "Button")
-	_style_button(t, "VoteButton", _medium, 17, 9, 16, 11)
+	_style_button(t, "VoteButton", _display, 19, 9, 16, 11)
 	t.set_stylebox("normal", "VoteButton", _flat(Color(0.05, 0.065, 0.09, 0.85), BORDER_SOFT, 9, 1, 16, 11))
 	t.set_stylebox("hover", "VoteButton", _flat(Color(0.10, 0.125, 0.165, 0.98), ACCENT, 9, 1, 16, 11, 4))
 	t.set_stylebox("pressed", "VoteButton", _flat(Color(0.19, 0.15, 0.07, 0.98), ACCENT, 9, 1, 16, 11))
@@ -339,17 +400,45 @@ func _build_containers(t: Theme) -> void:
 	t.set_stylebox("panel", "ScoreRowPanelAlt", _flat(Color(0, 0, 0, 0), Color.TRANSPARENT, 7, 0, 12, 5))
 
 	# In-match hotbar.
+	# Square dark slots; the active one is solid orange with cut corners.
 	t.set_type_variation("HotbarSlot", "PanelContainer")
-	t.set_stylebox("panel", "HotbarSlot", _flat(Color(0.035, 0.045, 0.060, 0.72), BORDER_SOFT, 8, 1, 10, 5))
+	t.set_stylebox("panel", "HotbarSlot", _flat(Color(0.043, 0.047, 0.063, 0.78), Color.TRANSPARENT, 0, 0, 4, 2))
 	t.set_type_variation("HotbarSlotActive", "PanelContainer")
-	t.set_stylebox("panel", "HotbarSlotActive", _flat(Color(0.18, 0.14, 0.07, 0.96), ACCENT, 8, 1, 10, 5, 6))
+	t.set_stylebox("panel", "HotbarSlotActive", _flat(ACCENT, Color.TRANSPARENT, 10, 0, 4, 2))
 
+	# Dark plates beside the orange clock (top centre).
+	var plate := _flat(Color(0.043, 0.047, 0.063, 0.82), Color.TRANSPARENT, 0, 0, 18, 6)
+	plate.skew = Vector2(0.25, 0)
 	t.set_type_variation("TopBarPanel", "PanelContainer")
-	t.set_stylebox("panel", "TopBarPanel", _flat(Color(0.035, 0.045, 0.060, 0.72), BORDER_SOFT, 12, 1, 20, 8))
+	t.set_stylebox("panel", "TopBarPanel", plate)
+	var clock := _flat(ACCENT, Color.TRANSPARENT, 0, 0, 24, 2)
+	clock.skew = Vector2(0.25, 0)
+	t.set_type_variation("ClockPlate", "PanelContainer")
+	t.set_stylebox("panel", "ClockPlate", clock)
+	t.set_type_variation("LeaderChip", "PanelContainer")
+	t.set_stylebox("panel", "LeaderChip", _flat(Color(0.043, 0.047, 0.063, 0.75), Color.TRANSPARENT, 0, 0, 9, 3))
+	t.set_type_variation("LeaderChipFirst", "PanelContainer")
+	t.set_stylebox("panel", "LeaderChipFirst", _flat(Color(1, 0.541, 0.122, 0.9), Color.TRANSPARENT, 0, 0, 9, 3))
 
-	# Kill feed chip.
+	# Kill feed strip: dark, with a bar on the right (orange for your kills).
+	var feed := _flat(Color(0.043, 0.047, 0.063, 0.72), Color(1, 1, 1, 0.25), 0, 0, 14, 4)
+	feed.border_width_right = 4
 	t.set_type_variation("FeedChip", "PanelContainer")
-	t.set_stylebox("panel", "FeedChip", _flat(Color(0.035, 0.045, 0.060, 0.78), BORDER_SOFT, 8, 1, 12, 6))
+	t.set_stylebox("panel", "FeedChip", feed)
+	var feed_mine := feed.duplicate() as StyleBoxFlat
+	feed_mine.bg_color = Color(0.043, 0.047, 0.063, 0.82)
+	feed_mine.border_color = ACCENT
+	t.set_type_variation("FeedChipMine", "PanelContainer")
+	t.set_stylebox("panel", "FeedChipMine", feed_mine)
+
+	# "ELIMINATED X" banner under the crosshair.
+	var confirm := _flat(Color(0.043, 0.047, 0.063, 0.78), ACCENT, 0, 0, 16, 5)
+	confirm.border_width_left = 4
+	confirm.skew = Vector2(0.21, 0)
+	t.set_type_variation("ConfirmPanel", "PanelContainer")
+	t.set_stylebox("panel", "ConfirmPanel", confirm)
+	t.set_type_variation("InfoChip", "PanelContainer")
+	t.set_stylebox("panel", "InfoChip", _flat(Color(0.043, 0.047, 0.063, 0.8), Color.TRANSPARENT, 0, 0, 10, 4))
 
 
 # ---------------------------------------------------------------- labels
@@ -364,20 +453,20 @@ func _label(t: Theme, type: String, font: Font, size: int, color: Color, outline
 
 func _build_labels(t: Theme) -> void:
 	t.set_type_variation("HeroLabel", "Label")
-	_label(t, "HeroLabel", _cond_bold, 104, TEXT, 0)
+	_label(t, "HeroLabel", _display_heavy, 104, TEXT, 0)
 	t.set_constant("line_spacing", "HeroLabel", 0)
 
 	t.set_type_variation("TitleLabel", "Label")
-	_label(t, "TitleLabel", _cond_bold, 54, TEXT, 0)
+	_label(t, "TitleLabel", _display_heavy, 60, TEXT, 0)
 
 	t.set_type_variation("TitleSmall", "Label")
-	_label(t, "TitleSmall", _cond_semibold, 30, TEXT, 0)
+	_label(t, "TitleSmall", _display, 30, TEXT, 0)
 
 	t.set_type_variation("SubtitleLabel", "Label")
 	_label(t, "SubtitleLabel", _medium, 20, TEXT_DIM, 0)
 
 	t.set_type_variation("SectionLabel", "Label")
-	_label(t, "SectionLabel", _semibold, 13, ACCENT, 0)
+	_label(t, "SectionLabel", _bold, 13, ACCENT, 0)
 
 	t.set_type_variation("FieldLabel", "Label")
 	_label(t, "FieldLabel", _medium, 17, TEXT_DIM, 0)
@@ -386,10 +475,10 @@ func _build_labels(t: Theme) -> void:
 	_label(t, "HintLabel", _regular, 15, TEXT_DIM, 0)
 
 	t.set_type_variation("Caption", "Label")
-	_label(t, "Caption", _medium, 12, TEXT_FAINT, 0)
+	_label(t, "Caption", _bold, 12, TEXT_DIM, 0)
 
 	t.set_type_variation("BrandLabel", "Label")
-	_label(t, "BrandLabel", _cond_bold, 28, TEXT, 0)
+	_label(t, "BrandLabel", _display_heavy, 30, TEXT, 0)
 
 	t.set_type_variation("StatusOk", "Label")
 	_label(t, "StatusOk", _semibold, 16, OK, 0)
@@ -420,13 +509,13 @@ func _build_labels(t: Theme) -> void:
 # ---------------------------------------------------------------- hud
 func _build_hud(t: Theme) -> void:
 	t.set_type_variation("HudBig", "Label")
-	_label(t, "HudBig", _cond_bold, 46, TEXT, 5)
+	_label(t, "HudBig", _display_heavy, 48, TEXT, 5)
 	t.set_type_variation("HudLabel", "Label")
 	_label(t, "HudLabel", _semibold, 18, TEXT, 4)
 	t.set_type_variation("HudSmall", "Label")
 	_label(t, "HudSmall", _medium, 13, TEXT_DIM, 3)
 	t.set_type_variation("HudAccent", "Label")
-	_label(t, "HudAccent", _cond_semibold, 20, ACCENT_HI, 4)
+	_label(t, "HudAccent", _display, 21, ACCENT_HI, 4)
 
 	t.set_type_variation("ProgressBarHealth", "ProgressBar")
 	# Base fill; Hud duplicates and recolors this stylebox at runtime.
@@ -437,8 +526,8 @@ func _build_hud(t: Theme) -> void:
 	t.set_font_size("font_size", "ProgressBar", 14)
 
 	t.set_type_variation("TimeBar", "ProgressBar")
-	t.set_stylebox("background", "TimeBar", _flat(Color(0.03, 0.04, 0.055, 0.75), Color.TRANSPARENT, 3, 0, 0, 0))
-	t.set_stylebox("fill", "TimeBar", _flat(ACCENT, Color.TRANSPARENT, 3, 0, 0, 0))
+	t.set_stylebox("background", "TimeBar", _flat(Color(1, 1, 1, 0.25), Color.TRANSPARENT, 0, 0, 0, 0))
+	t.set_stylebox("fill", "TimeBar", _flat(ACCENT, Color.TRANSPARENT, 0, 0, 0, 0))
 
 	t.set_type_variation("HealthBar", "ProgressBar")
 	t.set_stylebox("background", "HealthBar", _flat(Color(0.025, 0.035, 0.045, 0.88), BORDER_SOFT, 7, 1, 0, 0))

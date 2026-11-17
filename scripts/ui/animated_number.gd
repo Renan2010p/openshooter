@@ -21,6 +21,9 @@ extends Control
 @export var digit_stagger := 0.035
 ## Travel of a rolling digit; 0 uses the full height of the counter.
 @export var slide_distance := 0.0
+## Makes the control exactly as wide as its text (so a label placed after it
+## stays right next to the number: "86 HP").
+@export var fit_width := false
 
 var text: String:
 	get:
@@ -39,12 +42,17 @@ var _has_color := false
 var _font: Font
 var _font_px := 16
 var _digit_width := 0.0
+## Extra room on each side of a cell, so italic glyphs and their outline are
+## not cut by the cell's clipping (the row overlaps cells by the same amount).
+var _pad := 0.0
 var _last_change_ms := 0
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	clip_contents = true
+	# No clipping here: each cell clips its own digit, and the row reaches
+	# `_pad` past every edge so italic glyphs are never cut.
+	clip_contents = false
 	_row = HBoxContainer.new()
 	_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_row.add_theme_constant_override("separation", 0)
@@ -56,6 +64,14 @@ func _ready() -> void:
 	_row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(_row)
 	_measure_font()
+	_row.add_theme_constant_override("separation", -int(_pad * 2.0))
+	# The row spills past the control (same layout size as before), so the
+	# glyph keeps its place while the cells have room for all of it.
+	var spill_y := maxf(_pad, (ceilf(_font.get_height(_font_px)) - size.y) / 2.0 + _pad)
+	_row.offset_left = -_pad
+	_row.offset_right = _pad
+	_row.offset_top = -spill_y
+	_row.offset_bottom = spill_y
 	_target = initial_text
 	_rebuild(initial_text)
 
@@ -83,6 +99,7 @@ func _measure_font() -> void:
 	add_child(probe)
 	_font = probe.get_theme_font("font")
 	_font_px = font_size if font_size > 0 else probe.get_theme_font_size("font_size")
+	_pad = ceilf(_font_px * 0.14) + probe.get_theme_constant("outline_size")
 	probe.queue_free()
 	# Every digit gets the width of the widest one, so numbers never jitter.
 	_digit_width = 0.0
@@ -98,6 +115,21 @@ func _char_width(ch: String) -> float:
 	if _font == null:
 		return 10.0
 	return ceilf(_font.get_string_size(ch, HORIZONTAL_ALIGNMENT_LEFT, -1, _font_px).x)
+
+
+func _fit() -> void:
+	if not fit_width:
+		return
+	var width := 0.0
+	for c in _cells:
+		width += _char_width(c.ch)
+	custom_minimum_size.x = width
+
+
+## A cell is the character plus `_pad` on both sides (the row overlaps
+## neighbouring cells by 2 * `_pad`, so the spacing stays the same).
+func _cell_width(ch: String) -> float:
+	return _char_width(ch) + _pad * 2.0
 
 
 func _make_label() -> Label:
@@ -118,7 +150,7 @@ func _make_cell(ch: String) -> Dictionary:
 	cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	cell.clip_contents = true
 	cell.size_flags_vertical = Control.SIZE_FILL
-	cell.custom_minimum_size.x = _char_width(ch)
+	cell.custom_minimum_size.x = _cell_width(ch)
 	var cur := _make_label()
 	cur.text = ch
 	cell.add_child(cur)
@@ -139,6 +171,7 @@ func _rebuild(value: String) -> void:
 		var c := _make_cell(value[i])
 		_row.add_child(c.cell)
 		_cells.append(c)
+	_fit()
 
 
 func _set_text(new_text: String) -> void:
@@ -203,7 +236,7 @@ func _roll(old_text: String, new_text: String, direction: int) -> void:
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 		_tween.tween_method(_shift_step.bind(nxt), enter_from, 0.0, duration).set_delay(delay) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-		var w := _char_width(b)
+		var w := _cell_width(b)
 		if w != cell.custom_minimum_size.x:
 			_tween.tween_property(cell, "custom_minimum_size:x", w, duration).set_delay(delay) \
 				.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -239,10 +272,11 @@ func _finish() -> void:
 		_shift(cur, 0.0)
 		nxt.visible = false
 		_shift(nxt, 0.0)
-		(c.cell as Control).custom_minimum_size.x = _char_width(c.ch)
+		(c.cell as Control).custom_minimum_size.x = _cell_width(c.ch)
 	while not _cells.is_empty() and _cells[0].ch == " ":
 		(_cells[0].cell as Control).queue_free()
 		_cells.pop_front()
+	_fit()
 
 
 ## +1 when the value grew, -1 when it shrank, 0 when it is not numeric.

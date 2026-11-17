@@ -1,7 +1,24 @@
 extends MenuScreen
-## Settings: input, display, graphics and advanced renderer options.
+## Settings: categories on a rail at the left (like the Locker), one page of
+## options each on the right. Nothing changes until Save; Discard and Back
+## leave without saving.
 
 const FPS_LIMITS := [0, 60, 120, 144]
+const RAIL_FONT := preload("res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf")
+## Page node, rail title, line under the page title.
+const PAGES := [
+	["Controls", "CONTROLS", "Aim and camera feel."],
+	["Display", "DISPLAY", "Window, frame rate and brightness."],
+	["Graphics", "GRAPHICS", "Quality presets change 3D resolution, shadows and draw distance."],
+	["Audio", "AUDIO", "Volume."],
+	["Mobile", "MOBILE", "Touch controls (phones and tablets)."],
+]
+
+var _tab_buttons := {}
+
+## Emitted instead of going back to the lobby when the screen is used outside
+## the main menu (from the pause menu, during a match).
+signal closed
 
 
 func _ready() -> void:
@@ -22,8 +39,11 @@ func _ready() -> void:
 	%Brightness.value_changed.connect(func(_v): _update_values())
 	%TouchStick.value_changed.connect(func(_v): _update_values())
 	%TouchOpacity.value_changed.connect(func(_v): _update_values())
+	for page in PAGES:
+		_add_tab(page[0], page[1])
 	bind_button(%Save, _save)
-	bind_button(%Back, func(): menu.show_screen("Home"))
+	bind_button(%Discard, _close)
+	bind_button(%Back, _close)
 
 
 func enter(_arg: Variant) -> void:
@@ -38,12 +58,37 @@ func enter(_arg: Variant) -> void:
 	%RenderScale.value = Config.render_scale * 100.0
 	%Brightness.value = Config.brightness * 100.0
 	%ScreenShake.button_pressed = Config.screen_shake
-	%MobileCard.visible = Touch.active
-	%Info.visible = not Touch.active
+	_tab_buttons["Mobile"].visible = Touch.active
+	_show_page("Controls")
 	%TouchStick.value = Config.touch_joystick_size * 100.0
 	%TouchOpacity.value = Config.touch_opacity * 100.0
 	%AimAssist.select(clampi(Config.aim_assist, 0, 2))
 	_update_values()
+
+
+func _add_tab(id: String, title: String) -> void:
+	var button := Button.new()
+	button.text = title
+	button.custom_minimum_size = Vector2(190, 44)
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.focus_mode = Control.FOCUS_NONE
+	button.theme_type_variation = &"MenuBtn"
+	button.add_theme_font_override("font", RAIL_FONT)
+	button.add_theme_font_size_override("font_size", 21)
+	%Tabs.add_child(button)
+	_tab_buttons[id] = button
+	bind_button(button, func(): _show_page(id))
+
+
+## Shows one page; its tab turns solid orange.
+func _show_page(id: String) -> void:
+	for page in PAGES:
+		var on: bool = page[0] == id
+		(get_node("%" + page[0]) as Control).visible = on
+		(_tab_buttons[page[0]] as Button).theme_type_variation = &"PrimaryButton" if on else &"MenuBtn"
+		if on:
+			%PageTitle.text = page[1]
+			%PageHint.text = page[2]
 
 
 func _update_values() -> void:
@@ -73,5 +118,13 @@ func _save() -> void:
 	Config.aim_assist = %AimAssist.get_selected_id()
 	Config.save_cfg()
 	Config.apply()
-	menu.set_status("Settings saved.", true)
-	menu.show_screen("Home")
+	if menu:
+		menu.set_status("Settings saved.", true)
+	_close()
+
+
+func _close() -> void:
+	if menu:
+		menu.show_screen("Home")
+	else:
+		closed.emit()
