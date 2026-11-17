@@ -14,8 +14,8 @@ enum Shape { BOX, CYLINDER, SPHERE }
 ## casting no shadows). ALWAYS: always part of the normal draw distance.
 ## DETAIL: always treated as a detail.
 enum Lod { AUTO, ALWAYS, DETAIL }
-## Color replaced by the player's shirt/pants/skin (used by [Avatar]).
-enum Tint { NONE, SHIRT, PANTS, SKIN }
+## Color replaced by the player's shirt/pants/skin/hair (used by [Avatar]).
+enum Tint { NONE, SHIRT, PANTS, SKIN, HAIR }
 
 @export var shape: Shape = Shape.BOX:
 	set(v):

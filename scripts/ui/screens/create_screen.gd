@@ -1,5 +1,6 @@
 extends MenuScreen
 ## Create a server (Normal, Private or Duel): name, map, bots, duration and slots.
+## The game mode and the default map come from the lobby (Config.selected_*).
 
 const DURATIONS := [3, 5, 10, 15]
 ## ID used by the "Random" item in the map dropdown.
@@ -27,6 +28,9 @@ func enter(arg: Variant) -> void:
 	%Bots.max_value = 1 if duel else 8
 	%Bots.value = 1 if duel else 3
 	%Duration.select(1)
+	var map_id := Config.selected_map if Config.selected_map >= 0 else RANDOM_ID
+	%Map.select(%Map.get_item_index(map_id))
+	%ModeLabel.text = "Mode: %s" % ModeDB.get_mode(_mode_index()).display_name
 	%MaxPlayers.value = 2 if duel else 10
 	%MaxPlayers.editable = not duel
 	_code = "%05d" % (randi() % 100000)
@@ -34,6 +38,15 @@ func enter(arg: Variant) -> void:
 	%CodeLabel.visible = mode == "private"
 	%DuelHint.visible = duel
 	_update_description()
+
+
+## The lobby's mode, except on Duel servers, which always play Duel.
+func _mode_index() -> int:
+	if mode == "duel":
+		for i in ModeDB.count():
+			if ModeDB.get_mode(i).id == "duel":
+				return i
+	return Config.selected_mode
 
 
 func _update_description() -> void:
@@ -49,6 +62,7 @@ func _create() -> void:
 		"name": (%ServerName.text as String).substr(0, 32),
 		"mode": mode,
 		"map": map,
+		"mode_idx": _mode_index(),
 		"private": mode == "private",
 		"code": _code if mode == "private" else "",
 		"bots": int(%Bots.value),

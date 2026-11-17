@@ -45,7 +45,7 @@ OpenShooter/
 │   └── ui/                    Hud, Crosshair, Scoreboard, MainMenu, touch UI...
 ├── shaders/                   scope, UI vignette and UI gradient shaders
 ├── tools/build_theme.gd       generates resources/ui/theme.tres
-├── native/                    optional C GDExtension (map mesher)
+├── native/                    optional Zig GDExtension (map mesher)
 ├── audio/                     sound effects (.wav)
 ├── docs/                      this document + screenshots
 ├── icon.svg                   project icon
@@ -292,12 +292,13 @@ character.
 
 - **Depth fog:** reaches 100% exactly at the draw distance, so anything that
   stops being drawn is hidden inside it.
-- **Native C mesher:** `native/` (GDExtension) receives the visible blocks as a
+- **Native Zig mesher:** `native/` (GDExtension, written in Zig) receives the visible blocks as a
   flat `PackedFloat32Array` (24 floats each) and returns chunk buffers. Each
   chunk is built as **one surface** with `resources/materials/map_surface.gdshader`,
   which reads metallic and emission from `UV2` and roughness from the vertex
   color alpha. Fewer surfaces per chunk means fewer draw calls; the extension
-  also builds the vertex buffers about twice as fast as GDScript.
+  also bakes a map about 2.5 times faster than GDScript (see
+  `tests/bake_bench.gd`).
   Box faces fully covered by a neighbouring solid box are skipped (internal
   walls, floors and buried props), and collision is generated in the same pass:
   one `ConcavePolygonShape3D` per chunk on a single `StaticBody3D` (roughly

@@ -10,7 +10,7 @@ var mode := "normal"
 func _ready() -> void:
 	bind_button(%Create, func(): menu.show_screen("Create", mode))
 	bind_button(%Connect, _connect_direct)
-	bind_button(%Back, func(): menu.show_screen("Modes"))
+	bind_button(%Back, func(): menu.show_screen("Home"))
 	%DirectIp.text_submitted.connect(func(_t): _connect_direct())
 	Net.servers_changed.connect(_refresh)
 

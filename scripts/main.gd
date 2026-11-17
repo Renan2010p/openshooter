@@ -26,6 +26,7 @@ Options (after the -- separator):
   --name=Player                player name for this window
   --quality=0|1|2              graphics quality (low, medium, high)
   --bots=N                     number of bots on a hosted server
+  --minutes=N                  match length of a hosted server (default 5)
   --map=INDEX                  map index for a hosted server
   --screen=Screen[:arg]        open a menu screen directly
   --autoplay                   drive the local player with bot AI
@@ -64,7 +65,7 @@ func _ready() -> void:
 	if _args.has("host"):
 		var mode: String = _args["host"]
 		host({"name": "Test", "mode": mode, "map": int(_args.get("map", "0")), "mode_idx": int(_args.get("mode", "0")), "vote": _args.has("vote"), "private": mode == "private", "code": "12345" if mode == "private" else "",
-			"bots": int(_args.get("bots", "3")), "minutes": 5, "max": 10})
+			"bots": int(_args.get("bots", "3")), "minutes": float(_args.get("minutes", "5")), "max": 10})
 	else:
 		show_menu()
 		if _args.has("join"):
@@ -193,6 +194,7 @@ func _bench(seconds: float) -> void:
 	RenderingServer.viewport_set_measure_render_time(vp_rid, true)
 	await get_tree().create_timer(3.0).timeout
 	var t_physics := 0.0
+	var t_process := 0.0
 	var t_cpu := 0.0
 	var t_gpu := 0.0
 	var frames := 0
@@ -206,11 +208,12 @@ func _bench(seconds: float) -> void:
 		last = now
 		frames += 1
 		t_physics += Performance.get_monitor(Performance.TIME_PHYSICS_PROCESS) * 1000.0
+		t_process += Performance.get_monitor(Performance.TIME_PROCESS) * 1000.0
 		t_cpu += RenderingServer.viewport_get_measured_render_time_cpu(vp_rid)
 		t_gpu += RenderingServer.viewport_get_measured_render_time_gpu(vp_rid)
 	var secs := (Time.get_ticks_usec() - start) / 1e6
-	print("BENCH ms_per_frame: physics=%.2f render_cpu=%.2f render_gpu=%.2f total=%.2f" % [
-		t_physics / frames, t_cpu / frames, t_gpu / frames, secs * 1000.0 / frames])
+	print("BENCH ms_per_frame: process=%.2f physics=%.2f render_cpu=%.2f render_gpu=%.2f total=%.2f" % [
+		t_process / frames, t_physics / frames, t_cpu / frames, t_gpu / frames, secs * 1000.0 / frames])
 	print("BENCH avg_fps=%.1f worst_frame_ms=%.1f draw_calls=%d objects=%d" % [
 		frames / secs, worst,
 		RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),

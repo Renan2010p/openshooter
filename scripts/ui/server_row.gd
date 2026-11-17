@@ -15,4 +15,4 @@ func _ready() -> void:
 func setup(ip: String, info: Dictionary) -> void:
 	_ip = ip
 	%ServerName.text = str(info.get("name", "Server"))
-	%Details.text = "%s  •  %s  •  %d/%d players  •  %d bots" % [ip, info.get("map", "?"), int(info.get("players", 0)), int(info.get("max", 0)), int(info.get("bots", 0))]
+	%Details.text = "%s  •  %s  •  %s  •  %d/%d players  •  %d bots" % [ip, info.get("mode_name", "Normal"), info.get("map", "?"), int(info.get("players", 0)), int(info.get("max", 0)), int(info.get("bots", 0))]

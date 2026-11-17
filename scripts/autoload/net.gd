@@ -9,7 +9,12 @@ signal players_changed
 
 const PORT := 24540
 const DISCOVERY_PORT := 24541
-const GAME_TAG := "openshooter-1"
+## LAN discovery tag. Bumped when versions can no longer play together
+## (1.1.0: the Christmas decorations change the map collision), so servers of
+## other versions do not show up in the list.
+const GAME_TAG := "openshooter-2"
+## Only players with exactly this game version may join (see register()).
+static var GAME_VERSION: String = ProjectSettings.get_setting("application/config/version", "")
 
 ## Current server information: name, mode, private, code, max, bots, minutes.
 var server_info := {}
@@ -52,6 +57,7 @@ func host(info: Dictionary) -> Error:
 		return err
 	multiplayer.multiplayer_peer = _peer
 	server_info = info
+	server_info["version"] = GAME_VERSION
 	players.clear()
 	var me := Config.profile()
 	me.merge({"kills": 0, "deaths": 0, "bot": false, "ready": true})
@@ -77,6 +83,10 @@ func register(profile: Dictionary, code: String) -> void:
 	var reason := ""
 	if server_info.get("private", false) and code != server_info.get("code", ""):
 		reason = "Incorrect private code."
+	elif str(profile.get("version", "")) != GAME_VERSION:
+		# Older clients (1.0) send no version at all.
+		reason = "Version mismatch: the server runs OpenShooter %s, you have %s." % [
+			GAME_VERSION, str(profile.get("version", "1.0.0"))]
 	elif humans() >= int(server_info.get("max", 12)):
 		reason = "The server is full."
 	if reason != "":
@@ -84,10 +94,16 @@ func register(profile: Dictionary, code: String) -> void:
 		get_tree().create_timer(0.5).timeout.connect(func(): if _peer: _peer.disconnect_peer(id))
 		return
 	var p := {"name": str(profile.get("name", "Player")).substr(0, 20), "shirt": profile.get("shirt", Color.GRAY),
-		"pants": profile.get("pants", Color.DIM_GRAY), "skin": profile.get("skin", Color.BISQUE), "kills": 0, "deaths": 0, "bot": false}
+		"pants": profile.get("pants", Color.DIM_GRAY), "skin": profile.get("skin", Color.BISQUE), "kills": 0, "deaths": 0, "bot": false,
+		"look": Cosmetics.sanitize(profile.get("look", {})), "hair": _color_or(profile.get("hair"), Cosmetics.DEFAULT_HAIR)}
 	players[id] = p
 	welcome.rpc_id(id, server_info)
 	broadcast_players()
+
+
+## `value` if it is a Color, otherwise `fallback` (profiles come from the network).
+static func _color_or(value: Variant, fallback: Color) -> Color:
+	return value if value is Color else fallback
 
 
 func broadcast_players() -> void:
@@ -129,6 +145,12 @@ func _on_connected() -> void:
 
 @rpc("authority", "reliable")
 func welcome(info: Dictionary) -> void:
+	# A 1.0 server does not check versions and sends none: refuse it here.
+	if str(info.get("version", "")) != GAME_VERSION:
+		leave()
+		join_failed.emit("Version mismatch: the server runs OpenShooter %s, you have %s." % [
+			str(info.get("version", "1.0.0")), GAME_VERSION])
+		return
 	server_info = info
 	joined.emit()
 
@@ -177,6 +199,7 @@ func _process(delta: float) -> void:
 				"hash": code_hash(server_info.get("code", "")), "players": humans(),
 				"max": server_info.get("max", 12), "bots": server_info.get("bots", 0),
 				"map": MapDB.display_name(int(server_info.get("map", 0))),
+				"mode_name": ModeDB.get_mode(int(server_info.get("mode_idx", 0))).display_name,
 			}
 			var data := JSON.stringify(msg).to_utf8_buffer()
 			for addr in ["255.255.255.255", "127.0.0.1"]:

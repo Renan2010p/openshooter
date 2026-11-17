@@ -15,6 +15,8 @@ extends Button
 			_icon.texture = v
 @export var icon_size := 24.0
 @export var text_offset := 58.0
+## Label font size; 0 uses the theme variation's size.
+@export var label_font_size := 0
 
 var _icon: AnimatedIcon
 var _label: Label
@@ -60,7 +62,8 @@ func _build_label() -> void:
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_label.add_theme_font_override("font", get_theme_font("font", theme_type_variation))
-	_label.add_theme_font_size_override("font_size", get_theme_font_size("font_size", theme_type_variation))
+	var font_size := label_font_size if label_font_size > 0 else get_theme_font_size("font_size", theme_type_variation)
+	_label.add_theme_font_size_override("font_size", font_size)
 	_label.add_theme_color_override("font_color", get_theme_color("font_color", theme_type_variation))
 	add_child(_label)
 

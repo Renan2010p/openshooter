@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/ui/screens/home_screen.gd" id="gen_script_0"]
+[ext_resource type="Script" path="res://scripts/ui/screens/home_screen.gd" id="1_home"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/play.svg" id="2_play"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/locker.svg" id="3_locker"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/settings.svg" id="4_settings"]
@@ -9,233 +9,437 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/user.svg" id="7_user"]
 [ext_resource type="Script" path="res://scripts/ui/menu_icon_button.gd" id="8_iconbtn"]
 [ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="9_animicon"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/store.svg" id="10_store"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/swords.svg" id="11_swords"]
 
-[node name="Home" type="Control" unique_id=1238015931]
-script = ExtResource("gen_script_0")
+[sub_resource type="StyleBoxFlat" id="EventStyle"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+bg_color = Color(0.48, 0.07, 0.09, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(1, 0.78, 0.2, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="PlayNormal"]
+bg_color = Color(0.96, 0.65, 0.14, 1)
+skew = Vector2(0.28, 0)
+border_width_bottom = 4
+border_color = Color(0.71, 0.44, 0.05, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="PlayHover"]
+bg_color = Color(1, 0.77, 0.42, 1)
+skew = Vector2(0.28, 0)
+border_width_bottom = 4
+border_color = Color(0.71, 0.44, 0.05, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0.96, 0.65, 0.14, 0.45)
+shadow_size = 16
+
+[sub_resource type="StyleBoxFlat" id="PlayPressed"]
+bg_color = Color(0.86, 0.55, 0.08, 1)
+skew = Vector2(0.28, 0)
+border_width_top = 2
+border_color = Color(0.71, 0.44, 0.05, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="XpTrack"]
+bg_color = Color(1, 1, 1, 0.14)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="XpFill"]
+bg_color = Color(0.96, 0.65, 0.14, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="Home" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+script = ExtResource("1_home")
 
-[node name="Content" type="VBoxContainer" parent="." unique_id=1238016001]
-layout_mode = 0
+[node name="Content" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = 56.0
-offset_right = 760.0
-offset_bottom = -64.0
-theme_override_constants/separation = 0
-
-[node name="Eyebrow" type="Label" parent="Content" unique_id=1238016002]
-layout_mode = 2
-theme_type_variation = &"SectionLabel"
-text = "OPEN SOURCE  ·  LAN MULTIPLAYER  ·  GODOT 4"
-
-[node name="Hero" type="Label" parent="Content" unique_id=1238016003]
-layout_mode = 2
-theme_type_variation = &"HeroLabel"
-text = "OPENSHOOTER"
-theme_override_font_sizes/font_size = 96
-
-[node name="AccentLine" type="ColorRect" parent="Content" unique_id=1238016004]
-custom_minimum_size = Vector2(76, 3)
-layout_mode = 2
-size_flags_horizontal = 0
 mouse_filter = 2
-color = Color(0.96, 0.65, 0.14, 1)
 
-[node name="Tagline" type="Label" parent="Content" unique_id=1238016005]
+[node name="TopBar" type="PanelContainer" parent="Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = -16.0
+offset_bottom = 76.0
+theme_type_variation = &"TopBarPanel"
+
+[node name="Row" type="HBoxContainer" parent="Content/TopBar"]
 layout_mode = 2
-theme_type_variation = &"SubtitleLabel"
-text = "Fast, tactical LAN firefights — no accounts, no launcher."
+theme_override_constants/separation = 14
 
-[node name="Description" type="Label" parent="Content" unique_id=1238016006]
-custom_minimum_size = Vector2(580, 0)
+[node name="Avatar" type="TextureRect" parent="Content/TopBar/Row"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("9_animicon")
+texture = ExtResource("7_user")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.96, 0.65, 0.14, 1)
+pulse_amount = 0.05
+tilt_degrees = 0.0
+pulse_speed = 1.2
+
+[node name="Player" type="VBoxContainer" parent="Content/TopBar/Row"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 3
+
+[node name="PlayerName" type="Label" parent="Content/TopBar/Row/Player"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudLabel"
+text = "Player"
+text_overrun_behavior = 3
+
+[node name="LevelRow" type="HBoxContainer" parent="Content/TopBar/Row/Player"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Level" type="Label" parent="Content/TopBar/Row/Player/LevelRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Caption"
+theme_override_colors/font_color = Color(0.96, 0.65, 0.14, 1)
+text = "LV 1"
+
+[node name="XpBar" type="ProgressBar" parent="Content/TopBar/Row/Player/LevelRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 6)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("XpTrack")
+theme_override_styles/fill = SubResource("XpFill")
+max_value = 1.0
+step = 0.001
+show_percentage = false
+
+[node name="XpText" type="Label" parent="Content/TopBar/Row/Player/LevelRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "0 / 400 XP"
+
+[node name="SpacerL" type="Control" parent="Content/TopBar/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Brand" type="Label" parent="Content/TopBar/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"TitleSmall"
+text = "OPENSHOOTER"
+
+[node name="SpacerR" type="Control" parent="Content/TopBar/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Settings" type="Button" parent="Content/TopBar/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 40)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+tooltip_text = "Settings"
+theme_type_variation = &"MenuBtn"
+icon = ExtResource("4_settings")
+icon_alignment = 1
+
+[node name="Quit" type="Button" parent="Content/TopBar/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 40)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+tooltip_text = "Quit"
+theme_type_variation = &"DangerButton"
+icon = ExtResource("6_quit")
+icon_alignment = 1
+
+[node name="LeftColumn" type="VBoxContainer" parent="Content"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 92.0
+offset_right = 324.0
+offset_bottom = 520.0
+theme_override_constants/separation = 10
+
+[node name="Event" type="PanelContainer" parent="Content/LeftColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("EventStyle")
+
+[node name="Text" type="VBoxContainer" parent="Content/LeftColumn/Event"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="EventTag" type="Label" parent="Content/LeftColumn/Event/Text"]
+layout_mode = 2
+theme_type_variation = &"Caption"
+theme_override_colors/font_color = Color(1, 0.82, 0.35, 1)
+text = "HOLIDAY EVENT  ·  1.1.0"
+
+[node name="EventTitle" type="Label" parent="Content/LeftColumn/Event/Text"]
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "WINTER WARFARE"
+
+[node name="EventText" type="Label" parent="Content/LeftColumn/Event/Text"]
 layout_mode = 2
 theme_type_variation = &"HintLabel"
-text = "Pick a game mode, create a server and start shooting. Nine weapons, five modes and four maps built for quick, competitive matches on the local network."
+theme_override_colors/font_color = Color(1, 0.9, 0.88, 1)
+text = "Snowy maps, Santa hats and festive decorations. Win matches to earn XP and level up!"
 autowrap_mode = 2
 
-[node name="Gap" type="Control" parent="Content" unique_id=1238016007]
-custom_minimum_size = Vector2(0, 30)
+[node name="Gap" type="Control" parent="Content/LeftColumn"]
+custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
-
-[node name="Play" type="Button" parent="Content" unique_id=1694685758]
-script = ExtResource("8_iconbtn")
-label_text = "PLAY"
-icon_texture = ExtResource("2_play")
-icon_size = 26
-text_offset = 60
-unique_name_in_owner = true
-custom_minimum_size = Vector2(430, 58)
-layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 0
-theme_type_variation = &"PrimaryButton"
-
-[node name="Gap2" type="Control" parent="Content" unique_id=1238016008]
-custom_minimum_size = Vector2(0, 12)
-layout_mode = 2
-
-[node name="Grid" type="GridContainer" parent="Content" unique_id=1238016009]
-custom_minimum_size = Vector2(430, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
-columns = 2
-
-[node name="Locker" type="Button" parent="Content/Grid" unique_id=1101086580]
-script = ExtResource("8_iconbtn")
-label_text = "Locker"
-icon_texture = ExtResource("3_locker")
-icon_size = 22
-text_offset = 54
-unique_name_in_owner = true
-custom_minimum_size = Vector2(210, 50)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"MenuBtn"
-
-[node name="Settings" type="Button" parent="Content/Grid" unique_id=1073311170]
-script = ExtResource("8_iconbtn")
-label_text = "Settings"
-icon_texture = ExtResource("4_settings")
-icon_size = 22
-text_offset = 54
-unique_name_in_owner = true
-custom_minimum_size = Vector2(210, 50)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"MenuBtn"
-
-[node name="Stats" type="Button" parent="Content/Grid" unique_id=496366077]
-script = ExtResource("8_iconbtn")
-label_text = "Statistics"
-icon_texture = ExtResource("5_stats")
-icon_size = 22
-text_offset = 54
-unique_name_in_owner = true
-custom_minimum_size = Vector2(210, 50)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"MenuBtn"
-
-[node name="Quit" type="Button" parent="Content/Grid" unique_id=1699351642]
-script = ExtResource("8_iconbtn")
-label_text = "Quit"
-icon_texture = ExtResource("6_quit")
-icon_size = 22
-text_offset = 54
-unique_name_in_owner = true
-custom_minimum_size = Vector2(210, 50)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"DangerButton"
-
-[node name="Spacer" type="Control" parent="Content" unique_id=1238016010]
-layout_mode = 2
-size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="QuickStats" type="HBoxContainer" parent="Content" unique_id=1238016011]
+[node name="Store" type="Button" parent="Content/LeftColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
 size_flags_horizontal = 0
+focus_mode = 0
+disabled = true
+theme_type_variation = &"MenuBtn"
+script = ExtResource("8_iconbtn")
+label_text = "STORE  ·  SOON"
+icon_texture = ExtResource("10_store")
+icon_size = 22.0
+text_offset = 54.0
+label_font_size = 18
+
+[node name="Locker" type="Button" parent="Content/LeftColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+script = ExtResource("8_iconbtn")
+label_text = "LOCKER"
+icon_texture = ExtResource("3_locker")
+icon_size = 22.0
+text_offset = 54.0
+label_font_size = 18
+
+[node name="Stats" type="Button" parent="Content/LeftColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+script = ExtResource("8_iconbtn")
+label_text = "STATISTICS"
+icon_texture = ExtResource("5_stats")
+icon_size = 22.0
+text_offset = 54.0
+label_font_size = 18
+
+[node name="ModeCard" type="Button" parent="Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 92)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -344.0
+offset_top = 92.0
+offset_right = -24.0
+offset_bottom = 184.0
+focus_mode = 0
+theme_type_variation = &"MenuBtn"
+
+[node name="Row" type="HBoxContainer" parent="Content/ModeCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_right = -18.0
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="Content/ModeCard/Row"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("11_swords")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.96, 0.65, 0.14, 1)
+
+[node name="Text" type="VBoxContainer" parent="Content/ModeCard/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="ModeCaption" type="Label" parent="Content/ModeCard/Row/Text"]
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "GAME MODE  ·  TAP TO CHANGE"
+
+[node name="ModeName" type="Label" parent="Content/ModeCard/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TitleSmall"
+text = "NORMAL"
+text_overrun_behavior = 3
+
+[node name="MapName" type="Label" parent="Content/ModeCard/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "Random map"
+
+[node name="QuickStats" type="HBoxContainer" parent="Content"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = -118.0
+offset_right = 452.0
+offset_bottom = -64.0
 theme_override_constants/separation = 28
 
-[node name="KdBox" type="VBoxContainer" parent="Content/QuickStats" unique_id=1238016012]
+[node name="KdBox" type="VBoxContainer" parent="Content/QuickStats"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="QuickKd" type="Label" parent="Content/QuickStats/KdBox" unique_id=1238016013]
+[node name="QuickKd" type="Label" parent="Content/QuickStats/KdBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TitleSmall"
 text = "0.00"
 
-[node name="KdLabel" type="Label" parent="Content/QuickStats/KdBox" unique_id=1238016014]
+[node name="KdLabel" type="Label" parent="Content/QuickStats/KdBox"]
 layout_mode = 2
 theme_type_variation = &"Caption"
 text = "K/D RATIO"
 
-[node name="Sep1" type="VSeparator" parent="Content/QuickStats" unique_id=1238016015]
+[node name="Sep1" type="VSeparator" parent="Content/QuickStats"]
 layout_mode = 2
 
-[node name="KillsBox" type="VBoxContainer" parent="Content/QuickStats" unique_id=1238016016]
+[node name="KillsBox" type="VBoxContainer" parent="Content/QuickStats"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="QuickKills" type="Label" parent="Content/QuickStats/KillsBox" unique_id=1238016017]
+[node name="QuickKills" type="Label" parent="Content/QuickStats/KillsBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TitleSmall"
 text = "0"
 
-[node name="KillsLabel" type="Label" parent="Content/QuickStats/KillsBox" unique_id=1238016018]
+[node name="KillsLabel" type="Label" parent="Content/QuickStats/KillsBox"]
 layout_mode = 2
 theme_type_variation = &"Caption"
 text = "ELIMINATIONS"
 
-[node name="Sep2" type="VSeparator" parent="Content/QuickStats" unique_id=1238016019]
+[node name="Sep2" type="VSeparator" parent="Content/QuickStats"]
 layout_mode = 2
 
-[node name="MatchesBox" type="VBoxContainer" parent="Content/QuickStats" unique_id=1238016020]
+[node name="WinsBox" type="VBoxContainer" parent="Content/QuickStats"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="QuickMatches" type="Label" parent="Content/QuickStats/MatchesBox" unique_id=1238016021]
+[node name="QuickWins" type="Label" parent="Content/QuickStats/WinsBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TitleSmall"
 text = "0"
 
-[node name="MatchesLabel" type="Label" parent="Content/QuickStats/MatchesBox" unique_id=1238016022]
+[node name="WinsLabel" type="Label" parent="Content/QuickStats/WinsBox"]
 layout_mode = 2
 theme_type_variation = &"Caption"
-text = "MATCHES PLAYED"
+text = "VICTORIES"
 
-[node name="PlayerCard" type="PanelContainer" parent="." unique_id=1238016023]
-layout_mode = 0
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -336.0
-offset_top = 48.0
-offset_right = -56.0
-offset_bottom = 112.0
-theme_type_variation = &"Card"
-
-[node name="Row" type="HBoxContainer" parent="PlayerCard" unique_id=1238016024]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Icon" type="TextureRect" parent="PlayerCard/Row" unique_id=1238016025]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-size_flags_vertical = 4
-script = ExtResource("9_animicon")
-texture = ExtResource("7_user")
-expand_mode = 1
-stretch_mode = 5
-modulate = Color(0.58, 0.63, 0.7, 1)
-pulse_amount = 0.05
-tilt_degrees = 0.0
-pulse_speed = 1.2
-
-[node name="Text" type="VBoxContainer" parent="PlayerCard/Row" unique_id=1238016026]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Caption" type="Label" parent="PlayerCard/Row/Text" unique_id=1238016027]
-layout_mode = 2
+[node name="RotateHint" type="Label" parent="Content"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -96.0
+offset_right = 150.0
+offset_bottom = -72.0
 theme_type_variation = &"Caption"
-text = "SIGNED IN AS"
+text = "DRAG TO ROTATE"
+horizontal_alignment = 1
+modulate = Color(1, 1, 1, 0.55)
 
-[node name="PlayerName" type="Label" parent="PlayerCard/Row/Text" unique_id=1499086727]
+[node name="Play" type="Button" parent="Content"]
 unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"HudLabel"
-text = "Player"
-horizontal_alignment = 0
-text_overrun_behavior = 3
+custom_minimum_size = Vector2(340, 84)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -376.0
+offset_top = -140.0
+offset_right = -36.0
+offset_bottom = -56.0
+focus_mode = 0
+theme_type_variation = &"PrimaryButton"
+theme_override_styles/normal = SubResource("PlayNormal")
+theme_override_styles/hover = SubResource("PlayHover")
+theme_override_styles/pressed = SubResource("PlayPressed")
+script = ExtResource("8_iconbtn")
+label_text = "PLAY"
+icon_texture = ExtResource("2_play")
+icon_size = 30.0
+text_offset = 128.0
+label_font_size = 38

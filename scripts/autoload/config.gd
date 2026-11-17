@@ -29,7 +29,19 @@ var aim_assist: int = AimAssist.LIGHT
 var shirt := Color(0.2, 0.45, 0.85)
 var pants := Color(0.18, 0.18, 0.22)
 var skin := Color(0.96, 0.8, 0.64)
+var hair := Cosmetics.DEFAULT_HAIR
+## Locker items, {slot: item id}; see Cosmetics.
+var look := Cosmetics.defaults()
 var stats := {"kills": 0, "deaths": 0, "matches": 0, "wins": 0, "headshots": 0, "history": []}
+## Total experience; see Progression for the rules.
+var xp := 0
+## XP earned in the last finished match ({"total", "lines", "level_before",
+## "level_after"}); shown on the match-over screen. Not saved.
+var last_reward := {}
+## Game mode (index into ModeDB) and map (index into MapDB, -1 = random)
+## picked in the lobby; used when creating a server.
+var selected_mode := 0
+var selected_map := -1
 ## False during test runs (--host, --name, --bench...): nothing is persisted.
 var persist := true
 
@@ -62,7 +74,14 @@ func load_cfg() -> void:
 		shirt = c.get_value("look", "shirt", shirt)
 		pants = c.get_value("look", "pants", pants)
 		skin = c.get_value("look", "skin", skin)
+		hair = c.get_value("look", "hair", hair)
+		look = Cosmetics.sanitize(c.get_value("look", "items", look))
 		stats.merge(c.get_value("stats", "all", {}), true)
+		# Saves from before 1.1.0 have no XP: start from what the statistics
+		# are worth, so nobody begins again at level 1.
+		xp = c.get_value("progress", "xp", Progression.xp_from_stats(stats))
+		selected_mode = clampi(c.get_value("lobby", "mode", selected_mode), 0, ModeDB.count() - 1)
+		selected_map = clampi(c.get_value("lobby", "map", selected_map), -1, MapDB.count() - 1)
 	if not loaded and OS.has_feature("mobile"):
 		quality = Quality.LOW
 	if player_name == "":
@@ -78,9 +97,13 @@ func save_cfg() -> void:
 			"vsync", "fps_limit", "render_scale", "brightness", "screen_shake",
 			"touch_joystick_size", "touch_opacity", "aim_assist"]:
 		c.set_value("player", key, player_name if key == "name" else get(key))
-	for key in ["shirt", "pants", "skin"]:
+	for key in ["shirt", "pants", "skin", "hair"]:
 		c.set_value("look", key, get(key))
+	c.set_value("look", "items", look)
 	c.set_value("stats", "all", stats)
+	c.set_value("progress", "xp", xp)
+	c.set_value("lobby", "mode", selected_mode)
+	c.set_value("lobby", "map", selected_map)
 	c.save(PATH)
 	changed.emit()
 
@@ -133,11 +156,22 @@ func apply_quality(sun: DirectionalLight3D, env: Environment, vp: Viewport) -> v
 
 ## Data sent to the server when joining a match.
 func profile() -> Dictionary:
-	return {"name": player_name.substr(0, 20), "shirt": shirt, "pants": pants, "skin": skin}
+	return {"name": player_name.substr(0, 20), "shirt": shirt, "pants": pants, "skin": skin,
+		"hair": hair, "look": look, "version": Net.GAME_VERSION}
 
 
 func add_stat(key: String, amount := 1) -> void:
 	stats[key] = int(stats.get(key, 0)) + amount
+	save_cfg()
+
+
+## Gives the XP for a finished match and remembers it in `last_reward`.
+func award_match_xp(kills: int, won: bool) -> void:
+	var reward := Progression.match_reward(kills, won)
+	reward["level_before"] = Progression.level_info(xp).level
+	xp += int(reward.total)
+	reward["level_after"] = Progression.level_info(xp).level
+	last_reward = reward
 	save_cfg()
 
 

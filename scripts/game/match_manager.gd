@@ -208,3 +208,4 @@ func match_over(winner_id: int) -> void:
 	Config.add_stat("matches")
 	if winner_id == me:
 		Config.add_stat("wins")
+	Config.award_match_xp(int(info.get("kills", 0)), winner_id == me)

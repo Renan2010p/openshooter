@@ -51,10 +51,15 @@ func _ready() -> void:
 
 
 func _add_bots(count: int) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
 	for i in count:
 		Net.players[BOT_ID_BASE + i] = {
 			"name": BOT_NAMES[i % BOT_NAMES.size()], "shirt": BOT_SHIRTS[i % BOT_SHIRTS.size()],
 			"pants": Color(0.2, 0.2, 0.25), "skin": Color(0.9, 0.75, 0.6).darkened(randf() * 0.4),
+			# Every bot gets a random Locker outfit.
+			"look": Cosmetics.random_look(rng),
+			"hair": Cosmetics.HAIR_COLORS[rng.randi() % Cosmetics.HAIR_COLORS.size()],
 			"kills": 0, "deaths": 0, "bot": true,
 		}
 	Net.broadcast_players()

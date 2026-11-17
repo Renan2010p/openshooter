@@ -105,7 +105,7 @@ horizontal_alignment = 1
 [node name="Engine" type="Label" parent="Center/Phase2" unique_id=990000013]
 layout_mode = 2
 theme_type_variation = &"Caption"
-text = "GODOT 4.7  ·  OPENSHOOTER 1.0.0"
+text = "GODOT 4.7  ·  OPENSHOOTER 1.1.0"
 horizontal_alignment = 1
 
 [node name="Footer" type="Label" parent="." unique_id=990000014]

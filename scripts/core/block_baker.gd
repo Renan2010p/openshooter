@@ -114,12 +114,15 @@ static func bake_chunked(root: Node3D, cell: float, far: float, detail_far: floa
 	return out
 
 
-## True when the optional native (C) extension is loaded.
+## Total time spent inside NativeOps.bake_map() (microseconds), for benchmarks.
+static var native_bake_usec := 0
+
+## True when the optional native extension is loaded.
 static func native_available() -> bool:
 	return ClassDB.class_exists("NativeOps")
 
 
-## Native (C) version of bake_chunked(): the merge and chunking happen in the
+## Native version of bake_chunked(): the merge and chunking happen in the
 ## extension, and each chunk becomes ONE surface with the shared map shader.
 ## That keeps draw calls low on mobile. Falls back to GDScript on any problem.
 static func bake_chunked_native(root: Node3D, cell: float, far: float, detail_far: float) -> Array[MeshInstance3D]:
@@ -165,7 +168,9 @@ static func bake_chunked_native(root: Node3D, cell: float, far: float, detail_fa
 	var ops = ClassDB.instantiate("NativeOps")
 	if ops == null:
 		return bake_chunked(root, cell, far, detail_far)
+	var t0 := Time.get_ticks_usec()
 	var result: Array = ops.bake_map(data, todo.size(), cell)
+	native_bake_usec += Time.get_ticks_usec() - t0
 	if result.is_empty():
 		return bake_chunked(root, cell, far, detail_far)
 	for b in todo:

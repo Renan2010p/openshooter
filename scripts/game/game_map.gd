@@ -34,8 +34,14 @@ func _ready() -> void:
 	if "--log-native" in OS.get_cmdline_user_args():
 		var native_on: bool = BlockBaker.native_available() and not "--no-native" in OS.get_cmdline_user_args()
 		print("NATIVE MESHER: ", "yes" if native_on else "no")
+	# Christmas edition: snowy ground and falling snow (before the expansion,
+	# which copies the ground material).
+	Holiday.apply_snow(self)
 	if expand_map:
 		MapExpansion.build(self)
+	# Christmas edition: snowmen, trees, gifts and lights, merged into the
+	# map by the bake below.
+	Holiday.decorate_map(self)
 	_tune_lighting()
 	if use_occluders and not "--no-occluders" in OS.get_cmdline_user_args():
 		BlockBaker.build_occluders(geometry)

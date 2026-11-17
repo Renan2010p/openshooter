@@ -31,3 +31,8 @@ Thumbs.db
 /screenshots/
 *.log
 *.core
+
+# Zig build output and package cache (native/)
+native/.zig-cache/
+native/zig-out/
+native/zig-pkg/

@@ -137,7 +137,7 @@ game modes.
 | Renderer | Compatibility (OpenGL 3.3 / OpenGL ES 3.0) |
 | OS | Windows, Linux, macOS, FreeBSD, Android 7.0+ |
 | Network | LAN with UDP ports **24540** and **24541** open |
-| Native module (optional) | C compiler (the scripts use `zig cc`); Android NDK 27+ for the Android library |
+| Native module (optional) | [Zig](https://ziglang.org) 0.17.1 (builds every platform, Android included, from one machine) |
 
 A discrete GPU is not required. The default *Medium* preset targets integrated
 graphics such as Intel HD 4400.
@@ -165,24 +165,26 @@ godot --path .
 If your Godot binary has a different name (for example `godot-fedora` or
 `Godot_v4.7-stable_linux.x86_64`), use that command instead.
 
-### Native C module (optional)
+### Native Zig module (optional)
 
-The heavy map bake can run in a small **C GDExtension** in `native/`. It is
-optional: without it the game uses the GDScript mesher. To build it:
+The heavy map bake can run in a small **GDExtension written in Zig** in
+`native/`. It is optional: without it the game uses the GDScript mesher. To
+build it, run inside `native/`:
 
 ```sh
-./native/build.sh linux     # desktop Linux .so
-./native/build.sh windows   # .dll
-./native/build.sh macos     # universal macOS .dylib (Intel + Apple Silicon)
-./native/build.sh android   # Android arm64 + arm32 (needs the NDK)
-./native/build.sh freebsd   # native FreeBSD .so
-./native/build.sh all
+zig build linux      # desktop Linux .so
+zig build windows    # .dll
+zig build macos      # universal macOS .dylib (Intel + Apple Silicon)
+zig build android    # Android arm64 + armv7 (no NDK needed)
+zig build freebsd    # FreeBSD .so
+zig build all        # all of the above
+zig build test       # mesher unit tests
 ```
 
-The extension is compiled outside the Godot editor. After rebuilding, reload
-the project (or restart the editor). `--no-native` forces the GDScript path.
-On FreeBSD, `./native/build.sh freebsd` uses the system compiler and the native
-Godot 4.7 port (`pkg install godot-4.7`).
+The libraries are written straight into `native/bin/`. The extension is
+compiled outside the Godot editor: after rebuilding, reload the project (or
+restart the editor). `--no-native` forces the GDScript path. See
+[native/README.md](native/README.md) for details.
 
 ### Startup and loading
 
@@ -573,7 +575,7 @@ audio/           sound effects
 assets/          Barlow fonts (SIL OFL), icons, cursors, platform logos, Android art
 docs/            architecture guide, README banner and screenshots
 tools/           UI theme generator (build_theme.gd) and trailer tools (trailer/)
-native/          optional C GDExtension (map mesher) and its build script
+native/          optional Zig GDExtension (map mesher) and its build script
 tests/           small standalone test scenes (pickup_test.tscn)
 ```
 

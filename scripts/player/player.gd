@@ -123,7 +123,8 @@ func _ready() -> void:
 	local = pid == multiplayer.get_unique_id() and not is_bot
 	hitbox.set_meta("pid", pid)
 	var info := info()
-	avatar.setup(info.get("shirt", Color.GRAY), info.get("pants", Color.DIM_GRAY), info.get("skin", Color.BISQUE))
+	avatar.setup(info.get("shirt", Color.GRAY), info.get("pants", Color.DIM_GRAY), info.get("skin", Color.BISQUE),
+		Cosmetics.sanitize(info.get("look", {})), info.get("hair", Cosmetics.DEFAULT_HAIR))
 	weapons.setup(self)
 	brain.player = self
 	# Distant players are not drawn; the name tag disappears sooner.

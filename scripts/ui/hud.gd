@@ -33,6 +33,9 @@ var paused := false
 @onready var death_label: Label = %DeathLabel
 @onready var toast_label: Label = %Toast
 @onready var end_label: Label = %EndLabel
+@onready var reward_card: PanelContainer = %RewardCard
+@onready var reward_total: Label = %RewardTotal
+@onready var reward_label: Label = %RewardLabel
 @onready var scoreboard: Scoreboard = %Scoreboard
 @onready var pause_menu: PauseMenu = %PauseMenu
 @onready var vote_panel: VotePanel = %VotePanel
@@ -143,6 +146,9 @@ func rebuild_hotbar(loadout: Array[int]) -> void:
 
 
 func _on_phase_changed(phase: String) -> void:
+	# The XP of the previous match is only shown on its match-over screen.
+	if phase != "end":
+		Config.last_reward = {}
 	var voting := phase == "vote"
 	vote_panel.visible = voting
 	if voting:
@@ -153,6 +159,29 @@ func _on_phase_changed(phase: String) -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif not paused and not Touch.active:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+## XP earned in the match that just ended, in a card beside the scoreboard:
+##   +310 XP
+##   Match played      +50
+##   6 eliminations    +60
+##   Victory          +250
+##   LEVEL UP!  Level 4
+func _update_reward(end_now: bool) -> void:
+	var reward := Config.last_reward
+	var show := end_now and not reward.is_empty()
+	if show and not reward_card.visible:
+		UiMotion.pop_in(reward_card, 0.3)
+	reward_card.visible = show
+	if not show:
+		return
+	reward_total.text = "+%d XP" % reward.total
+	var text := ""
+	for line in reward.lines:
+		text += "%s   +%d\n" % [line[0], line[1]]
+	if int(reward.level_after) > int(reward.level_before):
+		text += "\nLEVEL UP!  Level %d" % reward.level_after
+	reward_label.text = text.strip_edges()
+
 
 func hitmarker(head: bool) -> void:
 	_pop_marker(Color(1, 0.25, 0.2) if head else Color.WHITE, 1.35 if head else 1.2, 0.22)
@@ -385,6 +414,7 @@ func _update_match() -> void:
 		UiMotion.pop_in(end_label, 0.24)
 	end_label.visible = end_now
 	end_label.text = "MATCH OVER\nWinner: %s" % mm.winner
+	_update_reward(end_now)
 	fps_label.visible = Config.show_fps
 	if fps_label.visible:
 		fps_label.text = "%d FPS" % Engine.get_frames_per_second()

@@ -55,6 +55,9 @@ class AnimState:
 
 ## Weapon foregrip (Marker3D "Foregrip"): the left hand reaches for it.
 var foregrip: Node3D
+## Weapon model in the right hand (menu preview only): rolled while the
+## character inspects it.
+var held_weapon: Node3D
 ## Arm lengths: shoulder → elbow and elbow → center of the hand.
 const UPPER_ARM := 0.34
 const FOREARM := 0.4
@@ -76,11 +79,14 @@ func _ready() -> void:
 	_spine_base = spine.position
 
 
-## Applies the colors and merges the blocks of each joint into one mesh.
-func setup(shirt: Color, pants: Color, skin: Color) -> void:
+## Adds the Locker items (`look`, see [Cosmetics]), applies the colors and
+## merges the blocks of each joint into one mesh.
+func setup(shirt: Color, pants: Color, skin: Color, look := {}, hair := Cosmetics.DEFAULT_HAIR) -> void:
 	if _baked:
 		return
 	_baked = true
+	Cosmetics.apply(self, look if not look.is_empty() else Cosmetics.defaults(),
+		{"shirt": shirt, "pants": pants, "skin": skin, "hair": hair})
 	for b in BlockBaker.collect(self):
 		match b.tint:
 			Block.Tint.SHIRT:
@@ -89,6 +95,8 @@ func setup(shirt: Color, pants: Color, skin: Color) -> void:
 				b.color = pants
 			Block.Tint.SKIN:
 				b.color = skin
+			Block.Tint.HAIR:
+				b.color = hair
 	_bake_joints(self)
 
 
@@ -114,6 +122,152 @@ func flinch() -> void:
 func idle_preview(delta: float) -> void:
 	var s := AnimState.new()
 	animate(delta, s)
+
+
+# ============================================================================
+# Menu showcase (lobby and Locker)
+# ============================================================================
+#
+# The character stands facing the camera holding the weapon low ("stand").
+# Every few seconds it plays a random idle emote, and the Locker can ask for
+# a reaction emote when an item is put on. Each emote is a target pose that
+# blends in and out of the stand pose with a smooth weight.
+
+## Emote lengths in seconds.
+const EMOTES := {
+	"inspect": 4.6,      # lifts the weapon, turns it to look at its side
+	"look_around": 3.6,  # head and torso turn left, then right
+	"wave": 3.0,         # waves at the camera with the free hand
+	"check_mag": 3.0,    # tilts the weapon and checks the magazine
+	"touch_head": 2.2,   # Locker: new headwear, hair or face item
+	"look_down": 2.4,    # Locker: new shoes or pants
+	"show_off": 2.8,     # Locker: new top or back item
+}
+## Emotes picked at random while idle.
+const IDLE_EMOTES := ["inspect", "look_around", "wave", "check_mag"]
+## Emotes that move the left hand off the weapon.
+const LEFT_HAND_EMOTES := ["wave", "check_mag", "touch_head"]
+## Seconds of plain standing between idle emotes.
+const IDLE_PAUSE_MIN := 3.0
+const IDLE_PAUSE_MAX := 5.5
+
+var _emote := ""
+var _emote_t := 0.0
+var _last_emote := ""
+var _next_emote := IDLE_PAUSE_MIN
+
+
+## Starts an emote right away (see EMOTES), replacing the current one.
+func play_emote(emote: String) -> void:
+	if EMOTES.has(emote):
+		_emote = emote
+		_emote_t = 0.0
+
+
+func is_playing_emote() -> bool:
+	return _emote != ""
+
+
+## Showcase animation for one frame (call every frame from the menu).
+func menu_preview(delta: float) -> void:
+	_time += delta
+	var k := 1.0 - exp(-7.0 * delta)
+	var breath := sin(_time * 1.7)
+	var sway := sin(_time * 0.6)
+
+	# Pick and advance emotes.
+	if _emote == "":
+		_next_emote -= delta
+		if _next_emote <= 0.0:
+			var choices := IDLE_EMOTES.filter(func(e): return e != _last_emote)
+			play_emote(choices[randi() % choices.size()])
+	else:
+		_emote_t += delta
+		if _emote_t >= EMOTES[_emote]:
+			_last_emote = _emote
+			_emote = ""
+			_next_emote = randf_range(IDLE_PAUSE_MIN, IDLE_PAUSE_MAX)
+	# u: progress through the emote (0..1); w: how much of it is shown,
+	# fading in over the first 18% and out over the last 18%.
+	var u: float = _emote_t / float(EMOTES[_emote]) if _emote != "" else 0.0
+	var w: float = smoothstep(0.0, 0.18, u) * (1.0 - smoothstep(0.82, 1.0, u)) if _emote != "" else 0.0
+
+	# --- Stand: facing the camera, weapon held low in front ----------------
+	var pose := {
+		"leg_l": Vector3(0.02, 0.0, -0.06), "leg_r": Vector3(-0.02, 0.0, 0.06),
+		"knee_l": Vector3(-0.05, 0, 0), "knee_r": Vector3(-0.03, 0, 0),
+		"spine": Vector3(0.0, sway * 0.03, 0.0),
+		# Shoulder pitch + elbow pitch below 90 degrees: the barrel points
+		# down and forward; the shoulder yaw brings it across the body.
+		"arm_r": Vector3(0.35 + breath * 0.015, 0.4, 0.05), "elbow_r": Vector3(0.95, 0, 0),
+		"arm_l": Vector3(0.6, -0.2, 0), "elbow_l": Vector3(1.0, 0, 0),
+		"head": Vector3(-0.03 + breath * 0.01, sway * 0.05, 0.0),
+	}
+	var roll := 0.0
+
+	# --- The emote's own pose ----------------------------------------------
+	var target := pose.duplicate()
+	match _emote:
+		"inspect":
+			# Barrel level (pitch sum about 90 degrees), held up in front.
+			target.arm_r = Vector3(0.75, 0.8, 0.0)
+			target.elbow_r = Vector3(0.85, 0, 0)
+			target.head = Vector3(-0.42, 0.42, 0.1)
+			target.spine = Vector3(-0.05, 0.12, 0.0)
+			# Turn the weapon to its side and back, twice.
+			roll = -1.0 * sin(u * TAU * 2.0) * sin(u * PI)
+		"look_around":
+			var look := sin(u * TAU)  # left, then right
+			target.head = Vector3(0.05, look * 0.75, 0.0)
+			target.spine = Vector3(0.0, look * 0.25, 0.0)
+		"wave":
+			# Left arm raised out to the side, the forearm swinging.
+			target.arm_l = Vector3(2.5, 0.0, -0.75)
+			target.elbow_l = Vector3(0.45 + 0.45 * sin(u * TAU * 4.0), 0, 0)
+			target.head = Vector3(0.05, 0.0, 0.12)
+			target.spine = Vector3(0.0, 0.0, 0.05)
+		"check_mag":
+			target.arm_r = Vector3(0.6, 0.55, 0.0)
+			target.elbow_r = Vector3(1.0, 0, 0)
+			# Left hand down to the magazine under the weapon.
+			target.arm_l = Vector3(0.4, 0.3, 0)
+			target.elbow_l = Vector3(1.15, 0, 0)
+			target.head = Vector3(-0.5, 0.3, 0.0)
+			roll = -0.6
+		"touch_head":
+			# Left hand up to the head, a small head tilt.
+			target.arm_l = Vector3(2.7, 0.0, -0.35)
+			target.elbow_l = Vector3(1.9, 0, 0)
+			target.head = Vector3(0.12, 0.0, -0.15)
+		"look_down":
+			# Looks at the feet, leaning forward, one foot out.
+			target.head = Vector3(-0.8, 0.0, 0.0)
+			target.spine = Vector3(-0.18, 0.0, 0.0)
+			target.leg_r = Vector3(0.3, 0.0, 0.05)
+		"show_off":
+			# Turns the torso from side to side to show the outfit.
+			var twist := sin(u * TAU)
+			target.spine = Vector3(0.0, twist * 0.45, 0.0)
+			target.head = Vector3(0.0, -twist * 0.25, 0.0)
+
+	# --- Blend and apply ------------------------------------------------------
+	position.y = lerpf(position.y, 0.0, k)
+	spine.position = _spine_base + Vector3(0, breath * 0.008, 0)
+	var joints := {
+		"leg_l": leg_l, "leg_r": leg_r, "knee_l": knee_l, "knee_r": knee_r, "spine": spine,
+		"arm_r": arm_r, "elbow_r": elbow_r, "arm_l": arm_l, "elbow_l": elbow_l, "head": head,
+	}
+	var left_free := _emote in LEFT_HAND_EMOTES and w > 0.4
+	for joint_name in joints:
+		if (joint_name == "arm_l" or joint_name == "elbow_l") and not left_free and is_instance_valid(foregrip):
+			continue  # the left hand stays on the foregrip (IK below)
+		var a: Vector3 = pose[joint_name]
+		var b: Vector3 = target[joint_name]
+		_to(joints[joint_name], a.lerp(b, w), k)
+	if not left_free and is_instance_valid(foregrip):
+		_left_hand_ik(k)
+	if is_instance_valid(held_weapon):
+		held_weapon.rotation.z = lerpf(held_weapon.rotation.z, roll * w, k)
 
 
 func animate(delta: float, s: AnimState) -> void:
