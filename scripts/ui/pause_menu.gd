@@ -14,7 +14,7 @@ var _settings: Control
 
 ## Replaces the keyboard help with the touch-control guide on mobile.
 func set_touch_help() -> void:
-	%Help.text = "Left stick: move  ·  Right stick: aim / shoot\nTouch the right stick to aim automatically\nPush it past halfway to fire  ·  CROUCH  ·  RELOAD  ·  JUMP"
+	%Help.text = "Left stick: move  ·  Right stick: aim / shoot\nTouch the right stick to aim automatically\nPush it past halfway to fire  ·  CROUCH  ·  RELOAD  ·  JUMP\nChat: the speech bubble at the top"
 
 
 func _ready() -> void:

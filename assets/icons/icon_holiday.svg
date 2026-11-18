@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2430"/>
+      <stop offset="1" stop-color="#0b0f14"/>
+    </linearGradient>
+    <linearGradient id="fire" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffcc4d"/>
+      <stop offset="1" stop-color="#ff6a2b"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="120" height="120" rx="24" fill="url(#bg)"/>
+  <rect x="4" y="4" width="120" height="120" rx="24" fill="none" stroke="#ffb02e" stroke-width="2" opacity="0.55"/>
+  <circle cx="64" cy="64" r="27" fill="none" stroke="url(#fire)" stroke-width="4" opacity="0.9"/>
+  <circle cx="64" cy="64" r="8" fill="none" stroke="url(#fire)" stroke-width="3"/>
+  <g stroke="url(#fire)" stroke-width="6" stroke-linecap="round">
+    <line x1="64" y1="18" x2="64" y2="31"/>
+    <line x1="64" y1="97" x2="64" y2="110"/>
+    <line x1="18" y1="64" x2="31" y2="64"/>
+    <line x1="97" y1="64" x2="110" y2="64"/>
+  </g>
+  <circle cx="64" cy="64" r="2.2" fill="#fff4d6"/>
+  <!-- Christmas edition: Santa hat worn by the crosshair ring (assets/ui/santa_hat.svg). -->
+  <g transform="translate(37 4) scale(0.86) rotate(-12 29 42)">
+    <path d="M9 40 L19 15 L36 5 L52 9 L59 21 L52 23 L45 15 L39 19 L49 40 Z" fill="#d23347"/>
+    <path d="M36 19 L45 15 L52 23 L49 40 L38 40 Z" fill="#a51d31"/>
+    <path d="M19 15 L36 5 L38 9 L23 18 Z" fill="#e8576a"/>
+    <rect x="4" y="35" width="50" height="13" rx="2" fill="#f4f8ff"/>
+    <rect x="4" y="44" width="50" height="4" rx="1" fill="#c9d6e6"/>
+    <rect x="53" y="18" width="11" height="11" rx="2" fill="#f4f8ff"/>
+    <rect x="53" y="25" width="11" height="4" rx="1" fill="#c9d6e6"/>
+  </g>
+</svg>

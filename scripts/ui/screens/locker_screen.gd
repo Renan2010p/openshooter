@@ -19,12 +19,24 @@ const THUMB_SIZE := Vector2(104, 104)
 
 const ACCENT := Color("#ff8a1f")
 const ON_ACCENT := Color("#111111")
-const EVENT_RED := Color("#c7161f")
+## Christmas event berry (tools/build_theme.gd EVENT_BERRY).
+const EVENT_RED := Color("#d23347")
 const CARD_BG := Color("#1c1f27")
 const CARD_BG_ON := Color("#2a1d10")
 const CARD_FONT := preload("res://assets/fonts/BarlowCondensed-Bold.ttf")
 const RAIL_FONT := preload("res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf")
 const TAG_FONT := preload("res://assets/fonts/Barlow-Bold.ttf")
+## Icon shown on each rail tab.
+const TAB_ICONS := {
+	"hat": preload("res://assets/ui/icons/tab_hat.svg"),
+	"hair": preload("res://assets/ui/icons/tab_hair.svg"),
+	"face": preload("res://assets/ui/icons/tab_face.svg"),
+	"top": preload("res://assets/ui/icons/tab_top.svg"),
+	"legs": preload("res://assets/ui/icons/tab_legs.svg"),
+	"feet": preload("res://assets/ui/icons/tab_feet.svg"),
+	"back": preload("res://assets/ui/icons/tab_back.svg"),
+	COLORS_TAB: preload("res://assets/ui/icons/tab_colors.svg"),
+}
 ## Items that belong to the current event get an EVENT chip.
 const EVENT_ITEMS := ["santa"]
 
@@ -71,6 +83,8 @@ func leave() -> void:
 func _add_tab(id: String, title: String) -> void:
 	var button := Button.new()
 	button.text = title
+	button.icon = TAB_ICONS.get(id)
+	button.expand_icon = false
 	button.custom_minimum_size = Vector2(170, 44)
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.focus_mode = Control.FOCUS_NONE
@@ -117,6 +131,7 @@ func _fill_items(slot: String) -> void:
 		_thumbnails.request(slot, id, func(texture: Texture2D):
 			if is_instance_valid(picture):
 				picture.texture = texture)
+	UiMotion.stagger(%Items, 0.018, 0.22, 24)
 
 
 ## A card: thumbnail on top, name below, a WORN chip (shown when worn) and an

@@ -5,12 +5,20 @@ extends MenuScreen
 
 const FPS_LIMITS := [0, 60, 120, 144]
 const RAIL_FONT := preload("res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf")
+## Icon shown on each rail tab.
+const PAGE_ICONS := {
+	"Controls": preload("res://assets/ui/icons/gamepad.svg"),
+	"Display": preload("res://assets/ui/icons/monitor.svg"),
+	"Graphics": preload("res://assets/ui/icons/sliders.svg"),
+	"Audio": preload("res://assets/ui/icons/speaker.svg"),
+	"Mobile": preload("res://assets/ui/icons/phone.svg"),
+}
 ## Page node, rail title, line under the page title.
 const PAGES := [
 	["Controls", "CONTROLS", "Aim and camera feel."],
 	["Display", "DISPLAY", "Window, frame rate and brightness."],
 	["Graphics", "GRAPHICS", "Quality presets change 3D resolution, shadows and draw distance."],
-	["Audio", "AUDIO", "Volume."],
+	["Audio", "AUDIO", "Sounds and music."],
 	["Mobile", "MOBILE", "Touch controls (phones and tablets)."],
 ]
 
@@ -35,6 +43,7 @@ func _ready() -> void:
 	%Sensitivity.value_changed.connect(func(_v): _update_values())
 	%Fov.value_changed.connect(func(_v): _update_values())
 	%Volume.value_changed.connect(func(_v): _update_values())
+	%Music.value_changed.connect(func(_v): _update_values())
 	%RenderScale.value_changed.connect(func(_v): _update_values())
 	%Brightness.value_changed.connect(func(_v): _update_values())
 	%TouchStick.value_changed.connect(func(_v): _update_values())
@@ -44,12 +53,17 @@ func _ready() -> void:
 	bind_button(%Save, _save)
 	bind_button(%Discard, _close)
 	bind_button(%Back, _close)
+	# Engine and renderer live here instead of in the menu footer.
+	var godot: Dictionary = Engine.get_version_info()
+	%AboutHint.text = "OpenShooter %s · Godot %d.%d · Compatibility renderer · GPL-3.0" % [
+		ProjectSettings.get_setting("application/config/version", ""), godot.major, godot.minor]
 
 
 func enter(_arg: Variant) -> void:
 	%Sensitivity.value = Config.sensitivity
 	%Fov.value = Config.fov
 	%Volume.value = Config.volume
+	%Music.value = Config.music_volume
 	%Fullscreen.button_pressed = Config.fullscreen
 	%Quality.select(Config.quality)
 	%ShowFps.button_pressed = Config.show_fps
@@ -69,6 +83,8 @@ func enter(_arg: Variant) -> void:
 func _add_tab(id: String, title: String) -> void:
 	var button := Button.new()
 	button.text = title
+	button.icon = PAGE_ICONS.get(id)
+	button.expand_icon = false
 	button.custom_minimum_size = Vector2(190, 44)
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.focus_mode = Control.FOCUS_NONE
@@ -80,21 +96,24 @@ func _add_tab(id: String, title: String) -> void:
 	bind_button(button, func(): _show_page(id))
 
 
-## Shows one page; its tab turns solid orange.
+## Shows one page; its tab turns solid orange and the page eases in.
 func _show_page(id: String) -> void:
 	for page in PAGES:
 		var on: bool = page[0] == id
-		(get_node("%" + page[0]) as Control).visible = on
+		var page_node := get_node("%" + page[0]) as Control
+		page_node.visible = on
 		(_tab_buttons[page[0]] as Button).theme_type_variation = &"PrimaryButton" if on else &"MenuBtn"
 		if on:
 			%PageTitle.text = page[1]
 			%PageHint.text = page[2]
+			UiMotion.pop_in(page_node, 0.17)
 
 
 func _update_values() -> void:
 	%SensitivityValue.text = "%.2f" % %Sensitivity.value
 	%FovValue.text = "%d°" % int(%Fov.value)
 	%VolumeValue.text = "%d%%" % int(round(%Volume.value * 100.0))
+	%MusicValue.text = "%d%%" % int(round(%Music.value * 100.0))
 	%RenderScaleValue.text = "%d%%" % int(%RenderScale.value)
 	%BrightnessValue.text = "%d%%" % int(%Brightness.value)
 	%TouchStickValue.text = "%d%%" % int(%TouchStick.value)
@@ -105,6 +124,7 @@ func _save() -> void:
 	Config.sensitivity = %Sensitivity.value
 	Config.fov = %Fov.value
 	Config.volume = %Volume.value
+	Config.music_volume = %Music.value
 	Config.fullscreen = %Fullscreen.button_pressed
 	Config.quality = %Quality.get_selected_id()
 	Config.show_fps = %ShowFps.button_pressed

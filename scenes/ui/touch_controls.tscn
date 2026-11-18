@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/refresh.svg" id="9_reload"]
 [ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="10_black"]
 [ext_resource type="FontFile" path="res://assets/fonts/Barlow-Bold.ttf" id="11_bold"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/chat.svg" id="12_chat"]
 
 [sub_resource type="StyleBoxFlat" id="ArrowStyle"]
 bg_color = Color(0.043, 0.047, 0.063, 0.8)
@@ -94,6 +95,18 @@ focus_mode = 0
 toggle_mode = true
 theme_type_variation = &"TouchSquare"
 icon = ExtResource("6_menu")
+icon_alignment = 1
+
+[node name="Chat" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 136.0
+offset_top = 16.0
+offset_right = 186.0
+offset_bottom = 66.0
+focus_mode = 0
+theme_type_variation = &"TouchSquare"
+icon = ExtResource("12_chat")
 icon_alignment = 1
 
 [node name="Weapons" type="HBoxContainer" parent="."]

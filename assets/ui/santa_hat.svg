@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="52" viewBox="0 0 64 52">
+  <!-- Santa hat for the OpenShooter logo (Christmas edition). Flat, blocky
+       shapes to match the voxel characters; drawn leaning right. -->
+  <path d="M9 40 L19 15 L36 5 L52 9 L59 21 L52 23 L45 15 L39 19 L49 40 Z" fill="#d23347"/>
+  <path d="M36 19 L45 15 L52 23 L49 40 L38 40 Z" fill="#a51d31"/>
+  <path d="M19 15 L36 5 L38 9 L23 18 Z" fill="#e8576a"/>
+  <rect x="4" y="35" width="50" height="13" rx="2" fill="#f4f8ff"/>
+  <rect x="4" y="44" width="50" height="4" rx="1" fill="#c9d6e6"/>
+  <rect x="53" y="18" width="11" height="11" rx="2" fill="#f4f8ff"/>
+  <rect x="53" y="25" width="11" height="4" rx="1" fill="#c9d6e6"/>
+</svg>

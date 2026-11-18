@@ -2,15 +2,15 @@ class_name UiMotion
 ## Small shared animations for buttons, panels and screens.
 
 ## Adds a gentle hover/press scale to a control.
-static func attach(control: Control, hover_scale := 1.012) -> void:
+static func attach(control: Control, hover_scale := 1.02) -> void:
 	if control == null or control.has_meta("ui_motion"):
 		return
 	control.set_meta("ui_motion", true)
-	control.mouse_entered.connect(func(): _scale(control, hover_scale, 0.12))
-	control.mouse_exited.connect(func(): _scale(control, 1.0, 0.14))
+	control.mouse_entered.connect(func(): _scale(control, hover_scale, 0.16, Tween.TRANS_BACK))
+	control.mouse_exited.connect(func(): _scale(control, 1.0, 0.14, Tween.TRANS_QUAD))
 	if control is BaseButton:
-		control.button_down.connect(func(): _scale(control, 0.99, 0.06))
-		control.button_up.connect(func(): _scale(control, 1.0, 0.1))
+		control.button_down.connect(func(): _scale(control, 0.985, 0.07, Tween.TRANS_QUAD))
+		control.button_up.connect(func(): _scale(control, hover_scale if control.is_hovered() else 1.0, 0.12, Tween.TRANS_BACK))
 
 
 ## Fades in and scales a modal/panel from 97% to 100%.
@@ -55,7 +55,84 @@ static func slide_in(control: Control, distance := 16.0, duration := 0.24) -> vo
 	t.tween_property(control, "modulate:a", 1.0, duration * 0.8)
 
 
-static func _scale(control: Control, factor: float, duration: float) -> void:
+## Fades and slightly scales a whole menu screen in. The content may animate on
+## top of this (see slide_in / stagger).
+static func screen_in(control: Control, duration := 0.22) -> void:
+	if control == null:
+		return
+	control.set_meta("ui_want_visible", true)
+	control.visible = true
+	_kill_meta_tween(control, "ui_screen_tween")
+	control.pivot_offset = control.size / 2.0
+	control.modulate.a = 0.0
+	control.scale = Vector2(0.992, 0.992)
+	var t := control.create_tween().set_parallel()
+	control.set_meta("ui_screen_tween", t)
+	t.tween_property(control, "modulate:a", 1.0, duration)
+	t.tween_property(control, "scale", Vector2.ONE, duration) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+
+## Fades the previous screen out underneath the new one, then hides it.
+static func screen_out(control: Control, duration := 0.16) -> void:
+	if control == null:
+		return
+	control.set_meta("ui_want_visible", false)
+	_kill_meta_tween(control, "ui_screen_tween")
+	control.pivot_offset = control.size / 2.0
+	var t := control.create_tween().set_parallel()
+	control.set_meta("ui_screen_tween", t)
+	t.tween_property(control, "modulate:a", 0.0, duration)
+	t.tween_property(control, "scale", Vector2(0.992, 0.992), duration) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	t.chain().tween_callback(func():
+		if not is_instance_valid(control) or control.get_meta("ui_want_visible", true):
+			return
+		control.visible = false
+		control.modulate.a = 1.0
+		control.scale = Vector2.ONE)
+
+
+## Fills a progress bar/range smoothly from its current value.
+static func fill_bar(bar: Range, target: float, duration := 0.55) -> void:
+	if bar == null:
+		return
+	_kill_meta_tween(bar, "ui_bar_tween")
+	var t := bar.create_tween()
+	bar.set_meta("ui_bar_tween", t)
+	t.tween_property(bar, "value", target, duration) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+
+## Counts a label up from `from` to `to`, showing it with `format`.
+static func count_up(label: Label, from: float, to: float, duration := 0.55,
+		format := "%d") -> void:
+	if label == null:
+		return
+	_kill_meta_tween(label, "ui_count_tween")
+	label.text = format % from
+	var t := label.create_tween()
+	label.set_meta("ui_count_tween", t)
+	t.tween_method(func(value: float): label.text = format % value, from, to, duration) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+
+## A quick attention pulse (1 -> strength -> 1) around the control's center.
+static func pop(control: Control, strength := 1.08, duration := 0.32) -> void:
+	if control == null:
+		return
+	control.pivot_offset = control.size / 2.0
+	_kill_meta_tween(control, "ui_scale_tween")
+	_kill_meta_tween(control, "ui_pop_bounce")
+	var t := control.create_tween()
+	control.set_meta("ui_pop_bounce", t)
+	t.tween_property(control, "scale", Vector2.ONE * strength, duration * 0.4) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	t.tween_property(control, "scale", Vector2.ONE, duration * 0.6) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+static func _scale(control: Control, factor: float, duration: float, trans := Tween.TRANS_QUAD) -> void:
 	if not is_instance_valid(control):
 		return
 	control.pivot_offset = control.size / 2.0
@@ -65,7 +142,8 @@ static func _scale(control: Control, factor: float, duration: float) -> void:
 			old.kill()
 	var t := control.create_tween()
 	control.set_meta("ui_scale_tween", t)
-	t.tween_property(control, "scale", Vector2.ONE * factor, duration).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	t.tween_property(control, "scale", Vector2.ONE * factor, duration) \
+		.set_trans(trans).set_ease(Tween.EASE_OUT)
 
 
 ## Cascading entrance: buttons, cards and loose labels inside `root` fade and

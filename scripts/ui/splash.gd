@@ -12,6 +12,7 @@ var _leaving := false
 
 
 func _ready() -> void:
+	Holiday.dress_logo($Center/Phase1/Logo)
 	if not OS.get_cmdline_user_args().is_empty():
 		_go_main()
 		return

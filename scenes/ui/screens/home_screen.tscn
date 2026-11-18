@@ -11,6 +11,12 @@
 [ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf" id="12_xbold"]
 [ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-Bold.ttf" id="13_cond"]
 [ext_resource type="FontFile" path="res://assets/fonts/Barlow-Bold.ttf" id="14_bold"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/locker.svg" id="15_locker"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/stats.svg" id="16_stats"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/store.svg" id="17_store"]
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="18_animicon"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/map.svg" id="19_mapicon"]
+[ext_resource type="Texture2D" path="res://assets/ui/weapons/ak47.png" id="20_ak47"]
 
 [sub_resource type="StyleBoxFlat" id="PlayFrame"]
 draw_center = false
@@ -38,6 +44,8 @@ skew = Vector2(0.35, 0)
 
 [sub_resource type="StyleBoxFlat" id="EventStyle"]
 bg_color = Color(0.43, 0.07, 0.094, 0.96)
+border_width_bottom = 3
+border_color = Color(0.184, 0.561, 0.384, 1)
 corner_radius_top_right = 22
 corner_radius_bottom_left = 22
 corner_detail = 1
@@ -81,12 +89,42 @@ content_margin_right = 10.0
 content_margin_bottom = 4.0
 bg_color = Color(0.078, 0.086, 0.11, 0.82)
 
-[sub_resource type="StyleBoxFlat" id="ChipCyan"]
+[sub_resource type="StyleBoxFlat" id="ChipIce"]
 content_margin_left = 8.0
 content_margin_top = 3.0
 content_margin_right = 8.0
 content_margin_bottom = 3.0
-bg_color = Color(0.224, 0.816, 0.878, 1)
+bg_color = Color(0.663, 0.847, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="ChangeChip"]
+content_margin_left = 9.0
+content_margin_top = 3.0
+content_margin_right = 9.0
+content_margin_bottom = 3.0
+bg_color = Color(1, 0.541, 0.122, 0.16)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.541, 0.122, 0.75)
+corner_radius_top_left = 8
+corner_radius_bottom_right = 8
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="IconBadge"]
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(1, 0.541, 0.122, 0.16)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.541, 0.122, 0.55)
+corner_radius_top_left = 10
+corner_radius_bottom_right = 10
+corner_detail = 1
 
 [node name="Home" type="Control"]
 layout_mode = 3
@@ -113,6 +151,7 @@ mouse_filter = 2
 theme_override_constants/separation = 14
 
 [node name="Badge" type="Control" parent="Content/PlayerPlate"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(58, 58)
 layout_mode = 2
 mouse_filter = 2
@@ -342,6 +381,19 @@ theme_override_font_sizes/font_size = 15
 text = "01"
 vertical_alignment = 1
 
+[node name="Icon" type="TextureRect" parent="Content/Nav/Locker/Row"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(1, 0.541, 0.122, 1)
+texture = ExtResource("15_locker")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("18_animicon")
+pulse_amount = 0.02
+tilt_degrees = 0.8
+
 [node name="Title" type="Label" parent="Content/Nav/Locker/Row"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -382,6 +434,19 @@ theme_override_fonts/font = ExtResource("13_cond")
 theme_override_font_sizes/font_size = 15
 text = "02"
 vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Content/Nav/Stats/Row"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(0.659, 0.686, 0.733, 1)
+texture = ExtResource("16_stats")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("18_animicon")
+pulse_amount = 0.02
+tilt_degrees = 0.8
 
 [node name="Title" type="Label" parent="Content/Nav/Stats/Row"]
 layout_mode = 2
@@ -425,6 +490,16 @@ theme_override_font_sizes/font_size = 15
 text = "03"
 vertical_alignment = 1
 
+[node name="Icon" type="TextureRect" parent="Content/Nav/Store/Row"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(0.486, 0.518, 0.58, 1)
+texture = ExtResource("17_store")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Title" type="Label" parent="Content/Nav/Store/Row"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -440,7 +515,7 @@ size_flags_vertical = 4
 theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
 theme_override_fonts/font = ExtResource("14_bold")
 theme_override_font_sizes/font_size = 11
-theme_override_styles/normal = SubResource("ChipCyan")
+theme_override_styles/normal = SubResource("ChipIce")
 text = "SOON"
 
 [node name="ModeCard" type="Button" parent="Content"]
@@ -451,13 +526,27 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -388.0
-offset_top = 110.0
+offset_top = 104.0
 offset_right = -28.0
-offset_bottom = 240.0
+offset_bottom = 354.0
 focus_mode = 0
+clip_contents = true
 theme_override_styles/normal = SubResource("ModeNormal")
 theme_override_styles/hover = SubResource("ModeHover")
 theme_override_styles/pressed = SubResource("ModeHover")
+
+[node name="ModeWatermark" type="TextureRect" parent="Content/ModeCard"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.28
+anchor_top = 0.08
+anchor_right = 1.0
+anchor_bottom = 0.92
+mouse_filter = 2
+modulate = Color(1, 1, 1, 0.07)
+texture = ExtResource("20_ak47")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Margin" type="MarginContainer" parent="Content/ModeCard"]
 layout_mode = 1
@@ -466,22 +555,45 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 14
+theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_bottom = 12
 
 [node name="Rows" type="VBoxContainer" parent="Content/ModeCard/Margin"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="Top" type="HBoxContainer" parent="Content/ModeCard/Margin/Rows"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="IconBadge" type="PanelContainer" parent="Content/ModeCard/Margin/Rows/Top"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("IconBadge")
+
+[node name="ModeIcon" type="TextureRect" parent="Content/ModeCard/Margin/Rows/Top/IconBadge"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+mouse_filter = 2
+modulate = Color(1, 0.541, 0.122, 1)
+texture = ExtResource("7_hex")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("18_animicon")
+pulse_amount = 0.03
+tilt_degrees = 0.6
+hover_scale = 1.2
 
 [node name="Tag" type="Label" parent="Content/ModeCard/Margin/Rows/Top"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
 theme_override_fonts/font = ExtResource("14_bold")
 theme_override_font_sizes/font_size = 11
@@ -489,8 +601,12 @@ text = "GAME MODE"
 
 [node name="Change" type="Label" parent="Content/ModeCard/Margin/Rows/Top"]
 layout_mode = 2
-theme_type_variation = &"Caption"
-text = "CHANGE ›"
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 0.69, 0.4, 1)
+theme_override_fonts/font = ExtResource("14_bold")
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("ChangeChip")
+text = "CHANGE MODE ›"
 
 [node name="ModeName" type="Label" parent="Content/ModeCard/Margin/Rows"]
 unique_name_in_owner = true
@@ -500,6 +616,15 @@ theme_override_font_sizes/font_size = 44
 text = "NORMAL"
 text_overrun_behavior = 3
 
+[node name="ModeRule" type="Label" parent="Content/ModeCard/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.69, 0.4, 1)
+theme_override_fonts/font = ExtResource("14_bold")
+theme_override_font_sizes/font_size = 11
+text = "ALL WEAPONS · MOST ELIMINATIONS WINS"
+text_overrun_behavior = 3
+
 [node name="MapRow" type="HBoxContainer" parent="Content/ModeCard/Margin/Rows"]
 layout_mode = 2
 mouse_filter = 2
@@ -507,7 +632,7 @@ theme_override_constants/separation = 12
 
 [node name="MapThumb" type="TextureRect" parent="Content/ModeCard/Margin/Rows/MapRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 54)
+custom_minimum_size = Vector2(112, 62)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("10_map")
@@ -520,7 +645,21 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="MapCaption" type="Label" parent="Content/ModeCard/Margin/Rows/MapRow/MapText"]
+[node name="MapHeader" type="HBoxContainer" parent="Content/ModeCard/Margin/Rows/MapRow/MapText"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="Content/ModeCard/Margin/Rows/MapRow/MapText/MapHeader"]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(1, 0.541, 0.122, 0.9)
+texture = ExtResource("19_mapicon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MapCaption" type="Label" parent="Content/ModeCard/Margin/Rows/MapRow/MapText/MapHeader"]
 layout_mode = 2
 theme_type_variation = &"Caption"
 text = "MAP"
@@ -529,29 +668,40 @@ text = "MAP"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("13_cond")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 22
 text = "Random map"
 
-[node name="Chips" type="HBoxContainer" parent="Content"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -388.0
-offset_top = 252.0
-offset_right = -28.0
-offset_bottom = 276.0
+[node name="LoadoutRow" type="HBoxContainer" parent="Content/ModeCard/Margin/Rows"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Content/ModeCard/Margin/Rows/LoadoutRow"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"Caption"
+text = "LOADOUT"
+
+[node name="ModeWeapons" type="HBoxContainer" parent="Content/ModeCard/Margin/Rows/LoadoutRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Footer" type="HBoxContainer" parent="Content/ModeCard/Margin/Rows"]
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="Lan" type="Label" parent="Content/Chips"]
+[node name="Lan" type="Label" parent="Content/ModeCard/Margin/Rows/Footer"]
 layout_mode = 2
 theme_type_variation = &"Caption"
 theme_override_styles/normal = SubResource("Chip")
 text = "LAN"
 
-[node name="Slots" type="Label" parent="Content/Chips"]
+[node name="Slots" type="Label" parent="Content/ModeCard/Margin/Rows/Footer"]
 layout_mode = 2
 theme_type_variation = &"Caption"
 theme_override_styles/normal = SubResource("Chip")
@@ -724,4 +874,8 @@ modulate = Color(1, 0.541, 0.122, 1)
 texture = ExtResource("2_play")
 expand_mode = 1
 stretch_mode = 5
+script = ExtResource("18_animicon")
+pulse_amount = 0.07
+tilt_degrees = 0.0
+hover_scale = 1.3
 

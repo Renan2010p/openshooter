@@ -123,6 +123,8 @@ func _start_world() -> void:
 	var token := _load_token
 	var map_idx := clampi(int(Net.server_info.get("map", 0)), 0, MapDB.count() - 1)
 	var mode_idx := clampi(int(Net.server_info.get("mode_idx", 0)), 0, ModeDB.count() - 1)
+	# The lobby music fades out while the match loads.
+	Music.stop(2.0)
 	loading.begin("LOADING MATCH", "%s  ·  %s" % [MapDB.display_name(map_idx), ModeDB.get_mode(mode_idx).display_name])
 	await get_tree().process_frame
 	var world_resource := await _load_threaded(WORLD_SCENE.resource_path, 0.0, 0.55)

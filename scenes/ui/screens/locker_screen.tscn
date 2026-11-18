@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/ui/screens/locker_screen.gd" id="1_locker"]
 [ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="2_black"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/check.svg" id="3_check"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/refresh.svg" id="4_refresh"]
 
 [sub_resource type="StyleBoxFlat" id="PanelStyle"]
 content_margin_left = 22.0
@@ -206,6 +208,7 @@ size_flags_horizontal = 3
 focus_mode = 0
 theme_type_variation = &"GhostButton"
 text = "DISCARD"
+icon = ExtResource("4_refresh")
 
 [node name="Save" type="Button" parent="Content/Panel/Rows/Buttons"]
 unique_name_in_owner = true
@@ -216,6 +219,7 @@ size_flags_stretch_ratio = 2.0
 focus_mode = 0
 theme_type_variation = &"PrimaryButton"
 text = "SAVE LOOK"
+icon = ExtResource("3_check")
 
 [node name="Hint" type="Label" parent="Content"]
 layout_mode = 1

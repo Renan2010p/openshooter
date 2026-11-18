@@ -102,6 +102,8 @@ void fragment() {
 var _showcase: Control
 var _showcase_title: Label
 var _showcase_slab: Panel
+## Cold glow behind the slab in the lobby.
+var _showcase_glow: TextureRect
 var _avatar_view: SubViewport
 var _avatar_camera: Camera3D
 var _layer_t := 0.0
@@ -122,15 +124,23 @@ func _ready() -> void:
 		if s is MenuScreen:
 			s.menu = self
 			s.visible = false
+			(s as MenuScreen).add_back_key_hint()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	Net.start_listening()
 	set_status(message)
 	rebuild_avatar()
 	_build_showcase()
+	if MenuSnow.wanted():
+		# Above the background shades and the showcase, below the screens.
+		var snow := MenuSnow.new()
+		snow.name = "Snow"
+		$UI/Root.add_child(snow)
+		$UI/Root.move_child(snow, screens.get_index())
 	avatar_preview.rotation.y = PI  # facing the lobby camera
 	avatar_preview.visible = false
 	avatar_preview.scale = Vector3.ONE * 0.01
 	show_screen("Home")
+	Music.play("menu")
 
 
 func _exit_tree() -> void:
@@ -140,16 +150,28 @@ func _exit_tree() -> void:
 ## Shows a screen by node name (Home, Modes, Browser, Private, Create, Locker,
 ## Settings, Stats). `arg` is forwarded to MenuScreen.enter().
 func show_screen(screen_name: String, arg: Variant = null) -> void:
-	if _current:
-		_current.leave()
-		_current.visible = false
-	_current = screens.get_node(screen_name) as MenuScreen
-	_current.visible = true
-	_current.enter(arg)
-	var content := _current.get_node_or_null("Content") as Control
+	var next := screens.get_node_or_null(screen_name) as MenuScreen
+	if next == null:
+		return
+	if next == _current:
+		next.enter(arg)
+		return
+	var previous := _current
+	if previous and is_instance_valid(previous):
+		previous.leave()
+	_current = next
+	# The new screen is drawn above the old one while it fades out.
+	next.move_to_front()
+	next.visible = true
+	next.enter(arg)
+	UiMotion.screen_in(next)
+	var content := next.get_node_or_null("Content") as Control
 	if content:
 		UiMotion.slide_in(content)
-		UiMotion.stagger(content)
+		# Cover the whole screen (mode cards, map grid, footer buttons).
+		UiMotion.stagger(content, 0.025, 0.24, 40)
+	if previous and is_instance_valid(previous):
+		UiMotion.screen_out(previous)
 
 
 func current_screen() -> String:
@@ -250,6 +272,23 @@ func _build_showcase() -> void:
 	_showcase_title.add_theme_color_override("font_outline_color", Color(1.0, 0.541, 0.122, 0.42))
 	_showcase_title.add_theme_constant_override("outline_size", 4)
 	_showcase.add_child(_showcase_title)
+
+	# Soft ice-blue glow behind the slab and the character (winter light).
+	var glow_gradient := Gradient.new()
+	glow_gradient.set_color(0, Color(0.663, 0.847, 1.0, 0.20))
+	glow_gradient.set_color(1, Color(0.663, 0.847, 1.0, 0.0))
+	var glow_texture := GradientTexture2D.new()
+	glow_texture.gradient = glow_gradient
+	glow_texture.fill = GradientTexture2D.FILL_RADIAL
+	glow_texture.fill_from = Vector2(0.5, 0.5)
+	glow_texture.fill_to = Vector2(1.0, 0.5)
+	_showcase_glow = TextureRect.new()
+	_showcase_glow.texture = glow_texture
+	_showcase_glow.position = Vector2(340, 60)
+	_showcase_glow.size = Vector2(600, 640)
+	_showcase_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_showcase_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_showcase.add_child(_showcase_glow)
 
 	# Slab: 240 x 560 at (520, 120), slanted 14 degrees, orange left edge.
 	_showcase_slab = Panel.new()
@@ -352,11 +391,14 @@ func _process(delta: float) -> void:
 		$UI/Root/Atmosphere/LeftShade.visible = not showcase
 		$UI/Root/Atmosphere/Vignette.visible = not showcase
 		var locker := screen == "Locker"
-		_showcase_title.text = "LOCKER" if locker else (
-			"WINTER\nWARFARE" if Holiday.ENABLED else "OPEN\nSHOOTER")
+		# Only the Locker keeps the big outlined title: in the lobby it was cut
+		# by the character and repeated the event banner.
+		_showcase_title.visible = locker
+		_showcase_title.text = "LOCKER"
 		# In the Locker the character stands left of centre (panel on the right).
 		_showcase_title.offset_right = -340.0 if locker else 0.0
 		_showcase_slab.visible = not locker
+		_showcase_glow.visible = not locker
 		_layer_t -= delta
 		if _layer_t <= 0.0:
 			_layer_t = 0.5

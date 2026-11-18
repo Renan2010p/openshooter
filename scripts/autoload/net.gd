@@ -6,6 +6,8 @@ signal joined
 signal join_failed(reason: String)
 signal disconnected(reason: String)
 signal players_changed
+## A chat line from player `sender` (see send_chat()).
+signal chat_received(sender: int, text: String)
 
 const PORT := 24540
 const DISCOVERY_PORT := 24541
@@ -28,6 +30,13 @@ var _send: PacketPeerUDP
 var _listen: PacketPeerUDP
 var _broadcast_t := 0.0
 var _join_code := ""
+## Server side: when each player last chatted (Time.get_ticks_msec()).
+var _chat_last := {}
+
+## Longest chat line, in characters.
+const CHAT_MAX := 120
+## Shortest time between two chat lines of one player (milliseconds).
+const CHAT_INTERVAL_MS := 700
 
 
 func _ready() -> void:
@@ -126,6 +135,53 @@ func _on_peer_disconnected(id: int) -> void:
 			broadcast_players()).call_deferred()
 
 
+# ------------------------------------------------------------------ chat
+
+## Sends a chat line to everyone in the match. The server checks it (length,
+## flood) and relays it; nothing is shown until it comes back, so every
+## player sees the same lines in the same order.
+func send_chat(text: String) -> void:
+	text = clean_chat(text)
+	if text.is_empty() or not is_online():
+		return
+	if multiplayer.is_server():
+		_relay_chat(1, text)
+	else:
+		chat_request.rpc_id(1, text)
+
+
+@rpc("any_peer", "reliable")
+func chat_request(text: String) -> void:
+	if multiplayer.is_server():
+		_relay_chat(multiplayer.get_remote_sender_id(), text)
+
+
+func _relay_chat(sender: int, text: String) -> void:
+	text = clean_chat(text)
+	if text.is_empty() or not players.has(sender) or players[sender].get("bot", false):
+		return
+	var now := Time.get_ticks_msec()
+	if now - int(_chat_last.get(sender, -CHAT_INTERVAL_MS)) < CHAT_INTERVAL_MS:
+		return
+	_chat_last[sender] = now
+	chat_message.rpc(sender, text)
+
+
+@rpc("authority", "call_local", "reliable")
+func chat_message(sender: int, text: String) -> void:
+	chat_received.emit(sender, clean_chat(text))
+
+
+## One line of plain text: no line breaks or control characters, trimmed,
+## at most CHAT_MAX characters.
+static func clean_chat(text: String) -> String:
+	var out := ""
+	for i in text.length():
+		var c := text.unicode_at(i)
+		out += " " if c < 32 or c == 127 else text[i]
+	return out.strip_edges().substr(0, CHAT_MAX)
+
+
 # ------------------------------------------------------------------ client
 
 func join(ip: String, code := "") -> void:
@@ -169,6 +225,7 @@ func leave() -> void:
 	multiplayer.multiplayer_peer = null
 	_send = null
 	players.clear()
+	_chat_last.clear()
 
 
 # ------------------------------------------------------------------ discovery

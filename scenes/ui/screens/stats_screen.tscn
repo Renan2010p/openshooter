@@ -50,12 +50,12 @@ text = "Lifetime performance and the last twelve matches on this computer."
 
 [node name="Back" type="Button" parent="Content/Header" unique_id=1452230985]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 44)
+custom_minimum_size = Vector2(130, 46)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"GhostButton"
-text = "Back"
+text = "BACK"
 icon = ExtResource("2_back")
 
 [node name="Gap" type="Control" parent="Content" unique_id=1773158006]

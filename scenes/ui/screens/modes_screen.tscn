@@ -2,6 +2,54 @@
 
 [ext_resource type="Script" path="res://scripts/ui/screens/modes_screen.gd" id="1_modes"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/dice.svg" id="3_dice"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/check.svg" id="4_check"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/swords.svg" id="5_swords"]
+[ext_resource type="Script" path="res://scripts/ui/animated_icon.gd" id="6_animicon"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/map.svg" id="7_map"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/server.svg" id="8_server"]
+
+[sub_resource type="StyleBoxFlat" id="SideBackdrop"]
+bg_color = Color(0.022, 0.028, 0.04, 0.78)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.09)
+corner_radius_top_left = 22
+corner_radius_bottom_right = 22
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 12
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="SetupStyle"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+bg_color = Color(0.035, 0.045, 0.06, 0.94)
+border_width_left = 3
+border_color = Color(1, 0.541, 0.122, 0.9)
+corner_radius_top_left = 12
+corner_radius_bottom_right = 12
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="HeaderChip"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.035, 0.045, 0.06, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.541, 0.122, 0.5)
+corner_radius_top_left = 8
+corner_radius_bottom_right = 8
+corner_detail = 1
+
 
 [node name="Modes" type="Control"]
 layout_mode = 3
@@ -10,6 +58,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource("1_modes")
+
+[node name="SideBackdrop" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -468.0
+offset_top = 166.0
+offset_right = -44.0
+offset_bottom = -44.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("SideBackdrop")
 
 [node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -30,6 +92,20 @@ text = "PLAY"
 layout_mode = 2
 theme_override_constants/separation = 16
 
+[node name="Icon" type="TextureRect" parent="Content/Header"]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(1, 0.541, 0.122, 1)
+texture = ExtResource("5_swords")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("6_animicon")
+pulse_amount = 0.04
+tilt_degrees = 1.4
+hover_scale = 1.1
+
 [node name="Titles" type="VBoxContainer" parent="Content/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -45,14 +121,23 @@ layout_mode = 2
 theme_type_variation = &"HintLabel"
 text = "Pick a game mode and map. Play finds servers of this mode, and the servers you create keep it for every match."
 
+[node name="ModeCount" type="Label" parent="Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"Caption"
+theme_override_colors/font_color = Color(1, 0.69, 0.4, 1)
+theme_override_styles/normal = SubResource("HeaderChip")
+text = "5 MODES"
+
 [node name="Back" type="Button" parent="Content/Header"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 44)
+custom_minimum_size = Vector2(130, 46)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"GhostButton"
-text = "Back"
+text = "BACK"
 icon = ExtResource("2_back")
 
 [node name="Gap" type="Control" parent="Content"]
@@ -64,13 +149,11 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 24
 
-[node name="Cards" type="GridContainer" parent="Content/Body"]
+[node name="Cards" type="VBoxContainer" parent="Content/Body"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/h_separation = 12
-theme_override_constants/v_separation = 12
-columns = 2
+theme_override_constants/separation = 12
 
 [node name="Side" type="VBoxContainer" parent="Content/Body"]
 custom_minimum_size = Vector2(400, 0)
@@ -79,12 +162,37 @@ layout_mode = 2
 [node name="Rows" type="VBoxContainer" parent="Content/Body/Side"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 12
+theme_override_constants/separation = 6
 
-[node name="MapCaption" type="Label" parent="Content/Body/Side/Rows"]
+[node name="MapHeader" type="HBoxContainer" parent="Content/Body/Side/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Content/Body/Side/Rows/MapHeader"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(1, 0.541, 0.122, 0.9)
+texture = ExtResource("7_map")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("6_animicon")
+pulse_amount = 0.03
+tilt_degrees = 0.0
+
+[node name="MapCaption" type="Label" parent="Content/Body/Side/Rows/MapHeader"]
 layout_mode = 2
 theme_type_variation = &"Caption"
 text = "MAP"
+
+[node name="MapCount" type="Label" parent="Content/Body/Side/Rows/MapHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Caption"
+text = "4 MAPS"
+horizontal_alignment = 2
 
 [node name="MapGrid" type="GridContainer" parent="Content/Body/Side/Rows"]
 unique_name_in_owner = true
@@ -100,22 +208,127 @@ layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"GhostButton"
 text = "RANDOM MAP"
+icon = ExtResource("3_dice")
 
 [node name="MapDescription" type="Label" parent="Content/Body/Side/Rows"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 theme_type_variation = &"HintLabel"
 autowrap_mode = 2
 
-[node name="Spacer" type="Control" parent="Content/Body/Side/Rows"]
+[node name="SetupCard" type="PanelContainer" parent="Content/Body/Side/Rows"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("SetupStyle")
 
-[node name="Confirm" type="Button" parent="Content/Body/Side/Rows"]
+[node name="Box" type="VBoxContainer" parent="Content/Body/Side/Rows/SetupCard"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Content/Body/Side/Rows/SetupCard/Box"]
+layout_mode = 2
+theme_type_variation = &"Caption"
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_font_sizes/font_size = 10
+text = "MATCH SETUP"
+
+[node name="ModeRow" type="HBoxContainer" parent="Content/Body/Side/Rows/SetupCard/Box"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="SetupModeIcon" type="TextureRect" parent="Content/Body/Side/Rows/SetupCard/Box/ModeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(1, 0.541, 0.122, 1)
+texture = ExtResource("5_swords")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Key" type="Label" parent="Content/Body/Side/Rows/SetupCard/Box/ModeRow"]
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "MODE"
+
+[node name="SetupMode" type="Label" parent="Content/Body/Side/Rows/SetupCard/Box/ModeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+text = "NORMAL"
+text_overrun_behavior = 3
+
+[node name="MapRow" type="HBoxContainer" parent="Content/Body/Side/Rows/SetupCard/Box"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Icon" type="TextureRect" parent="Content/Body/Side/Rows/SetupCard/Box/MapRow"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(1, 0.541, 0.122, 0.8)
+texture = ExtResource("7_map")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Key" type="Label" parent="Content/Body/Side/Rows/SetupCard/Box/MapRow"]
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "MAP"
+
+[node name="SetupMap" type="Label" parent="Content/Body/Side/Rows/SetupCard/Box/MapRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+text = "RANDOM"
+text_overrun_behavior = 3
+
+[node name="NetRow" type="HBoxContainer" parent="Content/Body/Side/Rows/SetupCard/Box"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Icon" type="TextureRect" parent="Content/Body/Side/Rows/SetupCard/Box/NetRow"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+modulate = Color(0.663, 0.847, 1, 0.9)
+texture = ExtResource("8_server")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Key" type="Label" parent="Content/Body/Side/Rows/SetupCard/Box/NetRow"]
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "NETWORK"
+
+[node name="Value" type="Label" parent="Content/Body/Side/Rows/SetupCard/Box/NetRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.663, 0.847, 1, 1)
+theme_override_font_sizes/font_size = 15
+text = "LAN · UP TO 12"
+
+[node name="ConfirmMargin" type="MarginContainer" parent="Content/Body/Side/Rows"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+
+[node name="Confirm" type="Button" parent="Content/Body/Side/Rows/ConfirmMargin"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"PrimaryButton"
 text = "CONFIRM"
+icon = ExtResource("4_check")

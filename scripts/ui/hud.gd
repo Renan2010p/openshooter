@@ -7,12 +7,14 @@ const SLOT_SCENE := preload("res://scenes/ui/hotbar_slot.tscn")
 const FEED_FONT := preload("res://assets/fonts/Barlow-Bold.ttf")
 
 ## Health bar color: low, medium, high.
-@export var health_colors: Array[Color] = [Color("#c7161f"), Color("#ff8a1f"), Color("#39d0e0")]
+@export var health_colors: Array[Color] = [Color("#c7161f"), Color("#ff8a1f"), Color("#a9d8ff")]
 @export var feed_max_lines := 6
 @export var feed_line_seconds := 6.0
 
 var world: World
 var paused := false
+## In-match chat (built in code, see _build_chat()).
+var chat: ChatBox
 
 @onready var scope_overlay: ColorRect = %ScopeOverlay
 @onready var damage_vignette: ColorRect = %DamageVignette
@@ -81,12 +83,47 @@ func _ready() -> void:
 	scoreboard.visible = false
 	_ignore_informational_ui()
 	touch_controls.pause_requested.connect(toggle_pause)
+	_build_chat()
+	touch_controls.chat_requested.connect(chat.open)
 	if Touch.active:
 		pause_menu.set_touch_help()
 		_layout_mobile()
 	server_info.text = "%s · LV %d" % [Config.player_name.to_upper(), int(Progression.level_info(Config.xp).level)]
 	if Net.server_info.get("private", false) and Net.server_info.get("code", "") != "":
 		server_info.text += "  ·  CODE %s" % Net.server_info.code
+
+
+## Chat over the game: bottom left above the health on a computer, under the
+## top-left buttons on a phone (the move stick takes the bottom left there).
+func _build_chat() -> void:
+	chat = ChatBox.new()
+	chat.name = "Chat"
+	$Root.add_child(chat)
+	if Touch.active:
+		chat.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		chat.offset_left = 20.0
+		chat.offset_top = 96.0
+		chat.offset_right = 440.0
+		chat.offset_bottom = 330.0
+	else:
+		chat.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+		chat.offset_left = 22.0
+		chat.offset_top = -380.0
+		chat.offset_right = 482.0
+		chat.offset_bottom = -132.0
+	chat.can_open = func() -> bool: return not paused
+	chat.typing_changed.connect(_on_chat_typing)
+
+
+## Typing frees the mouse (the player stops); closing gives it back to the game
+## unless a menu still needs it.
+func _on_chat_typing(on: bool) -> void:
+	if Touch.active:
+		return
+	if on:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	elif not paused and not vote_panel.visible:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
 ## Called by [World] when it is ready (children become ready before the parent).
@@ -129,9 +166,9 @@ func _layout_mobile() -> void:
 	var bottom_left := $Root/BottomLeft as Control
 	bottom_left.anchor_top = 0.0
 	bottom_left.anchor_bottom = 0.0
-	bottom_left.offset_left = 145.0
+	bottom_left.offset_left = 200.0
 	bottom_left.offset_top = 10.0
-	bottom_left.offset_right = 465.0
+	bottom_left.offset_right = 520.0
 	bottom_left.offset_bottom = 90.0
 	bottom_left.scale = Vector2(0.58, 0.58)
 	scoreboard.hint = "TAP THE MENU BUTTON TO TOGGLE"
@@ -153,7 +190,6 @@ func rebuild_hotbar(loadout: Array[int]) -> void:
 		s.setup(i + 1, loadout[i])
 		_slots.append(s)
 
-
 func _on_phase_changed(phase: String) -> void:
 	# The XP of the previous match stays on its match-over screen.
 	if phase == "play":
@@ -164,12 +200,17 @@ func _on_phase_changed(phase: String) -> void:
 		vote_panel.reset(world)
 		UiMotion.pop_in(vote_panel)
 	vote_panel.visible = over
+	# Music only on the match-over screen; silence while playing.
+	if over:
+		Music.play("results")
+	else:
+		Music.stop()
 	if over:
 		vote_panel.show_state(world.match_manager.time_left, world.match_manager.map_votes, world.match_manager.mode_votes)
 		hide_death()
 		if not Touch.active:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	elif not paused and not Touch.active:
+	elif not paused and not Touch.active and not chat.typing:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
@@ -349,6 +390,7 @@ func shake(amount: float) -> void:
 
 
 func toggle_pause() -> void:
+	chat.close()
 	paused = not paused
 	pause_menu.visible = paused
 	if paused:
@@ -380,7 +422,10 @@ func _process(delta: float) -> void:
 	var hud_alpha := 0.0 if modal_dim.visible else 1.0
 	for node: CanvasItem in [$Root/TopBar, $Root/Hotbar, $Root/AmmoBox, $Root/BottomLeft, kill_feed, crosshair]:
 		node.modulate.a = hud_alpha
-	var show_touch := Touch.active and not paused and not vote_panel.visible and world.match_manager.phase != "end"
+	# On top of the match screens, but not over the pause menu.
+	chat.visible = not paused
+	var show_touch := Touch.active and not paused and not vote_panel.visible and world.match_manager.phase != "end" \
+		and not chat.typing
 	if touch_controls.visible != show_touch:
 		touch_controls.visible = show_touch
 		if not show_touch:
@@ -519,8 +564,6 @@ func _update_match() -> void:
 	var my_kills := int(Net.players[me].kills) if Net.players.has(me) else 0
 	rank_label.text = "#%d · %d ELIMS" % [maxi(rank, 1), my_kills]
 	%MobileInfo.text = "#%d · %d ELIMS · %s" % [maxi(rank, 1), my_kills, world.mode().display_name.to_upper()]
-	%DeathRank.text = "YOU: #%d · %d ELIMS" % [maxi(rank, 1), my_kills]
-	%DeathMatch.text = "%s · %02d:%02d LEFT" % [world.mode().display_name.to_upper(), t / 60, t % 60]
 	if vote_panel.visible:
 		vote_panel.show_state(mm.time_left, mm.map_votes, mm.mode_votes)
 	var mode := world.mode()

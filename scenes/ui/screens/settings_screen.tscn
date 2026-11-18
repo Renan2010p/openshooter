@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/back.svg" id="2_back"]
 [ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="3_black"]
 [ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf" id="4_xbold"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/check.svg" id="5_check"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/refresh.svg" id="6_refresh"]
 
 [sub_resource type="StyleBoxFlat" id="PanelStyle"]
 content_margin_left = 26.0
@@ -71,21 +73,6 @@ offset_right = 230.0
 offset_bottom = 560.0
 theme_override_constants/separation = 6
 
-[node name="Back" type="Button" parent="Content"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = -104.0
-offset_right = 230.0
-offset_bottom = -58.0
-focus_mode = 0
-theme_type_variation = &"GhostButton"
-text = "BACK"
-icon = ExtResource("2_back")
-
 [node name="Panel" type="PanelContainer" parent="Content"]
 layout_mode = 1
 anchors_preset = 15
@@ -101,22 +88,37 @@ theme_override_styles/panel = SubResource("PanelStyle")
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Head" type="VBoxContainer" parent="Content/Panel/Rows"]
+[node name="Head" type="HBoxContainer" parent="Content/Panel/Rows"]
 layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeadText" type="VBoxContainer" parent="Content/Panel/Rows/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="PageTitle" type="Label" parent="Content/Panel/Rows/Head"]
+[node name="PageTitle" type="Label" parent="Content/Panel/Rows/Head/HeadText"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_black")
 theme_override_font_sizes/font_size = 34
 text = "CONTROLS"
 
-[node name="PageHint" type="Label" parent="Content/Panel/Rows/Head"]
+[node name="PageHint" type="Label" parent="Content/Panel/Rows/Head/HeadText"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HintLabel"
 text = ""
+
+[node name="Back" type="Button" parent="Content/Panel/Rows/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 46)
+layout_mode = 2
+size_flags_vertical = 0
+focus_mode = 0
+theme_type_variation = &"GhostButton"
+text = "BACK"
+icon = ExtResource("2_back")
 
 [node name="Pages" type="Control" parent="Content/Panel/Rows"]
 layout_mode = 2
@@ -466,6 +468,30 @@ layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 
+[node name="AboutRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Display"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Display/AboutRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Display/AboutRow/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "ABOUT"
+
+[node name="AboutHint" type="Label" parent="Content/Panel/Rows/Pages/Display/AboutRow/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "OpenShooter · Godot · Compatibility renderer · GPL-3.0"
+
 [node name="Graphics" type="VBoxContainer" parent="Content/Panel/Rows/Pages"]
 unique_name_in_owner = true
 visible = false
@@ -622,6 +648,59 @@ max_value = 1.0
 step = 0.01
 
 [node name="VolumeValue" type="Label" parent="Content/Panel/Rows/Pages/Audio/VolumeRow/Line/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.122, 1)
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 22
+text = "0"
+horizontal_alignment = 2
+
+[node name="MusicRow" type="PanelContainer" parent="Content/Panel/Rows/Pages/Audio"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("RowStyle")
+
+[node name="Line" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Audio/MusicRow"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Text" type="VBoxContainer" parent="Content/Panel/Rows/Pages/Audio/MusicRow/Line"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Content/Panel/Rows/Pages/Audio/MusicRow/Line/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_xbold")
+theme_override_font_sizes/font_size = 21
+text = "MUSIC"
+
+[node name="Hint" type="Label" parent="Content/Panel/Rows/Pages/Audio/MusicRow/Line/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.659, 0.686, 0.733, 1)
+theme_override_font_sizes/font_size = 13
+text = "Lobby and match-over music. Off at 0%."
+
+[node name="Box" type="HBoxContainer" parent="Content/Panel/Rows/Pages/Audio/MusicRow/Line"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 14
+
+[node name="Music" type="HSlider" parent="Content/Panel/Rows/Pages/Audio/MusicRow/Line/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+
+[node name="MusicValue" type="Label" parent="Content/Panel/Rows/Pages/Audio/MusicRow/Line/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
@@ -792,6 +871,7 @@ size_flags_horizontal = 3
 focus_mode = 0
 theme_type_variation = &"GhostButton"
 text = "DISCARD"
+icon = ExtResource("6_refresh")
 
 [node name="Save" type="Button" parent="Content/Panel/Rows/Buttons"]
 unique_name_in_owner = true
@@ -802,3 +882,4 @@ size_flags_stretch_ratio = 2.0
 focus_mode = 0
 theme_type_variation = &"PrimaryButton"
 text = "SAVE SETTINGS"
+icon = ExtResource("5_check")

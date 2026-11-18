@@ -12,6 +12,7 @@ extends CanvasLayer
 
 func _ready() -> void:
 	visible = false
+	Holiday.dress_logo($Root/Center/Card/Content/Header/Logo)
 
 
 func begin(title: String, subtitle: String) -> void:

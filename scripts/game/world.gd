@@ -189,5 +189,5 @@ func remove_player(id: int) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		hud.toggle_pause()
-	elif not Touch.active and event is InputEventMouseButton and event.pressed and not hud.paused and match_manager.phase != "vote" and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+	elif not Touch.active and event is InputEventMouseButton and event.pressed and not hud.paused and not hud.chat.typing and match_manager.phase != "vote" and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

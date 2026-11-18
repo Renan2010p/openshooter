@@ -4,6 +4,10 @@
 [ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BlackItalic.ttf" id="2_black"]
 [ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf" id="3_xbold"]
 [ext_resource type="FontFile" path="res://assets/fonts/Barlow-Bold.ttf" id="4_bold"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/play.svg" id="5_play"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/settings.svg" id="6_settings"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/gamepad.svg" id="7_gamepad"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/quit.svg" id="8_quit"]
 
 [sub_resource type="StyleBoxFlat" id="SideStyle"]
 content_margin_left = 36.0
@@ -101,12 +105,16 @@ focus_mode = 0
 theme_override_colors/font_color = Color(0.067, 0.067, 0.067, 1)
 theme_override_colors/font_hover_color = Color(0.067, 0.067, 0.067, 1)
 theme_override_colors/font_pressed_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_colors/icon_normal_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_colors/icon_hover_color = Color(0.067, 0.067, 0.067, 1)
+theme_override_colors/icon_pressed_color = Color(0.067, 0.067, 0.067, 1)
 theme_override_fonts/font = ExtResource("2_black")
 theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("ResumeNormal")
 theme_override_styles/hover = SubResource("ResumeHover")
 theme_override_styles/pressed = SubResource("ResumeHover")
 text = "RESUME"
+icon = ExtResource("5_play")
 alignment = 0
 
 [node name="Settings" type="Button" parent="Side/Content"]
@@ -120,6 +128,7 @@ theme_override_styles/normal = SubResource("ItemNormal")
 theme_override_styles/hover = SubResource("ItemHover")
 theme_override_styles/pressed = SubResource("ItemHover")
 text = "SETTINGS"
+icon = ExtResource("6_settings")
 alignment = 0
 
 [node name="Controls" type="Button" parent="Side/Content"]
@@ -134,6 +143,7 @@ theme_override_styles/normal = SubResource("ItemNormal")
 theme_override_styles/hover = SubResource("ItemHover")
 theme_override_styles/pressed = SubResource("ItemHover")
 text = "CONTROLS"
+icon = ExtResource("7_gamepad")
 alignment = 0
 
 [node name="HelpCard" type="PanelContainer" parent="Side/Content"]
@@ -149,7 +159,7 @@ theme_override_colors/font_color = Color(0.769, 0.788, 0.824, 1)
 theme_override_font_sizes/font_size = 13
 text = "WASD move  ·  SPACE jump  ·  SHIFT sprint
 CTRL crouch  ·  R reload  ·  1-9 weapons
-RIGHT MOUSE aim  ·  TAB scoreboard"
+RIGHT MOUSE aim  ·  TAB scoreboard  ·  T / ENTER chat"
 autowrap_mode = 2
 
 [node name="Push" type="Control" parent="Side/Content"]
@@ -161,10 +171,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 focus_mode = 0
+theme_override_colors/icon_normal_color = Color(0.949, 0.945, 0.925, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_xbold")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("LeaveNormal")
 theme_override_styles/hover = SubResource("LeaveHover")
 theme_override_styles/pressed = SubResource("LeaveHover")
 text = "LEAVE MATCH"
+icon = ExtResource("8_quit")
 alignment = 0

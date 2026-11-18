@@ -14,6 +14,8 @@ var player_name := ""
 var sensitivity := 0.25
 var fov := 80.0
 var volume := 0.8
+## Music level (0..1), under the master volume. See the Music autoload.
+var music_volume := 0.6
 var fullscreen := false
 var quality: int = Quality.MEDIUM
 var show_fps := false
@@ -60,6 +62,7 @@ func load_cfg() -> void:
 		sensitivity = c.get_value("player", "sensitivity", sensitivity)
 		fov = c.get_value("player", "fov", fov)
 		volume = c.get_value("player", "volume", volume)
+		music_volume = clampf(c.get_value("player", "music_volume", music_volume), 0.0, 1.0)
 		fullscreen = c.get_value("player", "fullscreen", fullscreen)
 		quality = c.get_value("player", "quality", quality)
 		show_fps = c.get_value("player", "show_fps", show_fps)
@@ -93,7 +96,7 @@ func save_cfg() -> void:
 		changed.emit()
 		return
 	var c := ConfigFile.new()
-	for key in ["name", "sensitivity", "fov", "volume", "fullscreen", "quality", "show_fps",
+	for key in ["name", "sensitivity", "fov", "volume", "music_volume", "fullscreen", "quality", "show_fps",
 			"vsync", "fps_limit", "render_scale", "brightness", "screen_shake",
 			"touch_joystick_size", "touch_opacity", "aim_assist"]:
 		c.set_value("player", key, player_name if key == "name" else get(key))

@@ -3,6 +3,7 @@ extends Control
 ## On-screen controls for the Android/mobile port.
 
 signal pause_requested
+signal chat_requested
 
 ## Joystick box at 100% size (the base circle is 0.76 of it).
 const JOYSTICK_SIZE := 250.0
@@ -20,6 +21,7 @@ func _ready() -> void:
 	%Prev.pressed.connect(func(): Touch.request_weapon(-1))
 	%Next.pressed.connect(func(): Touch.request_weapon(1))
 	%Pause.pressed.connect(func(): pause_requested.emit())
+	%Chat.pressed.connect(func(): chat_requested.emit())
 	%Score.toggled.connect(func(on: bool): Touch.scoreboard_held = on)
 	Config.changed.connect(_apply_config)
 	_apply_config()

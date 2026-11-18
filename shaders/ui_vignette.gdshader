@@ -4,11 +4,14 @@ shader_type canvas_item;
 uniform vec4 color : source_color = vec4(0.012, 0.016, 0.022, 1.0);
 uniform float strength : hint_range(0.0, 1.0) = 0.55;
 uniform float softness : hint_range(0.0, 1.0) = 0.35;
+// Distance from the centre where the darkening starts (0.32 = most of the
+// screen; larger keeps it to the edges).
+uniform float inner : hint_range(0.0, 0.7) = 0.32;
 
 void fragment() {
 	vec2 p = UV - vec2(0.5);
 	p.x *= 0.92;
 	float d = length(p);
-	float a = smoothstep(0.32 - softness * 0.1, 0.78, d) * strength;
+	float a = smoothstep(inner - softness * 0.1, 0.78, d) * strength;
 	COLOR = vec4(color.rgb, a);
 }

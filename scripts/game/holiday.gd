@@ -12,6 +12,21 @@ class_name Holiday
 
 ## Master switch of the Christmas edition.
 const ENABLED := true
+## Game logo with a Santa hat (splash, loading screen, window icon).
+const LOGO_PATH := "res://assets/icons/icon_holiday.svg"
+## Santa hat drawn over the "O" of the lobby's OPENSHOOTER wordmark.
+const HAT_PATH := "res://assets/ui/santa_hat.svg"
+
+
+## Puts the Christmas logo on a logo TextureRect (an AnimatedIcon in the
+## splash and loading screens). The hat must stay upright, so a spinning logo
+## stops spinning.
+static func dress_logo(logo: TextureRect) -> void:
+	if not ENABLED:
+		return
+	logo.texture = load(LOGO_PATH)
+	if logo is AnimatedIcon:
+		(logo as AnimatedIcon).spin_speed = 0.0
 
 ## Maps without snow (ground or snowfall). Names are the map scene files.
 const NO_SNOW := ["desert"]

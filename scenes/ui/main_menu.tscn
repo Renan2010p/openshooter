@@ -105,7 +105,7 @@ text = "·"
 [node name="Version" type="Label" parent="UI/Root/Atmosphere/FooterLeft" unique_id=6600008]
 layout_mode = 2
 theme_type_variation = &"Caption"
-text = "v1.1.0"
+text = "v1.1.0  WINTER WARFARE"
 
 [node name="Dot2" type="Label" parent="UI/Root/Atmosphere/FooterLeft" unique_id=6600009]
 layout_mode = 2
@@ -116,21 +116,6 @@ text = "·"
 layout_mode = 2
 theme_type_variation = &"Caption"
 text = "GPL-3.0"
-
-[node name="FooterRight" type="Label" parent="UI/Root/Atmosphere" unique_id=6600011]
-layout_mode = 1
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -420.0
-offset_top = -30.0
-offset_right = -56.0
-offset_bottom = -10.0
-mouse_filter = 2
-theme_type_variation = &"Caption"
-text = "GODOT 4.7  ·  COMPATIBILITY RENDERER"
-horizontal_alignment = 2
 
 [node name="Screens" type="Control" parent="UI/Root" unique_id=1525214983]
 unique_name_in_owner = true

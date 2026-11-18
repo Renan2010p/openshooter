@@ -11,8 +11,10 @@ extends SceneTree
 const OUT := "res://resources/ui/theme.tres"
 
 # ---------------------------------------------------------------- palette
-# 1.1.0 look: graphite ground, the brand orange, a cold cyan for support
-# (health, "level up", status) and sharp chamfered shapes.
+# 1.1.0 look: graphite ground, the brand orange for actions, an ice blue for
+# support (health, "level up", status) and sharp chamfered shapes. Berry and
+# pine are the Christmas event colours: only event pieces use them (event
+# banner, EVENT chips), never actions.
 const BG := Color("#0b0c10")
 const SURFACE := Color(0.063, 0.071, 0.094, 0.92)
 const SURFACE_2 := Color(0.078, 0.086, 0.110, 0.96)
@@ -27,9 +29,12 @@ const ACCENT_HI := Color("#ffb066")
 const ACCENT_DARK := Color("#c96a12")
 ## Text drawn on the orange accent.
 const ON_ACCENT := Color("#111111")
-const SUPPORT := Color("#39d0e0")
+const SUPPORT := Color("#a9d8ff")
 const DANGER := Color("#c7161f")
-const OK := Color("#39d0e0")
+const OK := Color("#a9d8ff")
+## Christmas event colours (Winter Warfare).
+const EVENT_BERRY := Color("#d23347")
+const EVENT_PINE := Color("#2f8f62")
 ## Chamfer of panels and buttons (cut corners: top-left and bottom-right).
 const CHAMFER := 12
 ## Slant of primary buttons (StyleBoxFlat.skew.x).
@@ -421,12 +426,13 @@ func _build_containers(t: Theme) -> void:
 	t.set_stylebox("panel", "LeaderChipFirst", _flat(Color(1, 0.541, 0.122, 0.9), Color.TRANSPARENT, 0, 0, 9, 3))
 
 	# Kill feed strip: dark, with a bar on the right (orange for your kills).
-	var feed := _flat(Color(0.043, 0.047, 0.063, 0.72), Color(1, 1, 1, 0.25), 0, 0, 14, 4)
+	# Opaque enough to stay readable over the red death screen.
+	var feed := _flat(Color(0.043, 0.047, 0.063, 0.88), Color(1, 1, 1, 0.25), 0, 0, 14, 4)
 	feed.border_width_right = 4
 	t.set_type_variation("FeedChip", "PanelContainer")
 	t.set_stylebox("panel", "FeedChip", feed)
 	var feed_mine := feed.duplicate() as StyleBoxFlat
-	feed_mine.bg_color = Color(0.043, 0.047, 0.063, 0.82)
+	feed_mine.bg_color = Color(0.043, 0.047, 0.063, 0.92)
 	feed_mine.border_color = ACCENT
 	t.set_type_variation("FeedChipMine", "PanelContainer")
 	t.set_stylebox("panel", "FeedChipMine", feed_mine)

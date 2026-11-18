@@ -11,7 +11,7 @@ extends Control
 	set(v):
 		value = clampf(v, 0.0, 1.0)
 		queue_redraw()
-@export var color := Color("#39d0e0"):
+@export var color := Color("#a9d8ff"):
 	set(v):
 		color = v
 		queue_redraw()

@@ -94,6 +94,7 @@ game modes.
 - [Project structure](#project-structure)
 - [UI and design system](#ui-and-design-system)
 - [Performance notes](#performance-notes)
+- [Music](#music)
 - [Trailer](#trailer)
 - [Contributing](#contributing)
 - [Credits](#credits)
@@ -407,6 +408,7 @@ into two parts if needed.
 | `R` | Reload |
 | `1`–`9` or mouse wheel | Switch weapon |
 | `TAB` | Scoreboard |
+| `T` or `ENTER` | Chat with everyone in the match (`ENTER` sends, `ESC` closes) |
 | `ESC` | In-match menu / leave match |
 
 Key bindings are defined in **Project → Project Settings → Input Map** and can
@@ -574,10 +576,11 @@ scenes/          main, match world, maps, props, player, weapons, fx and UI
 resources/       weapon and mode data, materials, environments, theme
 scripts/         autoload, core, game, player, weapons, fx and UI logic
 shaders/         sniper scope and UI overlay shaders
-audio/           sound effects
+audio/           sound effects and music (music/)
 assets/          Barlow fonts (SIL OFL), icons, cursors, platform logos, Android art
 docs/            architecture guide, README banner and screenshots
-tools/           UI theme generator (build_theme.gd) and trailer tools (trailer/)
+tools/           UI theme generator (build_theme.gd), music generator (music/),
+                 release screenshots (release/) and trailer tools (trailer/)
 native/          optional Zig GDExtension (map mesher) and its build script
 tests/           small standalone test scenes (pickup_test.tscn)
 ```
@@ -665,6 +668,26 @@ node with `theme_type_variation`.
 - Impact marks share one material per color instead of duplicating a material
   per hit; command-line flags and input action names are cached instead of
   being rebuilt every frame.
+
+---
+
+## Music
+
+The lobby theme (*Winter Warfare*) and the match-over piece are original
+music synthesized by `tools/music/make_music.gd`: FM bells for the melody, a
+warm pad, plucked bass, light drums, sleigh bells and reverb, written as small
+synths in GDScript (no samples, nothing to install). Change the notes or the
+arrangement in the script and run:
+
+```sh
+godot --headless --path . --script tools/music/make_music.gd
+```
+
+It writes `audio/music/menu_winter.wav` and `results_winter.wav` (stereo,
+32 kHz). Both loop seamlessly and are imported compressed (QOA). The `Music`
+autoload crossfades between them: the theme in the menus, the calmer piece on
+the match-over and vote screen, silence while playing. **Settings → Audio →
+Music** sets its level (0% turns it off).
 
 ---
 

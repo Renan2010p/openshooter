@@ -51,12 +51,12 @@ text = "The host shares a 5-digit code. Enter it here and the game locates the s
 
 [node name="Back" type="Button" parent="Content/Header" unique_id=1116796254]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 44)
+custom_minimum_size = Vector2(130, 46)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"GhostButton"
-text = "Back"
+text = "BACK"
 icon = ExtResource("2_back")
 
 [node name="Center" type="CenterContainer" parent="Content" unique_id=1358314006]
