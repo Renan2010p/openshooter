@@ -1,5 +1,5 @@
 extends Control
-## Startup credit sequence: RL PROJECTS, then the author credit, then the menu.
+## Startup credit sequence (after the RL PROJECTS intro): author credit, then the menu.
 ## Test runs skip it so screenshots and automated matches start immediately.
 
 const MAIN_SCENE := "res://scenes/main.tscn"
@@ -20,22 +20,15 @@ func _ready() -> void:
 
 
 func _play_sequence() -> void:
-	phase1.modulate.a = 0.0
-	phase2.visible = false
-	skip_hint.modulate.a = 0.0
-	var t := create_tween()
-	t.tween_property(phase1, "modulate:a", 1.0, 0.65)
-	t.parallel().tween_property(skip_hint, "modulate:a", 0.65, 0.65)
-	await t.finished
-	await get_tree().create_timer(0.85).timeout
-	t = create_tween()
-	t.tween_property(phase1, "modulate:a", 0.0, 0.35)
-	await t.finished
+	# The animated RL PROJECTS intro (addons/rl_projects) now plays before this
+	# scene, so the old "RL PROJECTS / PRESENTS" card is skipped.
 	phase1.visible = false
 	phase2.visible = true
 	phase2.modulate.a = 0.0
-	t = create_tween()
+	skip_hint.modulate.a = 0.0
+	var t := create_tween()
 	t.tween_property(phase2, "modulate:a", 1.0, 0.55)
+	t.parallel().tween_property(skip_hint, "modulate:a", 0.65, 0.55)
 	await t.finished
 	await get_tree().create_timer(1.35).timeout
 	t = create_tween()
